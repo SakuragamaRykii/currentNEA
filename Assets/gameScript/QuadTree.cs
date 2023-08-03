@@ -4,7 +4,7 @@ using UnityEngine;
 
 
             
-public class QuadTree : MonoBehaviour
+public class QuadTree //: MonoBehaviour
 {
     //
     int capacity = 5;

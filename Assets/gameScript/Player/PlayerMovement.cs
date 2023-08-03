@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Entity
 {
     public static PlayerMovement instance; //make this a singleton
     private Rigidbody2D rb;
@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
             Destroy(gameObject);
         
         rb = GetComponent<Rigidbody2D>();
+        setupHitbox();
     }
 
     
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 2);
 
 
-
+        hitbox.centrePos = transform.position;
 
 
 

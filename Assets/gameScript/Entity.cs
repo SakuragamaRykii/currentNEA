@@ -2,19 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Entity : MonoBehaviour
+public class Entity : MonoBehaviour //all entities should inherit this 
 {
+    public bool collided { get; private set; }
 
+    public Block hitbox; //all hitboxes will be rectangular
 
-    // Start is called before the first frame update
-    void Start()
+    public void add()
     {
-        
+        FieldManager.qt.insert(gameObject);
+        FieldManager.objInField.Add(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void setupHitbox()
     {
-        
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        sr.drawMode = SpriteDrawMode.Sliced;
+        float width = sr.size.x, height = sr.size.y;
+        hitbox = new Block(transform.position, width, height);
     }
+
+
+
+
 }
