@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public static PlayerMovement instance;
+    public static PlayerMovement instance; //make this a singleton
     private Rigidbody2D rb;
     void Awake()
     {
