@@ -7,8 +7,8 @@ using UnityEngine;
 public class QuadTree //: MonoBehaviour
 {
     //
-    int capacity = 5;
-    public GameObject[] objsinBlock { get; private set; }
+    int capacity = 3;
+    public DynList<GameObject> objsinBlock;
     public bool hasSplit { get; private set; }
     int desNumber; //the nth descendant of the first tree
 
@@ -24,28 +24,26 @@ public class QuadTree //: MonoBehaviour
     public QuadTree(Block grid)
     {
         this.Grid = grid;
-        objsinBlock = new GameObject[capacity];
+        objsinBlock = new DynList<GameObject>();
         hasSplit = false;
     }
     public QuadTree(Block grid, int cap)
     {
         this.Grid = grid;
-        objsinBlock = new GameObject[cap];
+        capacity = cap;
+        objsinBlock = new DynList<GameObject>();
         hasSplit = false;
     }
 
 
-    private int amount = 0;
+    
     public void insert(GameObject obj)
     {
         if (!Grid.contains(obj)) return; 
 
-        if (amount < objsinBlock.Length)
-        {
-            objsinBlock[amount] = obj;
-            amount++;
-        }
-        else
+        objsinBlock.add(obj);
+
+        if(objsinBlock.size > capacity)
         {
             if (!hasSplit) split();
             TR.insert(obj);
@@ -56,20 +54,8 @@ public class QuadTree //: MonoBehaviour
     }
     public void remove(GameObject obj)
     {
-        if (!Grid.contains(obj) || GameObject.Find(obj.ToString()) == null)
-        {
-            for (int i = 0; i < objsinBlock.Length; i++)
-            {
-                if (objsinBlock[i] == obj)
-                {
-                    objsinBlock[i] = null;
-                    break;
-                }
-
-            }
-
-        }
-
+        if (Grid.contains(obj)) return;
+        else objsinBlock.remove(obj);
     }
 
     public void split()
@@ -91,13 +77,15 @@ public class QuadTree //: MonoBehaviour
         hasSplit = true;
     }
 
-    public void query(Block Qarea, List<GameObject> Qobjs)
+    public GameObject[] query(Block Qarea, DynList<GameObject> Qobjs = null)
     {
+        if (Qobjs == null) Qobjs = new DynList<GameObject>();
 
-        if (!Grid.intersects(Qarea)) return;
+
+        if (!Grid.intersects(Qarea)) return null;
         foreach(GameObject o in this.objsinBlock)
         {
-            if (Qarea.contains(o)) Qobjs.Add(o); 
+            if (Qarea.contains(o)) Qobjs.add(o); 
         }
         if (hasSplit)
         {
@@ -106,6 +94,8 @@ public class QuadTree //: MonoBehaviour
             BR.query(Qarea, Qobjs);
             BL.query(Qarea, Qobjs);
         }
+
+        return Qobjs.toArr();
 
     }
 

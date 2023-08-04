@@ -16,6 +16,7 @@ public class PlayerMovement : Entity
         
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
+        addToFM();
     }
 
     
@@ -30,6 +31,9 @@ public class PlayerMovement : Entity
             transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 2);
 
 
+        hitbox.centrePos = transform.position;
+
+        checkCollision();
         hitbox.centrePos = transform.position;
 
 
