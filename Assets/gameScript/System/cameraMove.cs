@@ -10,16 +10,17 @@ public class cameraMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        area = new Block(player.transform.position, 19.2f, 12);
+        if (!player) player = GameObject.FindGameObjectWithTag("Player");
+            area = new Block(player.transform.position, 19.2f, 12);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!area.contains(player))
+        if (!area.Contains(player))
         {
-            area.centrePos = player.transform.position;
+            area.position = player.transform.position;
             transform.position = player.transform.position;
         }
     }

@@ -8,7 +8,7 @@ public class QuadTree //: MonoBehaviour
 {
     //
     int capacity = 3;
-    public DynList<GameObject> objsinBlock;
+    public DynList<GameObject> objsInGrid;
     public bool hasSplit { get; private set; }
     int desNumber; //the nth descendant of the first tree
 
@@ -23,15 +23,15 @@ public class QuadTree //: MonoBehaviour
 
     public QuadTree(Block grid)
     {
-        this.Grid = grid;
-        objsinBlock = new DynList<GameObject>();
+        Grid = grid;
+        objsInGrid = new DynList<GameObject>();
         hasSplit = false;
     }
     public QuadTree(Block grid, int cap)
     {
-        this.Grid = grid;
+        Grid = grid;
         capacity = cap;
-        objsinBlock = new DynList<GameObject>();
+        objsInGrid = new DynList<GameObject>();
         hasSplit = false;
     }
 
@@ -39,11 +39,11 @@ public class QuadTree //: MonoBehaviour
     
     public void insert(GameObject obj)
     {
-        if (!Grid.contains(obj)) return; 
+        if (!Grid.Contains(obj)) return;
 
-        objsinBlock.add(obj);
+        objsInGrid.add(obj);
 
-        if(objsinBlock.size > capacity)
+        if(objsInGrid.size > capacity)
         {
             if (!hasSplit) split();
             TR.insert(obj);
@@ -54,48 +54,47 @@ public class QuadTree //: MonoBehaviour
     }
     public void remove(GameObject obj)
     {
-        if (Grid.contains(obj)) return;
-        else objsinBlock.remove(obj);
+        if (Grid.Contains(obj)) return;
+        else objsInGrid.remove(obj);
     }
 
     public void split()
     { 
-        float x = this.Grid.centrePos.x;
-        float y = this.Grid.centrePos.y;
-        float w = this.Grid.width;
-        float h = this.Grid.height;
+        float x = this.Grid.position.x;
+        float y = this.Grid.position.y;
+        float w = this.Grid.scaleX;
+        float h = this.Grid.scaleY;
 
-        Block blTR = new Block(new Vector2(x + w / 4, y + h / 4), w / 4, h / 4);
+        Block blTR = new Block(new Vector2(x + w / 4, y + h / 4), w / 2, h / 2);
         TR = new QuadTree(blTR);
-        Block blBR = new Block(new Vector2(x + w / 4, y - h / 4), w / 4, h / 4);
+        Block blBR = new Block(new Vector2(x + w / 4, y - h / 4), w / 2, h / 2);
         BR = new QuadTree(blBR);
-        Block blTL = new Block(new Vector2(x - w / 4, y + h / 4), w / 4, h / 4);
+        Block blTL = new Block(new Vector2(x - w / 4, y + h / 4), w / 2, h / 2);
         TL = new QuadTree(blTL);
-        Block blBL = new Block(new Vector2(x - w / 4, y - h / 4), w / 4, h / 4);
+        Block blBL = new Block(new Vector2(x - w / 4, y - h / 4), w / 2, h / 2);
         BL = new QuadTree(blBL);
 
         hasSplit = true;
     }
 
-    public GameObject[] query(Block Qarea, DynList<GameObject> Qobjs = null)
+    public DynList<GameObject> query(GameObject qObj, DynList<GameObject> result = null)
     {
-        if (Qobjs == null) Qobjs = new DynList<GameObject>();
-
-
-        if (!Grid.intersects(Qarea)) return null;
-        foreach(GameObject o in this.objsinBlock)
+        if (result == null) result = new DynList<GameObject>();
+        if (!Grid.Contains(qObj)) return null;
+        if (!hasSplit)
         {
-            if (Qarea.contains(o)) Qobjs.add(o); 
+            return this.objsInGrid;
         }
-        if (hasSplit)
+        else
         {
-            TR.query(Qarea, Qobjs);
-            TL.query(Qarea, Qobjs);
-            BR.query(Qarea, Qobjs);
-            BL.query(Qarea, Qobjs);
+            result.concat(TR.query(qObj));
+            result.concat(TL.query(qObj));
+            result.concat(BR.query(qObj));
+            result.concat(BL.query(qObj));
         }
+        return result;
 
-        return Qobjs.toArr();
+
 
     }
 

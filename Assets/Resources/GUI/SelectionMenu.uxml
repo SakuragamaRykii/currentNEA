@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(255, 0, 0, 0); -unity-background-image-tint-color: rgb(62, 62, 62); justify-content: space-around; align-items: flex-start;">
+        <ui:Button text="Turn Based" display-tooltip-when-elided="true" name="TB" style="justify-content: flex-start; align-items: flex-start; right: 0; left: 50px; width: 200px; height: 300px;" />
+        <ui:Button text="Real Time" display-tooltip-when-elided="true" name="RT" style="align-self: auto; position: absolute; right: 50px; width: 200px; height: 300px;" />
+        <ui:Label tabindex="-1" text="   You Have Entered Combat&#10;Please Select Combat System" display-tooltip-when-elided="true" name="NOTICE" style="position: absolute; align-self: center; top: 5px; color: rgb(250, 0, 0);" />
+    </ui:VisualElement>
+</ui:UXML>

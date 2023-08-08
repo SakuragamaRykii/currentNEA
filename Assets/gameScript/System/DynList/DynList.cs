@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DynList<T> : IEnumerable, IEnumerator
+public class DynList<T> : IEnumerable
 {
     public ListNode<T> first { get; private set; }
     public ListNode<T> last { get; private set; }
@@ -28,6 +28,7 @@ public class DynList<T> : IEnumerable, IEnumerator
             first = newNode;
             last = first;
             size++;
+            //Debug.Log(data + " in " + this + "size = " + size);
             return;
         }
 
@@ -36,12 +37,29 @@ public class DynList<T> : IEnumerable, IEnumerator
         newNode.previous = last;
         last = newNode;
         size++;
+        //Debug.Log(data + " in " + this + "size = " + size);
 
     }
-    public void add(T data, int atIndex)
+
+    public void concat(DynList<T> other)
+    {
+        if (first == null)
+        {
+            first = other.first; last = other.last; size = other.size;
+        }
+        else
+        {
+            last.next = other.first;
+            last = other.last;
+            size += other.size;
+        }
+
+
+    }
+    /*public void add(T data, int atIndex)
     {
 
-    }
+    }*/
 
     public void remove(T queryData)
     {
@@ -79,21 +97,21 @@ public class DynList<T> : IEnumerable, IEnumerator
     public T dataAt(int qIndex)
     {
         ListNode<T> result = first;
+        if (qIndex >= size) {
+            Debug.Log("invalid index");
+            return default(T);
+        }
         for(int i = 0; i < size; i++)
         {
-            Debug.Log(i);
+            //Debug.Log(i);
+            //Debug.Log(result.data);
+            if (i == qIndex)
+            {
+                return result.data;
+            }
             result = result.next;
         }
-        return result.data;
-    }
-    private ListNode<T> nodeAt(int qIndex)
-    {
-        ListNode<T> result = first;
-        for (int i = 0; i < size; i++)
-        {
-            result = result.next;
-        }
-        return result;
+        return default(T);
     }
 
     public T[] toArr()
@@ -110,22 +128,34 @@ public class DynList<T> : IEnumerable, IEnumerator
 
 
 
-    // allow this class to be subject to a foreach loop
-    private int pos = -1;
-    public IEnumerator GetEnumerator() { return (IEnumerator)this; }
-    public bool MoveNext()
+    private class MyEnumerator : IEnumerator
     {
-        pos++;
-        return (pos < size);
+        // allow this class to be subject to a foreach loop
+        public DynList<T> list;
+        private int pos = -1;
 
+        public MyEnumerator(DynList<T> myList)
+        {
+            list = myList;
+        }
+
+        public bool MoveNext()
+        {
+            pos++;
+            return (pos < list.size);
+
+        }
+
+        public void Reset() { pos = -1; }
+
+        public object Current
+        {
+            get { return list.dataAt(pos); }
+        }
     }
 
-    public void Reset() { pos = -1; }
-
-    public object Current
+    public IEnumerator GetEnumerator()
     {
-        get { return dataAt(pos); }
+        return new MyEnumerator(this);
     }
-
-
 }

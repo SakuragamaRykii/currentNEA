@@ -6,6 +6,7 @@ public class FieldManager : MonoBehaviour
 {
     public static QuadTree qt;
     public GameObject field;
+    public static FieldManager only;
 
     public int minEnemies = 3, maxEnemies = 7,
         minInte = 3, maxInte = 10,
@@ -15,17 +16,18 @@ public class FieldManager : MonoBehaviour
 
     void Awake()
     {
+        if (only == null) only = this; else Destroy(gameObject);
+
         Instantiate(field);
         qt = new QuadTree(new Block(transform.position, field.transform.localScale.x, field.transform.localScale.y));
         objInField = new DynList<GameObject>();
-                 
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        //Instantiate(Resources.Load("prefabs/Player") );
+       
 
         
     }
+
+
 }
                                    
