@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DynList<T> : IEnumerable
 {
-    public ListNode<T> first { get; private set; }
-    public ListNode<T> last { get; private set; }
+    public ListNode<T> first { get;  set; }
+    public ListNode<T> last { get;  set; }
 
     public int size {get; private set;}
 
@@ -94,8 +94,13 @@ public class DynList<T> : IEnumerable
         }
     }
 
-    public T dataAt(int qIndex)
+    public void clear() { first = null; last = null; size = 0; }
+
+    public T dataAt(int qIndex) //returns the data at a specified index
     {
+        if (qIndex == 0) return first.data;
+        if (qIndex == size - 1) return last.data;
+
         ListNode<T> result = first;
         if (qIndex >= size) {
             Debug.Log("invalid index");
@@ -113,6 +118,29 @@ public class DynList<T> : IEnumerable
         }
         return default(T);
     }
+    public ListNode<T> nodeAt(int qIndex) //dataAt, but the return type is the node itself.
+    {
+        if (qIndex == 0) return first;
+        if (qIndex == size - 1) return last;
+
+        ListNode<T> result = first;
+        if (qIndex >= size)
+        {
+            Debug.Log("invalid index");
+            return null;
+        }
+        for (int i = 0; i < size; i++)
+        {
+            //Debug.Log(i);
+            //Debug.Log(result.data);
+            if (i == qIndex)
+            {
+                return result;
+            }
+            result = result.next;
+        }
+        return null;
+    }
 
     public T[] toArr()
     {
@@ -126,11 +154,33 @@ public class DynList<T> : IEnumerable
         return result;
     }
 
+    public static DynList<T> ToDList(T[] arr)
+    {
+        DynList<T> result = new DynList<T>();
+        foreach (T t in arr) result.add(t);
+        return result;
+
+    }
+
+    public bool isEmpty() { return (size == 0); }
+
+    public void Swap(int swap, int swapTo)
+    {
+        ListNode<T> sNode = nodeAt(swap),
+            stNode = nodeAt(swapTo),  //swapNode and swapWithNode
+            temPre = sNode.previous, temNext = sNode.next;
+
+        sNode.next = stNode.next;
+        sNode.previous = stNode.previous;
+        stNode.next = temNext;
+        stNode.previous = temPre;
+    }
+
 
 
     private class MyEnumerator : IEnumerator
     {
-        // allow this class to be subject to a foreach loop
+        // allow this class to be subject to a foreach loop (from the official web guide of c# by microsoft)
         public DynList<T> list;
         private int pos = -1;
 

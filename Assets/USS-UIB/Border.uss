@@ -1,0 +1,33 @@
+.Border-col {
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    visibility: visible;
+    overflow: visible;
+    display: flex;
+}
+
+.Actions {
+    width: 70%;
+    height: 25%;
+    background-color: rgb(255, 255, 255);
+    border-left-color: rgb(156, 0, 0);
+    border-right-color: rgb(156, 0, 0);
+    border-top-color: rgb(156, 0, 0);
+    border-bottom-color: rgb(156, 0, 0);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    left: auto;
+    top: 10%;
+}
