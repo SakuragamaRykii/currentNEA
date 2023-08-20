@@ -9,17 +9,13 @@ public class Turn : MonoBehaviour
 
     private void Awake()
     {
-        insert();
 
     }
     private void Update()
     {
         if (MoveManager.Peek() == this & !moving) ManageTurn();
     }
-    public void insert()
-    {
-        MoveManager.Enq(this);
-    }
+
 
 
     protected bool moving;
@@ -29,5 +25,6 @@ public class Turn : MonoBehaviour
         //body
 
         MoveManager.Deq();
+        MoveManager.Enq(this, MoveManager.bench);
     }
 }

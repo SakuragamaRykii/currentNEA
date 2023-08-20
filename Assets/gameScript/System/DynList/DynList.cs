@@ -43,7 +43,7 @@ public class DynList<T> : IEnumerable
 
     public void concat(DynList<T> other)
     {
-        if (first == null)
+        if (isEmpty())
         {
             first = other.first; last = other.last; size = other.size;
         }

@@ -13,6 +13,7 @@ public class MoveManager : MonoBehaviour
     {
         turns = new DynList<Turn>();
         bench = new DynList<Turn>();
+        Enq(GetComponentInParent<tbCombat>());
     }
 
     public static void Enq(Turn element, DynList<Turn> target = null)
@@ -45,7 +46,7 @@ public class MoveManager : MonoBehaviour
         {
             if (target.dataAt(i).counter < pivot) target.Swap(++result, i);
         }
-        target.Swap(++result, right);
+        target.Swap(++result, right-1);
         return result;
 
     }
@@ -66,11 +67,12 @@ public class MoveManager : MonoBehaviour
     {
         if (turns.isEmpty() && !bench.isEmpty())
         {
+            Debug.Log("reallocating turns");
             Sort(bench, 0, bench.size);
             turns.concat(bench);
             bench.clear();
         }
-        
+
 
 
     }
