@@ -7,7 +7,7 @@ public class ListNode<U>
     public ListNode<U> next { get; set; }
     public ListNode<U> previous { get; set; }
 
-    public U data { get; private set; }
+    public U data;
 
     public ListNode(U data)
     {

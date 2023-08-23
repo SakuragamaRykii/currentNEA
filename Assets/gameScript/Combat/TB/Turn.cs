@@ -2,29 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turn : MonoBehaviour
+public abstract class Turn : MonoBehaviour
 {
     public int baseCounter;
-    public int counter { get; set; }
+    public int counter;
+    public bool moved;
 
-    private void Awake()
-    {
+    /*  private void Awake()
+      {
+          counter = baseCounter;
+      }
+      private void Update()
+      {
+          if (MoveManager.Peek() == this && !moved) ManageTurn();
+      }
+    */
 
-    }
-    private void Update()
-    {
-        if (MoveManager.Peek() == this & !moving) ManageTurn();
-    }
+    public abstract void ManageTurn();
 
 
 
-    protected bool moving;
-    public void ManageTurn()
-    {
-        moving = true;
-        //body
-
-        MoveManager.Deq();
-        MoveManager.Enq(this, MoveManager.bench);
-    }
+    
 }

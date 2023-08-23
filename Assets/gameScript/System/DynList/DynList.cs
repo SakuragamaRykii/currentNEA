@@ -88,7 +88,7 @@ public class DynList<T> : IEnumerable
                     left.next = right;
                 }
                 size--;
-                break;
+                return;
             }
             else current = current.next;
         }
@@ -164,18 +164,16 @@ public class DynList<T> : IEnumerable
 
     public bool isEmpty() { return (size == 0); }
 
-    public void Swap(int swap, int swapTo)
+
+    public override string ToString()
     {
-        ListNode<T> sNode = nodeAt(swap),
-            stNode = nodeAt(swapTo),  //swapNode and swapWithNode
-            temPre = sNode.previous, temNext = sNode.next;
-
-        sNode.next = stNode.next;
-        sNode.previous = stNode.previous;
-        stNode.next = temNext;
-        stNode.previous = temPre;
+        string result=  "list:";
+        foreach(T t in this)
+        {
+            result += t + ", ";
+        }
+        return result;
     }
-
 
 
     private class MyEnumerator : IEnumerator

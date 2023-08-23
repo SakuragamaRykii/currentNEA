@@ -12,6 +12,10 @@ public class tbCombat : Turn
     VisualElement arrow1, arrow2, arrow3;
     private void Awake()
     {
+        //the player turn gets enqueued by the MoveManager code.
+        moved = false;
+        baseCounter = PlayerStat.speed;
+        counter = baseCounter;
 
         root = GetComponent<UIDocument>().rootVisualElement;
         // button assigments ------------------------------------
@@ -34,18 +38,19 @@ public class tbCombat : Turn
     }
 
 
-    private void Update()
+    private void Update() 
     {
 
-        if (MoveManager.Peek() == this && !moving) ManageTurn();
+       //if (MoveManager.Peek() == this && !moved) ManageTurn();
+
 
     }
 
 
-    public new void ManageTurn()
+    public override void ManageTurn()
     {
         Debug.Log("your turn");
-        moving = true;
+        moved = true;
 
 
     }
@@ -53,12 +58,11 @@ public class tbCombat : Turn
     {
         Debug.Log("attack");
 
-        if (moving && arrow1.enabledSelf)
+        if (moved && arrow1.enabledSelf)
         {
             Debug.Log("ATTACK");
+            MoveManager.bench.add(this);
             MoveManager.Deq();
-            MoveManager.Enq(this, MoveManager.bench);
-            moving = false;
         }
         else
         {
@@ -70,12 +74,11 @@ public class tbCombat : Turn
     void handleDefend()
     {
         Debug.Log("defend");
-        if (moving && arrow2.enabledSelf)
+        if (moved && arrow2.enabledSelf)
         {
             Debug.Log("DEFEND");
+            MoveManager.bench.add(this);
             MoveManager.Deq();
-            MoveManager.Enq(this, MoveManager.bench);
-            moving = false;
         }
         else
         {
@@ -89,12 +92,11 @@ public class tbCombat : Turn
     void handleItem()
     {
         Debug.Log("item");
-        if (moving && arrow3.enabledSelf)
+        if (moved && arrow3.enabledSelf)
         {
             Debug.Log("ITEM");
+            MoveManager.bench.add(this);
             MoveManager.Deq();
-            MoveManager.Enq(this, MoveManager.bench);
-            moving = false;
         }
         else
         {
