@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoveManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class MoveManager : MonoBehaviour
     {
         turns = new DynList<Turn>();
         bench = new DynList<Turn>();
+        finish = false;
         Enq(GetComponentInParent<tbCombat>());
         spawnEnemies();
     }
@@ -70,18 +72,24 @@ public class MoveManager : MonoBehaviour
     }
 
 
+    public static bool finish = false;
     private void Update()
     {
+        if (finish)
+        {
+            Debug.Log("fight finished");
+            SceneManager.LoadScene("FieldScene");
+        }
         if (turns.isEmpty() && !bench.isEmpty())
         {
             Debug.Log("reallocating turns");
             Sort(bench, 0, bench.size);
 
-            Debug.Log("bench "+bench.ToString());
+           // Debug.Log("bench "+bench.ToString());
             turns.concat(bench);
             bench.clear();
-            Debug.Log("turns "+ turns.ToString());
-            Debug.Log("bench " + bench.ToString());
+            //Debug.Log("turns "+ turns.ToString());
+            //Debug.Log("bench " + bench.ToString());
 
             foreach (Turn t in turns) t.moved = false;
 
@@ -95,7 +103,12 @@ public class MoveManager : MonoBehaviour
     [SerializeField] private GameObject enemy;
     private void spawnEnemies()
     {
-        Instantiate<GameObject>(enemy, new Vector3(-8, 2, -5), transform.rotation);
+        int xPos = -8;
+        for(int i = 0; i < Random.Range(1, 4); i++)
+        {
+            Instantiate<GameObject>(enemy, new Vector3(xPos, 2, -5), transform.rotation);
+            xPos += 3;
+        }
     }
 
 

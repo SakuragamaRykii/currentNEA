@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8160749336488542}
   - component: {fileID: 6839807168311962913}
   - component: {fileID: 3652725238667070118}
+  - component: {fileID: 1727886144511127688}
   m_Layer: 0
   m_Name: EnemyTB
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,3 +99,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseCounter: 0
+  counter: 0
+  moved: 0
+--- !u!114 &1727886144511127688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6233034587940576683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be8c1a6b4c0434ef9aed7cbc832afd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 0
+  currentHP: 0
+  attack: 0
+  defence: 0
+  speed: 0
+  level: 0

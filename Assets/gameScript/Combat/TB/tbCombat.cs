@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using UnityEngine.SceneManagement;
 
 public class tbCombat : Turn
 {
@@ -41,8 +41,15 @@ public class tbCombat : Turn
     private void Update() 
     {
 
-       //if (MoveManager.Peek() == this && !moved) ManageTurn();
-
+        //if (MoveManager.Peek() == this && !moved) ManageTurn();
+        if (PlayerStat.isDead)
+        {
+            Debug.Log("you died");
+            PlayerStat.reset();
+            SceneManager.LoadScene("StartMenu");
+            //CURRENTLY SOME WEIRD STUFF WITH SCENE LOADING
+            //CODE THE COMBAT PROPERLY
+        }
 
     }
 
@@ -61,6 +68,13 @@ public class tbCombat : Turn
         if (moved && arrow1.enabledSelf)
         {
             Debug.Log("ATTACK");
+            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach(GameObject g in targets)
+            {
+                g.GetComponent<EnemyStat>().currentHP -= PlayerStat.attack;
+            }
+            Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
+        
             MoveManager.bench.add(this);
             MoveManager.Deq();
         }
@@ -77,6 +91,7 @@ public class tbCombat : Turn
         if (moved && arrow2.enabledSelf)
         {
             Debug.Log("DEFEND");
+            PlayerStat.currentHP += PlayerStat.defence;
             MoveManager.bench.add(this);
             MoveManager.Deq();
         }

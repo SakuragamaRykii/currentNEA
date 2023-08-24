@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    [SerializeField] private int level = 1;
-    public static int attack = 5,
+    
+    public static int
+        level = 1,
+        attack = 5,
         defence = 2,
         speed = 10,
-        currentHP, maxHP = 20;
-    void death()
-    {
-        if (currentHP <= 0) gameObject.SetActive(false);
+        currentHP,
+        maxHP = 20;
 
-    }
     private void Awake()
     {
         if (level > 1)
@@ -36,6 +35,22 @@ public class PlayerStat : MonoBehaviour
         speed = (int)(attack * 1.05f);
         maxHP = (int)(attack * 1.05f);
 
+        currentHP = maxHP;
+    }
+
+    public static bool isDead = false;
+    private void Update()
+    {
+        if (currentHP <= 0) isDead = true;
+    }
+
+    public static void reset()
+    {
+        level = 1;
+        attack = 5;
+        defence = 2;
+        speed = 10;
+        maxHP = 20;
         currentHP = maxHP;
     }
 }
