@@ -86,7 +86,7 @@ public class MoveManager : MonoBehaviour
             Sort(bench, 0, bench.size);
 
            // Debug.Log("bench "+bench.ToString());
-            turns.concat(bench);
+            turns.Concat(bench);
             bench.Clear();
             //Debug.Log("turns "+ turns.ToString());
             //Debug.Log("bench " + bench.ToString());

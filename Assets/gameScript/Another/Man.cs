@@ -9,7 +9,7 @@ public class Man : MonoBehaviour
     void Awake()
     {
         qt = new otherQT(new Rect(-5, -5, 10, 10));
-        qt.split();
+        
     }
 
     // Update is called once per frame

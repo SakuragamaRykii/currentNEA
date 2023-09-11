@@ -42,7 +42,7 @@ public class DynList<T> : IEnumerable where T : class
 
     }
 
-    public void concat(DynList<T> other)
+    public void Concat(DynList<T> other)
     {
         if (other == null || other.isEmpty()) return;
         if (isEmpty())
@@ -57,6 +57,29 @@ public class DynList<T> : IEnumerable where T : class
         }
 
 
+    }
+    public void Concat(T[] other)
+    {
+        if (other == null || other.Length == 0) return;
+
+        ListNode<T> current;
+        int i = 0;
+        if (isEmpty())
+        {
+            first = new ListNode<T>(other[0]); i = 1;
+            current = first;
+        }
+        else current = last;
+        while(i < other.Length) 
+        {
+            ListNode<T> temp = current;
+            current.next = new ListNode<T>(other[i]);
+            last = current.next;
+            current = current.next;
+            size++;
+            i++;
+        }
+        Debug.Log(this);
     }
     /*public void add(T data, int atIndex)
     {

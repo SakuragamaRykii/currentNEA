@@ -88,10 +88,10 @@ public class QuadTree //: MonoBehaviour
         }
         else
         {
-            result.concat(TR.query(qObj));
-            result.concat(TL.query(qObj));
-            result.concat(BR.query(qObj));
-            result.concat(BL.query(qObj));
+            result.Concat(TR.query(qObj));
+            result.Concat(TL.query(qObj));
+            result.Concat(BR.query(qObj));
+            result.Concat(BL.query(qObj));
         }
         return result;
 
