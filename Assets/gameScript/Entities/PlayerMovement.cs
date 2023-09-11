@@ -20,7 +20,6 @@ public class PlayerMovement : Entity
         rb = GetComponent<Rigidbody2D>();
 
         setupHitbox();
-        addToFM();
 
     }
 

@@ -16,6 +16,12 @@ public class ListNode<U>
         previous = null;
     }
 
+    public void remove()
+    {
+        next = null; previous = null ;
+        data = default(U);
+    }
+
 
    
 }

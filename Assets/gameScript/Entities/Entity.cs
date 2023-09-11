@@ -13,11 +13,6 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
     public Block hitbox; //all hitboxes will be rectangular
 
-    public void addToFM()
-    {
-        FieldManager.qt.insert(gameObject);
-        FieldManager.objInField.add(gameObject) ;
-    }
 
     public void setupHitbox()
     {
@@ -61,7 +56,6 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
     void Start()
     {
-        addToFM();
         setupHitbox();
         
 

@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DynList<T> : IEnumerable
+public class DynList<T> : IEnumerable where T : class
 {
     public ListNode<T> first { get;  set; }
     public ListNode<T> last { get;  set; }
@@ -43,6 +44,7 @@ public class DynList<T> : IEnumerable
 
     public void concat(DynList<T> other)
     {
+        if (other == null || other.isEmpty()) return;
         if (isEmpty())
         {
             first = other.first; last = other.last; size = other.size;
@@ -63,40 +65,50 @@ public class DynList<T> : IEnumerable
 
     public void remove(T queryData)
     {
-        ListNode<T> current = first;
-        for(int index = 0; index < size; index++)
+        if (queryData == first.data)
         {
-            if (current.data.ToString().Equals(queryData.ToString()))
+            ListNode<T> temp = first.next;
+            first.remove();
+            first = temp;
+            size--; return;
+        }
+
+        if (queryData == last.data)
+        {
+            ListNode<T> temp = last.previous;
+            last.remove();
+            last = temp;
+            size--; return;
+        }
+
+        ListNode<T> current = first.next;
+        for(int index = 0; index < size-1; index++)
+        {
+            if (queryData == current.data)
             {
+                ListNode<T> right = current.next;
+                ListNode<T> left = current.previous;
+                left.next = right;
+                current.remove();
+                size--; return;
 
-                if (current == last)
-                {
-                    last = current.previous;
-                    current = null;
-
-                }
-                else if (current == first)
-                {
-                    first = current.next;
-                    current = null;
-                }
-                else
-                {
-                    ListNode<T> right = current.next;
-                    ListNode<T> left = current.previous;
-                    current = null;
-                    left.next = right;
-                }
-                size--;
-                return;
             }
             else current = current.next;
         }
     }
 
-    public void clear() { first = null; last = null; size = 0; }
+    public bool Contains(T subject)
+    {
+        foreach(T t in this)
+        {
+            if (t == subject) return true;
+        }
+        return false;
+    }
 
-    public T dataAt(int qIndex) //returns the data at a specified index
+    public void Clear() { first = null; last = null; size = 0; }
+
+    public T DataAt(int qIndex) //returns the data at a specified index
     {
         if (qIndex == 0) return first.data;
         if (qIndex == size - 1) return last.data;
@@ -198,7 +210,7 @@ public class DynList<T> : IEnumerable
 
         public object Current
         {
-            get { return list.dataAt(pos); }
+            get { return list.DataAt(pos); }
         }
     }
 

@@ -49,11 +49,11 @@ public class MoveManager : MonoBehaviour
     private int Partition(DynList<Turn> target, int left, int right)
     {
 
-        int pivot = target.dataAt(right-1).counter; //counter of value at index right
+        int pivot = target.DataAt(right-1).counter; //counter of value at index right
         int result = left - 1;
         for(int i = left; i < right; i++)
         {
-            if (target.dataAt(i).counter > pivot) Swap(target, ++result, i);
+            if (target.DataAt(i).counter > pivot) Swap(target, ++result, i);
         }
         Swap(target, ++result, right-1);
         return result;
@@ -87,7 +87,7 @@ public class MoveManager : MonoBehaviour
 
            // Debug.Log("bench "+bench.ToString());
             turns.concat(bench);
-            bench.clear();
+            bench.Clear();
             //Debug.Log("turns "+ turns.ToString());
             //Debug.Log("bench " + bench.ToString());
 

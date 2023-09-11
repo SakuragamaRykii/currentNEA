@@ -19,8 +19,12 @@ public class FieldManager : MonoBehaviour
         if (only == null) only = this; else Destroy(gameObject);
 
         Instantiate(field);
-        qt = new QuadTree(new Block(transform.position, field.transform.localScale.x, field.transform.localScale.y));
         objInField = new DynList<GameObject>();
+        foreach(Entity e in GameObject.FindObjectsOfType<Entity>())
+        {
+            objInField.add(e.gameObject);
+        }
+        qt = new QuadTree(new Block(transform.position, field.transform.localScale.x, field.transform.localScale.y));
 
         //Instantiate(Resources.Load("prefabs/Player") );
        

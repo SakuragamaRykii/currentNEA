@@ -83,6 +83,7 @@ public class QuadTree //: MonoBehaviour
         if (!Grid.Contains(qObj)) return null;
         if (!hasSplit)
         {
+            Debug.Log(objsInGrid);
             return this.objsInGrid;
         }
         else
