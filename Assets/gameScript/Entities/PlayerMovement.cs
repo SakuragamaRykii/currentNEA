@@ -34,6 +34,7 @@ public class PlayerMovement : Entity
     }
 
     void ManageColEvent(colWith type){
+        Debug.Log(type);
         switch (type)
         {
             case colWith.ENEMY:

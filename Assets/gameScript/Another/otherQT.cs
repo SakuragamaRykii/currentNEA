@@ -32,7 +32,8 @@ public class otherQT// : MonoBehaviour
 
         if(!inGrid.Contains(obj)) inGrid.add(obj);
 
-        Debug.Log(obj.name + ":" + grid + ":" + obj.transform.position);
+        //Debug.Log(obj.name + ":" + grid + ":" + obj.transform.position);
+        Debug.Log(inGrid);
 
         if (inGrid.size > capacity)
         {
@@ -60,8 +61,8 @@ public class otherQT// : MonoBehaviour
 
     public DynList<GameObject> Query(GameObject from, DynList<GameObject> objs = null)
     {
+        if (!grid.Contains(from.transform.position)) return null;
         if (objs == null) objs = new DynList<GameObject>();
-        if (!grid.Contains(from.transform.position)) { objs.add(from); return objs;}
         if (!splitted) return inGrid;
 
         objs.Concat(tl.Query(from));

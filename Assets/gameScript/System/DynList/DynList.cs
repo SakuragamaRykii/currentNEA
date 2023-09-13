@@ -62,24 +62,26 @@ public class DynList<T> : IEnumerable where T : class
     {
         if (other == null || other.Length == 0) return;
 
-        ListNode<T> current;
-        int i = 0;
-        if (isEmpty())
+        foreach(T elem in other)
         {
-            first = new ListNode<T>(other[0]); i = 1;
-            current = first;
+            if (isEmpty())
+            {
+                first = new ListNode<T>(elem);
+                last = first;
+                size++;
+            }
+            else
+            {
+                ListNode<T> temp = last;
+                last.next = new ListNode<T>(elem);
+                last = last.next;
+                last.previous = temp;
+                size++;
+            }
+
+
         }
-        else current = last;
-        while(i < other.Length) 
-        {
-            ListNode<T> temp = current;
-            current.next = new ListNode<T>(other[i]);
-            last = current.next;
-            current = current.next;
-            size++;
-            i++;
-        }
-        Debug.Log(this);
+        //Debug.Log(this);
     }
     /*public void add(T data, int atIndex)
     {

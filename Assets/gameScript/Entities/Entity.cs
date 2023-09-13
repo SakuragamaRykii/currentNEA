@@ -11,40 +11,64 @@ public class Entity : MonoBehaviour //all entities should inherit this
         NONE, ENEMY, WALL, INTERACTABLE, PLAYER, WEAPON
     }
 
-    public Block hitbox; //all hitboxes will be rectangular
-
+    public Rect hitbox; //all hitboxes will be rectangular
+    float x, y;
 
     public void setupHitbox()
     {
-        float width = transform.localScale.x, height = transform.localScale.y;
-        hitbox = new Block(transform.position, width, height);
-        
+        // float width = transform.localScale.x, height = transform.localScale.y;
+        // hitbox = new Block(transform.position, width, height);
+        x = transform.position.x - transform.localScale.x / 2;
+        y = transform.position.y - transform.localScale.y / 2;
+        hitbox = new Rect(x, y, transform.localScale.x, transform.localScale.y);
+        FieldManager.qt.Insert(gameObject);
+
+        StartCoroutine(ManageIns());
+
+    }
+
+    public IEnumerator ManageIns()
+    {
+
+        while (true)
+        {
+            Vector2 oldPos = transform.position;
+            yield return new WaitForSeconds(0.2f);
+            if (transform.position.x != oldPos.x || transform.position.y != oldPos.y)
+            {
+                FieldManager.qt.Insert(gameObject);
+            }
+        }
+
     }
 
     //public GameObject other;
     public colWith checkCollision() {
-        hitbox.position = transform.position;
-        DynList<GameObject> others = FieldManager.qt.query(gameObject);
+        x = transform.position.x - transform.localScale.x / 2;
+        y = transform.position.y - transform.localScale.y / 2;
+        hitbox.position = new Vector2(x, y);
+        //hitbox.position = transform.position;
+        GameObject[] others = FieldManager.qt.Query(gameObject);
         foreach(GameObject other in others)
          {
             
-             if(other != gameObject && hitbox.Intersects(other.GetComponent<Entity>().hitbox))
+             if(other != gameObject && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
              {
                  Debug.Log("HIT");
-                 //collided = true;
+                //collided = true;
                 switch (other.tag)
                 {
-                    case "Enemy": return colWith.ENEMY;
+                    case "Enemy": { Debug.Log("enemy"); return colWith.ENEMY; }
 
-                    case "Utility": return colWith.INTERACTABLE;
+                    case "Utility": { Debug.Log("inte"); return colWith.INTERACTABLE; }
 
-                    case "Wall": return colWith.WALL;
+                    case "Wall": {Debug.Log("wall"); return colWith.WALL; }
 
-                    case "Weapon": return colWith.WEAPON;
+                    case "Weapon": { Debug.Log("weapon"); return colWith.WEAPON; }
 
-                    case "Player": return colWith.PLAYER;
+                    case "Player": {Debug.Log("player"); return colWith.PLAYER; }
 
-                    default: return colWith.NONE;
+                    default: { Debug.Log("none"); return colWith.NONE; }
                 }
                  
              }
@@ -63,12 +87,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
     void Update()
     {
         checkCollision();
-        //foreach(GameObject g in FieldManager.objInField)
-        //{
-            //Debug.Log(g.name);
-        //}
-        //Debug.Log(FieldManager.objInField.dataAt(1).name + " is at index 1 ");
-        //Debug.Log(FieldManager.objInField.dataAt(0).name + " is at index 0   ");
+
     }
 
 
