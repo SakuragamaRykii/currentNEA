@@ -119,11 +119,7 @@ public class QuadTree //: MonoBehaviour
 
     public void Insert(GameObject obj)
     {
-        if (!grid.Contains(obj.transform.position))
-        {
-            if (objsInGrid.Contains(obj)) objsInGrid.remove(obj); //for objects that can move out of the grid 
-            return;
-        }
+        if (!grid.Contains(obj.transform.position)) return;
 
         if (!objsInGrid.Contains(obj)) objsInGrid.add(obj);
 
@@ -131,7 +127,8 @@ public class QuadTree //: MonoBehaviour
 
         if (objsInGrid.size > capacity)
         {
-            if (!splitted) Split();
+            if (!splitted) { Split(); Insert(objsInGrid.DataAt(0)); }//the first element doesnt get added to the children when it splits
+                                                                  //without this.
             tl.Insert(obj);
             tr.Insert(obj);
             bl.Insert(obj);
@@ -155,9 +152,9 @@ public class QuadTree //: MonoBehaviour
 
     public GameObject[] Query(GameObject from, DynList<GameObject> objs = null)
     {
-        if (!grid.Contains(from.transform.position)) return new GameObject[] { from };
+        if (!grid.Contains(from.transform.position)) return null;
         if (objs == null) objs = new DynList<GameObject>();
-        if (!splitted) return objsInGrid.toArr();
+            if (!splitted) { Debug.Log(objsInGrid); return objsInGrid.toArr(); }
 
         objs.Concat(tl.Query(from));
         objs.Concat(tr.Query(from));
@@ -167,5 +164,18 @@ public class QuadTree //: MonoBehaviour
         return objs.toArr();
 
 
+    }
+
+    public void find(GameObject g)
+    {
+        if (!grid.Contains(g.transform.position)) return;
+        if (splitted)
+        {
+            tl.find(g);
+            tr.find(g);
+            br.find(g);
+            bl.find(g);
+        }
+        Debug.Log(g);
     }
 }

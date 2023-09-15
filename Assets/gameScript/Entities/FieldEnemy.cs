@@ -14,6 +14,6 @@ public class FieldEnemy : Entity
     // Update is called once per frame
     void Update()
     {
-        checkCollision();
+        CheckCollision();
     }
 }

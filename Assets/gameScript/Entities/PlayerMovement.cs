@@ -28,7 +28,7 @@ public class PlayerMovement : Entity
     {
         Move();
         
-        ManageColEvent(checkCollision());
+        ManageColEvent(CheckCollision());
 
 
     }

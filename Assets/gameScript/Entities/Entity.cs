@@ -16,14 +16,12 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
     public void setupHitbox()
     {
-        // float width = transform.localScale.x, height = transform.localScale.y;
-        // hitbox = new Block(transform.position, width, height);
         x = transform.position.x - transform.localScale.x / 2;
         y = transform.position.y - transform.localScale.y / 2;
         hitbox = new Rect(x, y, transform.localScale.x, transform.localScale.y);
-        FieldManager.qt.Insert(gameObject);
+       // FieldManager.qt.Insert(gameObject);
 
-        StartCoroutine(ManageIns());
+      //  StartCoroutine(ManageIns());
 
     }
 
@@ -34,20 +32,20 @@ public class Entity : MonoBehaviour //all entities should inherit this
         {
             Vector2 oldPos = transform.position;
             yield return new WaitForSeconds(0.2f);
+            FieldManager.qt.Insert(gameObject);
+
             if (transform.position.x != oldPos.x || transform.position.y != oldPos.y)
             {
-                FieldManager.qt.Insert(gameObject);
             }
         }
 
     }
 
     //public GameObject other;
-    public colWith checkCollision() {
+    public virtual colWith CheckCollision() {
         x = transform.position.x - transform.localScale.x / 2;
         y = transform.position.y - transform.localScale.y / 2;
         hitbox.position = new Vector2(x, y);
-        //hitbox.position = transform.position;
         GameObject[] others = FieldManager.qt.Query(gameObject);
         foreach(GameObject other in others)
          {
@@ -86,7 +84,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
     }
     void Update()
     {
-        checkCollision();
+        CheckCollision();
 
     }
 

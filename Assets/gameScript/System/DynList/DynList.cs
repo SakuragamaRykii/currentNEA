@@ -124,6 +124,7 @@ public class DynList<T> : IEnumerable where T : class
 
     public bool Contains(T subject)
     {
+        if (subject == null) return false;
         foreach(T t in this)
         {
             if (t == subject) return true;
