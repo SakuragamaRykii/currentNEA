@@ -24,6 +24,7 @@ public class FieldManager : MonoBehaviour
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
 
         //Instantiate(Resources.Load("prefabs/Player") );
+
        
 
         
@@ -40,7 +41,7 @@ public class FieldManager : MonoBehaviour
             qt.Insert(e.gameObject);
             //qt.find(e.gameObject);
         }
-        //Debug.Log(qt.objsInGrid);
+        Debug.Log(qt.objsInGrid);
     }
 
 

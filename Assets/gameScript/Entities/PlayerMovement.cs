@@ -34,14 +34,27 @@ public class PlayerMovement : Entity
     }
 
     void ManageColEvent(colWith type){
-        Debug.Log(type);
+//        Debug.Log(type);
         switch (type)
         {
             case colWith.ENEMY:
-                SceneManager.LoadScene("CombatScene");
+                //SceneManager.LoadScene("CombatScene");
+                Debug.Log("scary guy");
                 break;
-            
-            
+            case colWith.WALL:
+                if (rb.velocity.x < 0)
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                if (rb.velocity.x > 0)
+                    rb.velocity = new Vector2(-1, rb.velocity.y);
+                if (rb.velocity.y < 0)
+                    rb.velocity = new Vector2(rb.velocity.x,0);
+                if (rb.velocity.y > 0)
+                    rb.velocity = new Vector2(rb.velocity.x, -1);
+
+
+                break;
+
+
         }
       
     }

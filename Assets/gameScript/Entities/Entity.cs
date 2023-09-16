@@ -47,7 +47,8 @@ public class Entity : MonoBehaviour //all entities should inherit this
         y = transform.position.y - transform.localScale.y / 2;
         hitbox.position = new Vector2(x, y);
         GameObject[] others = FieldManager.qt.Query(gameObject);
-        foreach(GameObject other in others)
+      //  Debug.Log(DynList<GameObject>.ToDList(others));
+        foreach (GameObject other in others)
          {
             
              if(other != gameObject && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))

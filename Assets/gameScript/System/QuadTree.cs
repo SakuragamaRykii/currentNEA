@@ -111,7 +111,7 @@ public class QuadTree //: MonoBehaviour
     public QuadTree(Rect g)
     {
         grid = g;
-        capacity = 1;
+        capacity = 2;
         splitted = false;
         objsInGrid = new DynList<GameObject>();
 
@@ -127,8 +127,7 @@ public class QuadTree //: MonoBehaviour
 
         if (objsInGrid.size > capacity)
         {
-            if (!splitted) { Split(); Insert(objsInGrid.DataAt(0)); }//the first element doesnt get added to the children when it splits
-                                                                  //without this.
+            if (!splitted) { Split(); foreach(GameObject o in objsInGrid) Insert(o); }
             tl.Insert(obj);
             tr.Insert(obj);
             bl.Insert(obj);
@@ -154,13 +153,13 @@ public class QuadTree //: MonoBehaviour
     {
         if (!grid.Contains(from.transform.position)) return null;
         if (objs == null) objs = new DynList<GameObject>();
-            if (!splitted) { Debug.Log(objsInGrid); return objsInGrid.toArr(); }
+        if (!splitted) { Debug.Log(objsInGrid); return objsInGrid.toArr(); }
 
         objs.Concat(tl.Query(from));
         objs.Concat(tr.Query(from));
         objs.Concat(bl.Query(from));
         objs.Concat(br.Query(from));
-        Debug.Log(objs);
+       // Debug.Log(objs);
         return objs.toArr();
 
 
