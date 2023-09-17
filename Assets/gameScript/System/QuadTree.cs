@@ -153,7 +153,8 @@ public class QuadTree //: MonoBehaviour
     {
         if (!grid.Contains(from.transform.position)) return null;
         if (objs == null) objs = new DynList<GameObject>();
-        if (!splitted) { Debug.Log(objsInGrid); return objsInGrid.toArr(); }
+        if (!splitted) { //Debug.Log(objsInGrid);
+                         return objsInGrid.toArr(); }
 
         objs.Concat(tl.Query(from));
         objs.Concat(tr.Query(from));

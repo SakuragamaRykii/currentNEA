@@ -127,8 +127,10 @@ public class DynList<T> : IEnumerable where T : class
         if (subject == null) return false;
         foreach(T t in this)
         {
-            if (t == subject) return true;
+            if (t == subject) { //Debug.Log("true");
+                                return true; }
         }
+        //Debug.Log("false");
         return false;
     }
 

@@ -1,22 +1,14 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEngine.SceneManagement;
-
-public class PlayerMovement : Entity
+public class rtPlayer : Entity
 {
-
-    public static PlayerMovement instance; //make this a singleton
+    public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
     void Start()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
-
+        if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
 
         setupHitbox();
@@ -27,16 +19,16 @@ public class PlayerMovement : Entity
     void Update()
     {
         Move();
-        
+
         ManageColEvent(CheckCollision());
 
 
     }
 
-    void ManageColEvent(GameObject type){
-        //        Debug.Log(type);
+    void ManageColEvent(GameObject type)
+    {
         if (type == null) return;
-
+        //        Debug.Log(type);
         switch (type.tag)
         {
             case "Enemy":
@@ -51,9 +43,14 @@ public class PlayerMovement : Entity
 
 
         }
-      
+
     }
 
+    public override GameObject CheckCollision()
+    {
+        return null;
+
+    }
     private void Move()
     {
         float hor = Input.GetAxis("Horizontal") * 15;

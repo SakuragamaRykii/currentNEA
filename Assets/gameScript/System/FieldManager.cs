@@ -7,7 +7,7 @@ public class FieldManager : MonoBehaviour
     public static QuadTree qt;
     public GameObject field;
     public static FieldManager only;
-
+    //[SerializeField] private GameObject player, enemyTemp, wallTemp; //, utilTemp
     public int minEnemies = 3, maxEnemies = 7,
         minInte = 3, maxInte = 10,
         minWall = 3, maxWall = 12;
@@ -23,6 +23,9 @@ public class FieldManager : MonoBehaviour
         y = field.transform.position.y - field.transform.localScale.y / 2;
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
 
+
+        
+        
         //Instantiate(Resources.Load("prefabs/Player") );
 
        
@@ -41,7 +44,7 @@ public class FieldManager : MonoBehaviour
             qt.Insert(e.gameObject);
             //qt.find(e.gameObject);
         }
-        Debug.Log(qt.objsInGrid);
+       // Debug.Log(qt.objsInGrid);
     }
 
 

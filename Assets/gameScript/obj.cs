@@ -24,7 +24,7 @@ public class obj : MonoBehaviour
         while(true)
         {
             Vector2 oldPos = transform.position;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.01f);
             Man.qt.insert(gameObject);
             if (transform.position.x != oldPos.x || transform.position.y != oldPos.y)
             {

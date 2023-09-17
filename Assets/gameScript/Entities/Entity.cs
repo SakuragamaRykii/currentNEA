@@ -12,7 +12,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
     }
 
     public Rect hitbox; //all hitboxes will be rectangular
-    float x, y;
+    protected float x, y;
 
     public void setupHitbox()
     {
@@ -42,37 +42,23 @@ public class Entity : MonoBehaviour //all entities should inherit this
     }
 
     //public GameObject other;
-    public virtual colWith CheckCollision() {
+    public virtual GameObject CheckCollision() {
         x = transform.position.x - transform.localScale.x / 2;
         y = transform.position.y - transform.localScale.y / 2;
         hitbox.position = new Vector2(x, y);
         GameObject[] others = FieldManager.qt.Query(gameObject);
       //  Debug.Log(DynList<GameObject>.ToDList(others));
         foreach (GameObject other in others)
-         {
+        {
             
              if(other != gameObject && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
              {
                  Debug.Log("HIT");
-                //collided = true;
-                switch (other.tag)
-                {
-                    case "Enemy": { Debug.Log("enemy"); return colWith.ENEMY; }
-
-                    case "Utility": { Debug.Log("inte"); return colWith.INTERACTABLE; }
-
-                    case "Wall": {Debug.Log("wall"); return colWith.WALL; }
-
-                    case "Weapon": { Debug.Log("weapon"); return colWith.WEAPON; }
-
-                    case "Player": {Debug.Log("player"); return colWith.PLAYER; }
-
-                    default: { Debug.Log("none"); return colWith.NONE; }
-                }
-                 
+                return other;
              }
          }
-        return colWith.NONE;
+        Debug.Log("none");
+        return null;
 
         //if (hitbox.Intersects(other.GetComponent<Entity>().hitbox)) Debug.Log("HIT");
     }
