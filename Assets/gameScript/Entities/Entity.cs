@@ -53,11 +53,11 @@ public class Entity : MonoBehaviour //all entities should inherit this
             
              if(other != gameObject && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
              {
-                 Debug.Log("HIT");
+               //  Debug.Log("HIT");
                 return other;
              }
          }
-        Debug.Log("none");
+       // Debug.Log("none");
         return null;
 
         //if (hitbox.Intersects(other.GetComponent<Entity>().hitbox)) Debug.Log("HIT");
