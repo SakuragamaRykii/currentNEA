@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Runtime.ExceptionServices;
 using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DynList<T> : IEnumerable where T : class
 {
@@ -22,7 +24,7 @@ public class DynList<T> : IEnumerable where T : class
 
 
     public void add(T data) {
-
+        if (data == null) return;
         ListNode<T> newNode = new ListNode<T>(data);
 
 
@@ -92,35 +94,27 @@ public class DynList<T> : IEnumerable where T : class
 
     public void remove(T queryData)
     {
-        if (queryData == first.data)
+        if (queryData == null) return;
+        if (first.data == queryData)
         {
-            ListNode<T> temp = first.next;
-            first.remove();
-            first = temp;
+            first = first.next;
+            size--;  return;
+        }
+        else if(last.data == queryData) 
+        {
+            last = last.previous;
             size--; return;
         }
-
-        if (queryData == last.data)
-        {
-            ListNode<T> temp = last.previous;
-            last.remove();
-            last = temp;
-            size--; return;
-        }
-
         ListNode<T> current = first.next;
-        for(int index = 0; index < size-1; index++)
+        ListNode<T> prev = first;
+        for (int i = 1; i < size-1; i++)
         {
-            if (queryData == current.data)
+            if(current.data ==  queryData)
             {
-                ListNode<T> right = current.next;
-                ListNode<T> left = current.previous;
-                left.next = right;
-                current.remove();
+                current = current.next;
+                prev.next = current;
                 size--; return;
-
             }
-            else current = current.next;
         }
     }
 
@@ -223,24 +217,27 @@ public class DynList<T> : IEnumerable where T : class
         // allow this class to be subject to a foreach loop (from the official web guide of c# by microsoft)
         public DynList<T> list;
         private int pos = -1;
+        private ListNode<T> curr;
 
         public MyEnumerator(DynList<T> myList)
         {
             list = myList;
+            curr = myList.first;
         }
 
         public bool MoveNext()
         {
             pos++;
+            if(pos > 0 ) curr = curr.next;
             return (pos < list.size);
 
         }
 
-        public void Reset() { pos = -1; }
+        public void Reset() { pos = -1; curr = list.first; }
 
         public object Current
         {
-            get { return list.DataAt(pos); }
+            get { return curr.data; }
         }
     }
 

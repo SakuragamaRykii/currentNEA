@@ -12,7 +12,8 @@ public class cameraMove : MonoBehaviour
     {
         if (!player) player = GameObject.FindGameObjectWithTag("Player");
             area = new Block(player.transform.position, 19.2f, 12);
-
+        area.position = (Vector2)player.transform.position;
+        transform.position = (Vector2)player.transform.position;
     }
 
     // Update is called once per frame
@@ -20,8 +21,8 @@ public class cameraMove : MonoBehaviour
     {
         if (!area.Contains(player))
         {
-            area.position = player.transform.position;
-            transform.position = player.transform.position;
+            area.position = (Vector2)player.transform.position;
+            transform.position = (Vector2)player.transform.position;
         }
     }
 }
