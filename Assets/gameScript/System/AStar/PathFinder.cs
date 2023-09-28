@@ -2,118 +2,112 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Security.Cryptography;
+using System.Threading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PathFinder : MonoBehaviour
 {
-    // Start is called before the first frame update
-   // float x, y;
-    [SerializeField] private Entity targetObj;//probably the player
+
+    [SerializeField] private GameObject targetObj;
     private Point startPoint, targetPoint;
     // Update is called once per frame
     DynList<Point> open, closed;  //closed and open list       
-    bool found = false;
+    bool found;
+    private Point centrePoint;
 
-
-
-    void Start()
+    private void Start()
     {
         open = new DynList<Point>();
         closed = new DynList<Point>();
-        startPoint = new Point(GetComponent<Entity>().hitbox);
-        Debug.Log(startPoint.c);
-        targetPoint = new Point(targetObj.hitbox);
+        startPoint = new Point(transform.position, targetObj);
+        targetPoint = new Point(targetObj.transform.position);
         found = false;
-        FindPath();
-        //StartCoroutine(search());
+        centrePoint = startPoint;
+        open.add(startPoint);
+
     }
-    public IEnumerator search()
+    int ite = 0;
+    void Update()
     {
-        while (true)
+        KeyCode key = KeyCode.Space;
+        if(Input.GetKeyDown(key))
         {
-            yield return new WaitForSeconds(0.5f);
-            open = new DynList<Point>();
-            closed = new DynList<Point>();
-            startPoint = new Point(GetComponent<Entity>().hitbox);
-            Debug.Log(startPoint.c);
-            targetPoint = new Point(targetObj.hitbox);
+            ite++;
             FindPath();
         }
-
+        if(Input.GetKeyDown(KeyCode.E)) 
+        {
+            DeleteLowest();
+        }
     }
-
-
-
 
     [SerializeField] private GameObject point;
-
+    [SerializeField] private GameObject op;
     public void FindPath()
     {
-        open.add(startPoint);
-        Debug.Log(open);
-      //  while (!open.isEmpty() && !found)
-      //  {
-      for(int i = 0; i < 10; i++) { 
-            Point q = null;
-            foreach (Point p in open)
-            {
-                if (q == null) q = p;
-                else if(p.f < q.f) q = p;
-
-            }
-            open.remove(q);
-            Successor(q);
-      
-            Debug.Log(open);
-            if (point != null) Instantiate(point, new Vector3(q.c.x, q.c.y, - 10), Quaternion.identity);
-            closed.add(q);
-
+        Debug.Log(ite);
+        Point lowest = null;
+        foreach(Point p in open)
+        {
+            if (lowest == null) lowest = p;
+            else if (p.f < lowest.f) lowest = p;
         }
+
+        lowest.InitSurr();
+        open.remove(lowest);
+        if(point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
+        foreach(Point p in lowest.surrPoints)
+        {
+            if (AlreadyHas(p, closed) || AlreadyHas(p, open)) { Debug.Log("already: " + p + ": " + p.f); continue; }
+            GameObject sc = p.scan();
+            if (sc == null)
+            {
+                Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity); 
+                open.add(p);
+            }
+            else if (sc.tag.Equals("Wall")) continue;
+        }
+
+        closed.add(lowest);
+        Debug.Log("closed = " + closed);
+        Debug.Log(open);
+        Debug.Log(open.size);
+
 
     }
 
-
-    
-
-    private bool AlreadyIn(Point p, DynList<Point> list) //check if already visited
+    private bool AlreadyHas(Point p, DynList<Point> list)
     {
-        foreach(Point check in list)
+        foreach(Point other in list)
         {
-
-            if (check.c.Equals(p.c) && check.f <= p.f) { Debug.Log("true"); return true; }
+            if (p.centre.Equals(other.centre)) return true;
         }
-        Debug.Log("false");
         return false;
     }
-
-    private void Successor(Point of)
+    public void DeleteLowest()
     {
-        Vector2 c = of.c;
-        of.up = new Point(new Vector2(c.x, c.y + 1f), startPoint.c, targetPoint.c);
-        of.right = new Point(new Vector2(c.x + 1f, c.y), startPoint.c, targetPoint.c);
-        of.down = new Point(new Vector2(c.x, c.y - 1f), startPoint.c, targetPoint.c);
-        of.left = new Point(new Vector2(c.x - 1f, c.y), startPoint.c, targetPoint.c);
-        ManagePoint(new Point[] {of.up, of.right, of.down, of.left});
-    }
-    private void ManagePoint(Point[] points)
-    {
-        foreach(Point p in points)
+        Point lowest = null;
+        foreach(Point p in open)
         {
-            if(AlreadyIn(p, open) || AlreadyIn(p, closed)) continue;
-            GameObject sc = p.scan();
-            if (sc == null) open.add(p);
-            else if (sc.tag == "Wall") continue;
-            else if(sc.tag == targetObj.tag) { found = true; return; }
+            if (lowest == null) lowest = p;
+            else if (p.f < lowest.f) lowest = p;
+
         }
+        Debug.Log("Lowest = " + lowest);
+        open.remove(lowest);
+        Debug.Log(open);
     }
-
-
- 
-
-
-        
+    
 
 }
+
+
+
+
+
+
+
 
 
 

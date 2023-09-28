@@ -5,6 +5,7 @@ using System.Data.SqlTypes;
 using System.Runtime.ExceptionServices;
 using UnityEditor.Compilation;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
 public class DynList<T> : IEnumerable where T : class
@@ -94,27 +95,41 @@ public class DynList<T> : IEnumerable where T : class
 
     public void remove(T queryData)
     {
-        if (queryData == null) return;
+        Debug.Log("lesbian");
+       // if (queryData == null) return;
         if (first.data == queryData)
         {
+           
             first = first.next;
-            size--;  return;
+            size--;
+            Debug.Log("gay");
+
+            return;
         }
         else if(last.data == queryData) 
         {
             last = last.previous;
-            size--; return;
+            size--;
+            Debug.Log("gay");
+
+            return;
         }
         ListNode<T> current = first.next;
-        ListNode<T> prev = first;
+        ListNode<T> prev = current.previous;
         for (int i = 1; i < size-1; i++)
         {
             if(current.data ==  queryData)
             {
                 current = current.next;
                 prev.next = current;
-                size--; return;
+                current.previous = prev;
+                size--;
+                Debug.Log("gay");
+                return;
+
             }
+            current = current.next;
+            prev = prev.next;
         }
     }
 

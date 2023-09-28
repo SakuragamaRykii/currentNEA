@@ -5,45 +5,41 @@ using UnityEngine;
 public class Point
 {
     public Rect area { get; private set; }
-    public Vector2 c { get; private set; } //centre position of the point
+    public Vector2 centre { get; private set; } //centre position of the point
+    public float h { get; private set; } //current square to target
+    public float g { get; private set; } //start to the current square
+    public float f { get; private set; } //total
+    public Point previous;
+    public Point[] surrPoints { get; private set; } //surrounding points in four direcitons
+    public GameObject target;
 
-    public float g, h, f;
-    public Point(Rect r)
+    public Point(Vector2 c)
     {
-        area = r;
-        c = new Vector2(r.x + r.width / 2, r.y + r.height / 2);
-        g = -1; h = -1;
-        f = -1;
-
-    }
-    public Point(Vector2 centre)
-    {
-        area = new Rect(centre.x - 0.5f, centre.y - 0.5f, 1, 1);
-        c = centre;
-        g = -1; h = -1; f = -1;
-    }
-    public Point(Vector2 centre, Vector2 start, Vector2 target)
-    {
-        area = new Rect(centre.x - 0.5f, centre.y - 0.5f, 1, 1);
-        c = centre;
-        g = Vector2.Distance(start, c);
-        h = Vector2.Distance(target, c);//unity's Distance method uses euclidian distance.
-        f = g + h;
+        centre = c;
+        h = -1; g = -1; f = -1;
+        area = new Rect(c.x - 0.5f, c.y - 0.5f, 1, 1);
     }
 
-    public Point(Rect r, Vector2 start, Vector2 target)
+    public Point(Vector2 c, GameObject t)
     {
-        area = r;
-        c = new Vector2(r.x + r.width / 2, r.y + r.height / 2);
-        g = Vector2.Distance(start, c);
-        h = Vector2.Distance(target, c);//unity's Distance method uses euclidian distance.
-        f = g + h;
-       // Debug.Log(c + " point = " + f);
-
-
+        centre = c;
+        target = t;
+        g = 1; 
+        h = Vector2.Distance(centre, target.transform.position);
+        f = h + g;
+        area = new Rect(c.x - 0.5f, c.y - 0.5f, 1, 1);
     }
 
-    public Point up, right, down, left;
+    public Point(Vector2 c, GameObject t, Point prev)
+    {
+        centre = c;
+        previous = prev;
+        target = t;
+        g = previous.g + 1;
+        h = Vector2.Distance(centre, target.transform.position);
+        f = h + g;
+        area = new Rect(c.x - 0.5f, c.y - 0.5f, 1, 1);
+    }
 
     public GameObject scan()//GameObject target = null
     {
@@ -51,6 +47,7 @@ public class Point
         {
             if (area.Overlaps(e.hitbox))
             {
+                Debug.Log(e.gameObject);
                 return (e.gameObject);
             }
 
@@ -58,8 +55,20 @@ public class Point
         return null;
     }
 
+    public void InitSurr()
+    {
+        surrPoints = new Point[4];
+        surrPoints[0] = new Point(new Vector2(centre.x, centre.y + 1), target, this);//up
+        surrPoints[1] = new Point(new Vector2(centre.x + 1, centre.y), target, this);//right
+        surrPoints[2] = new Point(new Vector2(centre.x, centre.y - 1), target, this);//down
+        surrPoints[3] = new Point(new Vector2(centre.x - 1, centre.y), target, this);//left
+    }
+
+
+
+
     public override string ToString()
     {
-        return c.ToString();
+        return (centre.ToString() + ", f: " + f);
     }
 }
