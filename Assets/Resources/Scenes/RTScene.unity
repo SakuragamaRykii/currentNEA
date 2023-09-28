@@ -182,7 +182,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.06914902, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.8146882, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -212,6 +212,40 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2434078461101344774, guid: 57bd3bae2eaa2480cae6c5198f7ecd85, type: 3}
   m_PrefabInstance: {fileID: 1154752778}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &724340966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724340965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31367562dcb63e14bb07cf548b03d2f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitbox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  targetObj: {fileID: 0}
+  rb: {fileID: 0}
+--- !u!114 &724340967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724340965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba50349c3998ab64a92d6a3365b1a595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObj: {fileID: 1849647085}
+  path: {fileID: 89209258}
 --- !u!1001 &1154752778
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -268,10 +302,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDummy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1687393305947558109, guid: 57bd3bae2eaa2480cae6c5198f7ecd85, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2434078461101344774, guid: 57bd3bae2eaa2480cae6c5198f7ecd85, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 724340967}
+    - targetCorrespondingSourceObject: {fileID: 2434078461101344774, guid: 57bd3bae2eaa2480cae6c5198f7ecd85, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 724340966}
   m_SourcePrefab: {fileID: 100100000, guid: 57bd3bae2eaa2480cae6c5198f7ecd85, type: 3}
 --- !u!1001 &1307645169
 PrefabInstance:
@@ -615,8 +656,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObj: {fileID: 724340965}
-  point: {fileID: 1318401100}
-  op: {fileID: 1331820266}
   path: {fileID: 89209258}
 --- !u!1001 &2133526348
 PrefabInstance:

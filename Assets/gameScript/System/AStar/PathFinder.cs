@@ -9,11 +9,12 @@ using UnityEngine.UIElements;
 public class PathFinder : MonoBehaviour
 {
 
-    [SerializeField] private GameObject targetObj;
+    [SerializeField] public GameObject targetObj;
     private Point startPoint, targetPoint;
     // Update is called once per frame
     DynList<Point> open, closed;  //closed and open list       
     private Point centrePoint;
+    public Point[] finalPath;
 
     private void Start()
     {
@@ -25,42 +26,31 @@ public class PathFinder : MonoBehaviour
           open.add(startPoint);*/
 
 
-        Thread pFinderThread = new Thread(RepeatFind); //TRANSFORM IS NOT ALLOWED INSIDE THREADS.
-        pFinderThread.Start();
+        StartCoroutine(RepeatFind());
     }
     int ite = 0;
-    void Update()
-    {
-        KeyCode key = KeyCode.Space;
-        if(Input.GetKeyDown(key))
-        {
-            ite++;
-            FindPath();
-        }
-        if(Input.GetKeyDown(KeyCode.E)) 
-        {
-            DeleteLowest();
-        }
-    }
 
-    private void RepeatFind()
+
+    private IEnumerator RepeatFind()
     {
         while (true)
         {
+            yield return new WaitForSeconds(0.5f);
             open = new DynList<Point>();
             closed = new DynList<Point>();
             startPoint = new Point(transform.position, targetObj);
             targetPoint = new Point(targetObj.transform.position);
             centrePoint = startPoint;
             open.add(startPoint);
-            //yield return new WaitForSeconds(0.5f);
             FindPath();
         }
 
     }
 
-    [SerializeField] private GameObject point;
-    [SerializeField] private GameObject op;
+    
+
+    //[SerializeField] private GameObject point;
+    //[SerializeField] private GameObject op;
     [SerializeField] private GameObject path;
     public void FindPath()
     {
@@ -79,7 +69,7 @@ public class PathFinder : MonoBehaviour
 
             lowest.InitSurr();
             open.remove(lowest);
-            if (point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
+            //if (point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
             foreach (Point p in lowest.surrPoints)
             {
                 //Debug.Log("already: " + p + ": " + p.f);
@@ -87,7 +77,7 @@ public class PathFinder : MonoBehaviour
                 GameObject sc = p.scan();
                 if (sc == null)
                 {
-                    Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity);
+                    //Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity);
                     open.add(p);
                 }
                 else if (sc.tag.Equals("Wall")) continue;
@@ -100,7 +90,7 @@ public class PathFinder : MonoBehaviour
           //  Debug.Log(open.size);
             
          }
-        FinalizePath(lowest);
+        finalPath = FinalizePath(lowest);
     }
 
     private bool AlreadyHas(Point p, DynList<Point> list)
@@ -122,24 +112,12 @@ public class PathFinder : MonoBehaviour
             prevs = prevs.previous;
             result.add(prevs);
             Debug.Log(prevs);
-            Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -12), Quaternion.identity);
+            Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
         }
         
         return result.toArr();
     }
-    public void DeleteLowest()
-    {
-        Point lowest = null;
-        foreach(Point p in open)
-        {
-            if (lowest == null) lowest = p;
-            else if (p.f < lowest.f) lowest = p;
 
-        }
-        Debug.Log("Lowest = " + lowest);
-        open.remove(lowest);
-        Debug.Log(open);
-    }
     
 
 }
