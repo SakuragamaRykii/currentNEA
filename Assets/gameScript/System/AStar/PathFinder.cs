@@ -13,19 +13,20 @@ public class PathFinder : MonoBehaviour
     private Point startPoint, targetPoint;
     // Update is called once per frame
     DynList<Point> open, closed;  //closed and open list       
-    bool found;
     private Point centrePoint;
 
     private void Start()
     {
-        open = new DynList<Point>();
-        closed = new DynList<Point>();
-        startPoint = new Point(transform.position, targetObj);
-        targetPoint = new Point(targetObj.transform.position);
-        found = false;
-        centrePoint = startPoint;
-        open.add(startPoint);
+        /*  open = new DynList<Point>();
+          closed = new DynList<Point>();
+          startPoint = new Point(transform.position, targetObj);
+          targetPoint = new Point(targetObj.transform.position);
+          centrePoint = startPoint;
+          open.add(startPoint);*/
 
+
+        Thread pFinderThread = new Thread(RepeatFind); //TRANSFORM IS NOT ALLOWED INSIDE THREADS.
+        pFinderThread.Start();
     }
     int ite = 0;
     void Update()
@@ -42,39 +43,64 @@ public class PathFinder : MonoBehaviour
         }
     }
 
+    private void RepeatFind()
+    {
+        while (true)
+        {
+            open = new DynList<Point>();
+            closed = new DynList<Point>();
+            startPoint = new Point(transform.position, targetObj);
+            targetPoint = new Point(targetObj.transform.position);
+            centrePoint = startPoint;
+            open.add(startPoint);
+            //yield return new WaitForSeconds(0.5f);
+            FindPath();
+        }
+
+    }
+
     [SerializeField] private GameObject point;
     [SerializeField] private GameObject op;
+    [SerializeField] private GameObject path;
     public void FindPath()
     {
-        Debug.Log(ite);
-        Point lowest = null;
-        foreach(Point p in open)
+        Point lowest = startPoint;
+        while (!targetObj.GetComponent<Entity>().hitbox.Overlaps(lowest.area))
         {
-            if (lowest == null) lowest = p;
-            else if (p.f < lowest.f) lowest = p;
-        }
-
-        lowest.InitSurr();
-        open.remove(lowest);
-        if(point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
-        foreach(Point p in lowest.surrPoints)
-        {
-            if (AlreadyHas(p, closed) || AlreadyHas(p, open)) { Debug.Log("already: " + p + ": " + p.f); continue; }
-            GameObject sc = p.scan();
-            if (sc == null)
+          //  Debug.Log(ite);
+            lowest = null;
+            foreach (Point p in open)
             {
-                Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity); 
-                open.add(p);
+                if (lowest == null) lowest = p;
+                else if (p.f < lowest.f) lowest = p;
+
+                
             }
-            else if (sc.tag.Equals("Wall")) continue;
-        }
 
-        closed.add(lowest);
-        Debug.Log("closed = " + closed);
-        Debug.Log(open);
-        Debug.Log(open.size);
+            lowest.InitSurr();
+            open.remove(lowest);
+            if (point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
+            foreach (Point p in lowest.surrPoints)
+            {
+                //Debug.Log("already: " + p + ": " + p.f);
+                if (AlreadyHas(p, closed) || AlreadyHas(p, open)) {  continue; }
+                GameObject sc = p.scan();
+                if (sc == null)
+                {
+                    Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity);
+                    open.add(p);
+                }
+                else if (sc.tag.Equals("Wall")) continue;
+                else if (sc.tag.Equals(targetObj.tag)) { open.add(p); break; }
+            }
 
-
+            closed.add(lowest);
+           // Debug.Log("closed = " + closed);
+           // Debug.Log(open);
+          //  Debug.Log(open.size);
+            
+         }
+        FinalizePath(lowest);
     }
 
     private bool AlreadyHas(Point p, DynList<Point> list)
@@ -84,6 +110,22 @@ public class PathFinder : MonoBehaviour
             if (p.centre.Equals(other.centre)) return true;
         }
         return false;
+    }
+    private Point[] FinalizePath(Point from)
+    {
+        DynList<Point> result = new DynList<Point>();
+        result.add(from);
+        Instantiate(path, new Vector3(from.centre.x, from.centre.y, -12), Quaternion.identity);
+        Point prevs = from;
+        while(prevs.previous != null)
+        {
+            prevs = prevs.previous;
+            result.add(prevs);
+            Debug.Log(prevs);
+            Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -12), Quaternion.identity);
+        }
+        
+        return result.toArr();
     }
     public void DeleteLowest()
     {

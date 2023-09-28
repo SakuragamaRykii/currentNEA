@@ -95,23 +95,18 @@ public class DynList<T> : IEnumerable where T : class
 
     public void remove(T queryData)
     {
-        Debug.Log("lesbian");
        // if (queryData == null) return;
         if (first.data == queryData)
         {
            
             first = first.next;
             size--;
-            Debug.Log("gay");
-
             return;
         }
         else if(last.data == queryData) 
         {
             last = last.previous;
             size--;
-            Debug.Log("gay");
-
             return;
         }
         ListNode<T> current = first.next;
@@ -124,7 +119,6 @@ public class DynList<T> : IEnumerable where T : class
                 prev.next = current;
                 current.previous = prev;
                 size--;
-                Debug.Log("gay");
                 return;
 
             }
