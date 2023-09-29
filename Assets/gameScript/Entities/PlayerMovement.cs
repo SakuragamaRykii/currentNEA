@@ -26,12 +26,13 @@ public class PlayerMovement : Entity
 
     void Update()
     {
-        Move();
         
         ManageColEvent(CheckCollision());
+        Move();
 
 
     }
+
 
     void ManageColEvent(GameObject type){
         //        Debug.Log(type);

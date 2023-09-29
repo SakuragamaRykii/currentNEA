@@ -6,10 +6,6 @@ public class Entity : MonoBehaviour //all entities should inherit this
 {
     //public bool collided { get; private set; }
 
-    public enum colWith
-    {
-        NONE, ENEMY, WALL, INTERACTABLE, PLAYER, WEAPON
-    }
 
     public Rect hitbox; //all hitboxes will be rectangular
     protected float x, y;
@@ -25,21 +21,6 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
     }
 
-    public IEnumerator ManageIns()
-    {
-
-        while (true)
-        {
-            Vector2 oldPos = transform.position;
-            yield return new WaitForSeconds(0.2f);
-            FieldManager.qt.Insert(gameObject);
-
-            if (transform.position.x != oldPos.x || transform.position.y != oldPos.y)
-            {
-            }
-        }
-
-    }
 
     //public GameObject other;
     public virtual GameObject CheckCollision() {

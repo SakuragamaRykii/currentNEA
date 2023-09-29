@@ -12,12 +12,35 @@ public class rtEnemy : Entity
         setupHitbox();
         pf = GetComponent<PathFinder>();
         rb = GetComponent<Rigidbody2D>();
-        targetObj = pf.targetObj;
+        pf.targetObj = GameObject.FindGameObjectWithTag("Player");
+        attacked = false;
     }
     int index = 0;
     private void Update()
     {
+        GameObject cc = CheckCollision();
+        if(cc != null && cc.tag.Equals("Player"))
+        {
+            StartCoroutine(Attack());
+        }
+        else Move();
 
+
+
+    }
+
+    public GameObject weapon;
+    bool attacked;
+    public IEnumerator Attack()
+    {
+        attacked = true;
+        yield return new WaitForSeconds(1);
+        Debug.Log("ATAC");
+        attacked = false;
+    }
+
+    public void Move()
+    {
         if (pf.finalPath == null) return;
         Point p = pf.finalPath[index];
         if (!p.area.Contains(rb.position))
@@ -25,18 +48,6 @@ public class rtEnemy : Entity
 
         else index++;
         if (index >= pf.finalPath.Length) index = 0;
-
-    }
-
-    public void Move()
-    {
-        if (pf.finalPath == null) return;
-        foreach(Point p in pf.finalPath)
-        {
-            while (!p.area.Contains(transform.position)){
-
-            }
-        }
     }
 
 }

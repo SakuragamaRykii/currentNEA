@@ -28,7 +28,6 @@ public class PathFinder : MonoBehaviour
 
         StartCoroutine(RepeatFind());
     }
-    int ite = 0;
 
 
     private IEnumerator RepeatFind()
@@ -57,6 +56,7 @@ public class PathFinder : MonoBehaviour
         Point lowest = startPoint;
         while (!targetObj.GetComponent<Entity>().hitbox.Overlaps(lowest.area))
         {
+            
           //  Debug.Log(ite);
             lowest = null;
             foreach (Point p in open)
@@ -80,8 +80,9 @@ public class PathFinder : MonoBehaviour
                     //Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity);
                     open.add(p);
                 }
-                else if (sc.tag.Equals("Wall")) continue;
                 else if (sc.tag.Equals(targetObj.tag)) { open.add(p); break; }
+                else if (sc.tag.Equals("Wall")) continue;
+                else open.add(p);
             }
 
             closed.add(lowest);
@@ -105,7 +106,7 @@ public class PathFinder : MonoBehaviour
     {
         DynList<Point> result = new DynList<Point>();
         result.add(from);
-        Instantiate(path, new Vector3(from.centre.x, from.centre.y, -12), Quaternion.identity);
+        Instantiate(path, new Vector3(from.centre.x, from.centre.y, -1), Quaternion.identity);
         Point prevs = from;
         while(prevs.previous != null)
         {
