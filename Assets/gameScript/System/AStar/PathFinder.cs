@@ -15,6 +15,7 @@ public class PathFinder : MonoBehaviour
     DynList<Point> open, closed;  //closed and open list       
     private Point centrePoint;
     public Point[] finalPath;
+    public int index;
 
     private void Start()
     {
@@ -34,7 +35,8 @@ public class PathFinder : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
+            
             open = new DynList<Point>();
             closed = new DynList<Point>();
             startPoint = new Point(transform.position, targetObj);
@@ -42,6 +44,7 @@ public class PathFinder : MonoBehaviour
             centrePoint = startPoint;
             open.add(startPoint);
             FindPath();
+            index = finalPath.Length-1;
         }
 
     }

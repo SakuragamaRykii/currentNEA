@@ -7,7 +7,7 @@ public class FieldEnemy : Entity
     public GameObject targetObj;
     PathFinder pf;
     public Rigidbody2D rb;
-    int index = 0;
+    float ms = 1; //movement speed
 
     // Start is called before the first frame update
     void Start()
@@ -21,19 +21,21 @@ public class FieldEnemy : Entity
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        hitbox.position = new Vector2(rb.position.x - hitbox.width/2, rb.position.y - hitbox.height/2);
         Move();
     }
 
     public void Move()
-    {
+    { //THE START POINT OF THE PATH IS IN AS THE LAST ELEMENT OF FINALPATH
         if (pf.finalPath == null) return;
-        Point p = pf.finalPath[index];
-        if (!p.area.Contains(rb.position))
-            rb.velocity = new Vector2(p.centre.x - rb.position.x, p.centre.y - transform.position.y);
-
-        else index++;
-        if (index >= pf.finalPath.Length) index = 0;
+        if (pf.index < 0) return;
+            Point moveTo = pf.finalPath[pf.index];
+        if (!moveTo.centre.Equals(transform.position))
+        {
+            rb.position = Vector2.MoveTowards(rb.position, moveTo.centre, 0.5f);
+        }
+        else pf.index--;
     }
 }
