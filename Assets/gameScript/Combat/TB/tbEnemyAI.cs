@@ -17,12 +17,7 @@ public class tbEnemyAI : Turn
     }
     private void Update()
     {
-        if (es.isDead)
-        {
-            MoveManager.finish = true;
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
+
     }
     public override void ManageTurn()
     {

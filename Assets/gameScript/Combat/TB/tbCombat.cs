@@ -41,15 +41,7 @@ public class tbCombat : Turn
     private void Update() 
     {
 
-        //if (MoveManager.Peek() == this && !moved) ManageTurn();
-        if (PlayerStat.isDead)
-        {
-            Debug.Log("you died");
-            PlayerStat.reset();
-            SceneManager.LoadScene("StartMenu");
-            //CURRENTLY SOME WEIRD STUFF WITH SCENE LOADING
-            //CODE THE COMBAT PROPERLY
-        }
+
 
     }
 

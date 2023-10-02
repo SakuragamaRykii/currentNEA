@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStat : MonoBehaviour
+public class EnemyStat : MonoBehaviour, IKillable
 {
     public int
         maxHP,
@@ -26,10 +26,19 @@ public class EnemyStat : MonoBehaviour
 
     }
 
-    public bool isDead;
-    private void Update()
+    public void Die()
     {
-        if(currentHP <= 0) isDead = true;
+        if (IsDead())
+        {
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
     }
+    public void TakeDamage(int amount)
+    {
+        currentHP -= amount;
+    }
+    public bool IsDead() { return currentHP <= 0; }
+ 
 
 }

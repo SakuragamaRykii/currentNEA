@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,14 +10,61 @@ public class MoveManager : MonoBehaviour
 
     public static DynList<Turn> turns;
     public static DynList<Turn> bench;
+    public static bool finished = false;
+
 
     private void Awake() 
     {
         turns = new DynList<Turn>();
         bench = new DynList<Turn>();
-        finish = false;
+        finished = false;
         Enq(GetComponentInParent<tbCombat>());
         spawnEnemies();
+        StartCoroutine(ManageTurns());
+
+    }
+
+    private IEnumerator ManageTurns()
+    {
+        while (!finished)
+        {
+            yield return null;
+            if(turns.isEmpty() && !bench.isEmpty())
+            {
+                Debug.Log("reallocating turns");
+                Sort(bench, 0, bench.size);
+                turns.Concat(bench);
+                bench.Clear();
+                foreach (Turn t in turns) t.moved = false;
+            }
+            if (!Peek().moved) Peek().ManageTurn();
+        }
+        Debug.Log("fight finished");
+        SceneManager.LoadScene("FieldScene");
+
+
+
+        //if (finished)
+        //{
+        //    Debug.Log("fight finished");
+        //    SceneManager.LoadScene("FieldScene");
+        //}
+        //if (turns.isEmpty() && !bench.isEmpty())
+        //{
+        //    Debug.Log("reallocating turns");
+        //    Sort(bench, 0, bench.size);
+
+        //    // Debug.Log("bench "+bench.ToString());
+        //    turns.Concat(bench);
+        //    bench.Clear();
+        //    //Debug.Log("turns "+ turns.ToString());
+        //    //Debug.Log("bench " + bench.ToString());
+
+        //    foreach (Turn t in turns) t.moved = false;
+
+        //}
+
+        
     }
 
     public static void Enq(Turn element)
@@ -72,31 +120,30 @@ public class MoveManager : MonoBehaviour
     }
 
 
-    public static bool finish = false;
     private void Update()
     {
-        if (finish)
-        {
-            Debug.Log("fight finished");
-            SceneManager.LoadScene("FieldScene");
-        }
-        if (turns.isEmpty() && !bench.isEmpty())
-        {
-            Debug.Log("reallocating turns");
-            Sort(bench, 0, bench.size);
+        //if (finished)
+        //{
+        //    Debug.Log("fight finished");
+        //    SceneManager.LoadScene("FieldScene");
+        //}
+        //if (turns.isEmpty() && !bench.isEmpty())
+        //{
+        //    Debug.Log("reallocating turns");
+        //    Sort(bench, 0, bench.size);
 
-           // Debug.Log("bench "+bench.ToString());
-            turns.Concat(bench);
-            bench.Clear();
-            //Debug.Log("turns "+ turns.ToString());
-            //Debug.Log("bench " + bench.ToString());
+        //   // Debug.Log("bench "+bench.ToString());
+        //    turns.Concat(bench);
+        //    bench.Clear();
+        //    //Debug.Log("turns "+ turns.ToString());
+        //    //Debug.Log("bench " + bench.ToString());
 
-            foreach (Turn t in turns) t.moved = false;
+        //    foreach (Turn t in turns) t.moved = false;
 
-        }
+        //}
 
-        if (!Peek().moved) Peek().ManageTurn();
-        
+        //if (!Peek().moved) Peek().ManageTurn();
+
 
     }
 

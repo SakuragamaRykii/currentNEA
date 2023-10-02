@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStat : MonoBehaviour, IKillable
 {
     
     public static int
@@ -37,13 +37,16 @@ public class PlayerStat : MonoBehaviour
 
         currentHP = maxHP;
     }
-
-    public static bool isDead = false;
-    private void Update()
+    public bool IsDead() { return currentHP <= 0; }
+    public void TakeDamage(int amount)
     {
-        if (currentHP <= 0) isDead = true;
+        currentHP -= amount;
     }
 
+    public void Die()
+    {
+
+    }
     public static void reset()
     {
         level = 1;
