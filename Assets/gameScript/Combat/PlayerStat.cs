@@ -41,11 +41,15 @@ public class PlayerStat : MonoBehaviour, IKillable
     public void TakeDamage(int amount)
     {
         currentHP -= amount;
+        Die();
     }
 
     public void Die()
     {
-
+        if (IsDead())
+        {
+            Debug.Log("you are dead");
+        }
     }
     public static void reset()
     {

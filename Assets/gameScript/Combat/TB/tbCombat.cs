@@ -38,12 +38,7 @@ public class tbCombat : Turn
     }
 
 
-    private void Update() 
-    {
 
-
-
-    }
 
 
     public override void ManageTurn()
@@ -63,11 +58,10 @@ public class tbCombat : Turn
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
             foreach(GameObject g in targets)
             {
-                g.GetComponent<EnemyStat>().currentHP -= PlayerStat.attack;
+                g.GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
             }
             Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
         
-            MoveManager.bench.add(this);
             MoveManager.Deq();
         }
         else
@@ -84,7 +78,6 @@ public class tbCombat : Turn
         {
             Debug.Log("DEFEND");
             PlayerStat.currentHP += PlayerStat.defence;
-            MoveManager.bench.add(this);
             MoveManager.Deq();
         }
         else
@@ -102,7 +95,6 @@ public class tbCombat : Turn
         if (moved && arrow3.enabledSelf)
         {
             Debug.Log("ITEM");
-            MoveManager.bench.add(this);
             MoveManager.Deq();
         }
         else

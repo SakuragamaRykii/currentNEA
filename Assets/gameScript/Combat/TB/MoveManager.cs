@@ -15,6 +15,7 @@ public class MoveManager : MonoBehaviour
 
     private void Awake() 
     {
+        enemiesOnATM = 0;
         turns = new DynList<Turn>();
         bench = new DynList<Turn>();
         finished = false;
@@ -24,48 +25,39 @@ public class MoveManager : MonoBehaviour
 
     }
 
+    private int enemiesOnATM;
     private IEnumerator ManageTurns()
     {
         while (!finished)
         {
             yield return null;
-            if(turns.isEmpty() && !bench.isEmpty())
+            if (!Peek().moved) Peek().ManageTurn();
+            if (turns.isEmpty() && !bench.isEmpty())
             {
                 Debug.Log("reallocating turns");
                 Sort(bench, 0, bench.size);
                 turns.Concat(bench);
                 bench.Clear();
-                foreach (Turn t in turns) t.moved = false;
+                foreach (Turn t in turns)
+                {
+                    if(t.GetComponent<GameObject>() == null)
+                    {
+                        turns.remove(t);
+                        enemiesOnATM--;
+                    }
+                    t.moved = false;
+                }
             }
-            if (!Peek().moved) Peek().ManageTurn();
+            if (enemiesOnATM <= 0) finished = true;
+            
         }
         Debug.Log("fight finished");
         SceneManager.LoadScene("FieldScene");
-
-
-
-        //if (finished)
-        //{
-        //    Debug.Log("fight finished");
-        //    SceneManager.LoadScene("FieldScene");
-        //}
-        //if (turns.isEmpty() && !bench.isEmpty())
-        //{
-        //    Debug.Log("reallocating turns");
-        //    Sort(bench, 0, bench.size);
-
-        //    // Debug.Log("bench "+bench.ToString());
-        //    turns.Concat(bench);
-        //    bench.Clear();
-        //    //Debug.Log("turns "+ turns.ToString());
-        //    //Debug.Log("bench " + bench.ToString());
-
-        //    foreach (Turn t in turns) t.moved = false;
-
-        //}
-
         
     }
+
+
+
 
     public static void Enq(Turn element)
     {
@@ -74,7 +66,9 @@ public class MoveManager : MonoBehaviour
 
     public static void Deq()
     {
+        bench.add(turns.first.data);
         turns.remove(turns.first.data);
+        
     }
 
 
@@ -155,6 +149,7 @@ public class MoveManager : MonoBehaviour
         {
             Instantiate<GameObject>(enemy, new Vector3(xPos, 2, -5), transform.rotation);
             xPos += 3;
+            enemiesOnATM++;
         }
     }
 

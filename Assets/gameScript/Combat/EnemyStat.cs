@@ -37,6 +37,7 @@ public class EnemyStat : MonoBehaviour, IKillable
     public void TakeDamage(int amount)
     {
         currentHP -= amount;
+        Die();
     }
     public bool IsDead() { return currentHP <= 0; }
  

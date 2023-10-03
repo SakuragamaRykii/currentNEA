@@ -19,14 +19,6 @@ public class PathFinder : MonoBehaviour
 
     private void Start()
     {
-        /*  open = new DynList<Point>();
-          closed = new DynList<Point>();
-          startPoint = new Point(transform.position, targetObj);
-          targetPoint = new Point(targetObj.transform.position);
-          centrePoint = startPoint;
-          open.add(startPoint);*/
-
-
         StartCoroutine(RepeatFind());
     }
 
