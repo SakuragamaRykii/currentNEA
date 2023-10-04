@@ -14,7 +14,7 @@ public class Wall : Entity
     void Update()
     {
         GameObject hit = CheckCollision();
-        if(hit != null && hit.GetComponent<Rigidbody2D>() != null)
+        if (hit != null && hit.tag.Equals("Player"))
         {
             Block(hit.GetComponent<Rigidbody2D>());
         }
