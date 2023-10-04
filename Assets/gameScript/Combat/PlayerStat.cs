@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStat : MonoBehaviour, IKillable
 {
@@ -41,7 +42,7 @@ public class PlayerStat : MonoBehaviour, IKillable
     public void TakeDamage(int amount)
     {
         currentHP -= amount;
-        Die();
+       // Die();
     }
 
     public void Die()
@@ -49,10 +50,13 @@ public class PlayerStat : MonoBehaviour, IKillable
         if (IsDead())
         {
             Debug.Log("you are dead");
+            reset();
+            SceneManager.LoadScene("StartMenu");
         }
     }
     public static void reset()
     {
+        FieldManager.Reset();
         level = 1;
         attack = 5;
         defence = 2;

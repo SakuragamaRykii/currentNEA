@@ -47,6 +47,11 @@ public class FieldManager : MonoBehaviour
        // Debug.Log(qt.objsInGrid);
     }
 
+    public static void Reset()
+    {
+
+    }
+
 
 }
                                    

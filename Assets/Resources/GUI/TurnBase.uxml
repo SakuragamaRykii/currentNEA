@@ -3,7 +3,7 @@
     <ui:VisualElement name="GRID" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 100%; height: 100%; justify-content: flex-start; align-items: flex-start; align-self: flex-start;">
         <ui:VisualElement name="EnemyDisplay" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; width: 70%; height: 50%; max-height: 60%; opacity: 1;" />
         <ui:VisualElement name="YourHealth" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 10%; max-height: 10%; width: 70%; flex-direction: row; align-items: stretch; justify-content: flex-start;">
-            <ui:Label tabindex="-1" text="10000000&#10;" display-tooltip-when-elided="true" name="health-value" style="font-size: 49px;" />
+            <ui:Label tabindex="-1" text="10000000&#10;" display-tooltip-when-elided="true" name="health-value" style="font-size: 49px; color: rgb(255, 11, 11);" />
         </ui:VisualElement>
         <ui:VisualElement name="WhereArrowWouldBe" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 5%; height: 40%; align-self: center; max-width: 15%; max-height: 100%; position: absolute; left: 15%; top: 60%;">
             <ui:VisualElement name="Arrow1" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=5be39ebf4542a4be984a01729125acb2&amp;type=3#arrow-left@2x&apos;); height: 25%; max-height: 25%; top: 10%;" />
@@ -20,6 +20,10 @@
                 <ui:Label tabindex="-1" text="None." display-tooltip-when-elided="true" name="log-text" style="font-size: 27px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="EnemyList" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; left: 70%; width: 30%; height: 60%;" />
+        <ui:VisualElement name="EnemyList" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; left: 70%; width: 30%; height: 60%; justify-content: flex-start; align-items: flex-start; align-self: auto;">
+            <ui:Button text="Target 1" display-tooltip-when-elided="true" name="Target1" class="Actions" style="height: 20%; background-color: rgb(195, 20, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+            <ui:Button text="Target 2" display-tooltip-when-elided="true" name="Target2" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+            <ui:Button text="Target 2" display-tooltip-when-elided="true" name="Target3" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

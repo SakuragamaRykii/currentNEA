@@ -41,8 +41,8 @@ public class PlayerMovement : Entity
         switch (type.tag)
         {
             case "Enemy":
-                //SceneManager.LoadScene("CombatScene");
-                Debug.Log("scary guy");
+                SceneManager.LoadScene("TBAndSelectionScene");
+                //Debug.Log("scary guy");
                 break;
             case "Wall":
                 Entity wall = type.GetComponent<Entity>();
@@ -73,9 +73,9 @@ public class PlayerMovement : Entity
                     Debug.Log(rb.velocity);
 
                 }
-
-
                 break;
+
+                
 
 
         }

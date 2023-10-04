@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using System;
 
 public class tbCombat : Turn
 {
     DynList<Move> movesOwned;
     VisualElement root;
     Button attack, defend, item;
+    Button target1, target2, target3;
     VisualElement arrow1, arrow2, arrow3;
+    TextElement yourHealth;
     private void Awake()
     {
         //the player turn gets enqueued by the MoveManager code.
@@ -18,29 +21,42 @@ public class tbCombat : Turn
         counter = baseCounter;
 
         root = GetComponent<UIDocument>().rootVisualElement;
-        // button assigments ------------------------------------
+        // button assigments ---------------------------------------------------------------------------------------------------------------------------------------------
         attack = root.Q<Button>("Attack");
         defend = root.Q<Button>("Defend");
         item = root.Q<Button>("Item");
 
+        target1 = root.Q<Button>("Target1");
+        target2 = root.Q<Button>("Target2");
+        target3 = root.Q<Button>("Target3");
 
-        // -------------------------------------------------------
-
-        // arrow assigments ------------------------------------
+        // arrow assigments ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         arrow1 = root.Q<VisualElement>("Arrow1"); arrow1.SetEnabled(false); //assign arrow object and disable them.
         arrow2 = root.Q<VisualElement>("Arrow2"); arrow2.SetEnabled(false); //arrows are only allowed to be enabled when the user 
         arrow3 = root.Q<VisualElement>("Arrow3"); arrow3.SetEnabled(false);//presses the button according to it.
-                                                                           // -------------------------------------------------------
+
+        // Your Health display--------------------------------------------------------------------------------------------------------------------------------------------
+        yourHealth = root.Q<TextElement>("health-value");
+        yourHealth.text = ("Level " + PlayerStat.level + ", Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        target1.clicked += () => targetIndex = 0;
+        target2.clicked += () => targetIndex = 1;
+        target3.clicked += () => targetIndex = 2;
 
         attack.clicked += () => handleAttack();
         defend.clicked += () => handleDefend();
         item.clicked += () => handleItem();
     }
+    int targetIndex;
 
 
 
-
-
+    private void FixedUpdate()
+    {
+        yourHealth.text = ("Level " + PlayerStat.level + "Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+    }
     public override void ManageTurn()
     {
         Debug.Log("your turn");
@@ -56,13 +72,20 @@ public class tbCombat : Turn
         {
             Debug.Log("ATTACK");
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach(GameObject g in targets)
+            
+            try
             {
-                g.GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+            }catch(IndexOutOfRangeException e)
+            {
+                targetIndex = targets.Length-1;
+                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
             }
+                       
+
             Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
-        
             MoveManager.Deq();
+            moved = false;
         }
         else
         {
@@ -79,6 +102,7 @@ public class tbCombat : Turn
             Debug.Log("DEFEND");
             PlayerStat.currentHP += PlayerStat.defence;
             MoveManager.Deq();
+            moved = false;
         }
         else
         {
@@ -96,6 +120,7 @@ public class tbCombat : Turn
         {
             Debug.Log("ITEM");
             MoveManager.Deq();
+            moved = false;
         }
         else
         {
@@ -107,5 +132,7 @@ public class tbCombat : Turn
 
 
     }
+
+    
 
 }

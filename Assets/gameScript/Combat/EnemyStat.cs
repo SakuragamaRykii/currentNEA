@@ -16,6 +16,7 @@ public class EnemyStat : MonoBehaviour, IKillable
         level = Random.Range(PlayerStat.level, PlayerStat.level + 5);
 
         maxHP = (int)(Random.Range(5, 11) * Mathf.Pow(1.05f, level-1));
+
         currentHP = maxHP;
 
         attack = (int)(Random.Range(3, 8) * Mathf.Pow(1.05f, level-1));

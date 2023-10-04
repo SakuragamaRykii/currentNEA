@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+
 
 public class MoveManager : MonoBehaviour
 {
@@ -11,10 +13,17 @@ public class MoveManager : MonoBehaviour
     public static DynList<Turn> turns;
     public static DynList<Turn> bench;
     public static bool finished = false;
+    public static VisualElement root;
+    
 
 
     private void Awake() 
     {
+        root = GameObject.FindObjectOfType<UIDocument>().rootVisualElement;//MAY TAKE SELECTION GUI
+        root.Q<Button>("Target1").SetEnabled(false);
+        root.Q<Button>("Target2").SetEnabled(false);
+        root.Q<Button>("Target3").SetEnabled(false);
+
         enemiesOnATM = 0;
         turns = new DynList<Turn>();
         bench = new DynList<Turn>();
@@ -25,28 +34,29 @@ public class MoveManager : MonoBehaviour
 
     }
 
-    private int enemiesOnATM;
+    public static int enemiesOnATM;
     private IEnumerator ManageTurns()
     {
         while (!finished)
         {
             yield return null;
+
             if (!Peek().moved) Peek().ManageTurn();
             if (turns.isEmpty() && !bench.isEmpty())
             {
                 Debug.Log("reallocating turns");
+ 
                 Sort(bench, 0, bench.size);
                 turns.Concat(bench);
                 bench.Clear();
+
+
                 foreach (Turn t in turns)
                 {
-                    if(t.GetComponent<GameObject>() == null)
-                    {
-                        turns.remove(t);
-                        enemiesOnATM--;
-                    }
                     t.moved = false;
                 }
+
+
             }
             if (enemiesOnATM <= 0) finished = true;
             
@@ -71,7 +81,11 @@ public class MoveManager : MonoBehaviour
         
     }
 
-
+    private void FixedUpdate()
+    {
+        Debug.Log(enemiesOnATM);
+        Debug.Log(turns);
+    }
 
     public static Turn Peek() { return turns.first.data; }
 
@@ -114,43 +128,19 @@ public class MoveManager : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        //if (finished)
-        //{
-        //    Debug.Log("fight finished");
-        //    SceneManager.LoadScene("FieldScene");
-        //}
-        //if (turns.isEmpty() && !bench.isEmpty())
-        //{
-        //    Debug.Log("reallocating turns");
-        //    Sort(bench, 0, bench.size);
-
-        //   // Debug.Log("bench "+bench.ToString());
-        //    turns.Concat(bench);
-        //    bench.Clear();
-        //    //Debug.Log("turns "+ turns.ToString());
-        //    //Debug.Log("bench " + bench.ToString());
-
-        //    foreach (Turn t in turns) t.moved = false;
-
-        //}
-
-        //if (!Peek().moved) Peek().ManageTurn();
-
-
-    }
-
     [SerializeField] private GameObject enemy;
     private void spawnEnemies()
     {
         int xPos = -8;
-        for(int i = 0; i < Random.Range(1, 4); i++)
+        //Random.Range(1, 4);
+        for (int i = 0; i < 3; i++)
         {
-            Instantiate<GameObject>(enemy, new Vector3(xPos, 2, -5), transform.rotation);
-            xPos += 3;
             enemiesOnATM++;
+            Instantiate(enemy, new Vector3(xPos, 2, -5), transform.rotation);
+            xPos += 3;
+            root.Q<Button>("Target" + enemiesOnATM).SetEnabled(true);
         }
+
     }
 
 
