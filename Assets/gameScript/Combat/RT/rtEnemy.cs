@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtEnemy : Entity
+public class rtEnemy : RTEntity
 {
     public GameObject targetObj;
     PathFinder pf;

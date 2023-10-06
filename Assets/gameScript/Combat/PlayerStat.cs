@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerStat : MonoBehaviour, IKillable
 {
     
-    public static int
+    public static float
         level = 1,
         attack = 5,
         defence = 2,
@@ -39,10 +39,10 @@ public class PlayerStat : MonoBehaviour, IKillable
         currentHP = maxHP;
     }
     public bool IsDead() { return currentHP <= 0; }
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         currentHP -= amount;
-       // Die();
+        Die();
     }
 
     public void Die()
@@ -56,7 +56,7 @@ public class PlayerStat : MonoBehaviour, IKillable
     }
     public static void reset()
     {
-        FieldManager.Reset();
+        FieldManager.hasReset = true;
         level = 1;
         attack = 5;
         defence = 2;

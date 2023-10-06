@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class tbEnemyAI : Turn
 {
-    //WARNING: IN THE CURRENT SYSTEM THE FIGHT ENDS WHEN ONLY ONE OF THE ENEMIES DIE, NOT ALL
     EnemyStat es;
     PlayerStat ps;
     public int number;
@@ -24,18 +23,21 @@ public class tbEnemyAI : Turn
     }
     private void Update()
     {
+//        Debug.Log(es.currentHP);
         if (es.IsDead())
         {
             MoveManager.root.Q<UnityEngine.UIElements.Button>("Target" + number).SetEnabled(false);
         }
-
-        hpBar.value = es.currentHP / es.maxHP;
+//        Debug.Log((float)(es.currentHP / es.maxHP));
+        hpBar.value = (float)(es.currentHP / es.maxHP);
     }
     public override void ManageTurn()
     {
         if (es.IsDead())
-        { 
-            MoveManager.Deq();
+        {
+            MoveManager.turns.remove(this);
+            MoveManager.bench.remove(this);
+
             MoveManager.enemiesOnATM--;
             return;
         }
@@ -43,7 +45,8 @@ public class tbEnemyAI : Turn
         
         Debug.Log("enemy has moved");
         ps.TakeDamage(es.attack);
-        Debug.Log("enemy dealt " + es.attack + "damage");
+       // Debug.Log("enemy dealt " + es.attack + "damage");
+        MoveManager.root.Q<UnityEngine.UIElements.TextElement>("log-text").text = ("Enemy" + " dealt " + es.attack + "damage");
         MoveManager.Deq();
     }
 }

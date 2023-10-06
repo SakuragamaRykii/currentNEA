@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class Turn : MonoBehaviour
 {
-    public int baseCounter;
-    public int counter;
+    public float baseCounter;
+    public float counter;
     public bool moved;
 
     public abstract void ManageTurn();

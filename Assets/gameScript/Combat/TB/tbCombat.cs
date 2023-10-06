@@ -12,7 +12,7 @@ public class tbCombat : Turn
     Button attack, defend, item;
     Button target1, target2, target3;
     VisualElement arrow1, arrow2, arrow3;
-    TextElement yourHealth;
+    TextElement yourHealth, log;
     private void Awake()
     {
         //the player turn gets enqueued by the MoveManager code.
@@ -39,7 +39,7 @@ public class tbCombat : Turn
         yourHealth = root.Q<TextElement>("health-value");
         yourHealth.text = ("Level " + PlayerStat.level + ", Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
         //--------------------------------------------------------------------------------------------------------------------------------------------
-
+        log = root.Q<UnityEngine.UIElements.TextElement>("log-text");
 
         target1.clicked += () => targetIndex = 0;
         target2.clicked += () => targetIndex = 1;
@@ -59,18 +59,18 @@ public class tbCombat : Turn
     }
     public override void ManageTurn()
     {
-        Debug.Log("your turn");
+        log.text = "Your Turn";
         moved = true;
 
 
     }
     void handleAttack()
     {
-        Debug.Log("attack");
+       // Debug.Log("attack");
 
         if (moved && arrow1.enabledSelf)
         {
-            Debug.Log("ATTACK");
+            //Debug.Log("ATTACK");
             GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
             
             try
@@ -81,7 +81,8 @@ public class tbCombat : Turn
                 targetIndex = targets.Length-1;
                 targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
             }
-                       
+
+            log.text = ((int)PlayerStat.attack + " Damage");
 
             Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
             MoveManager.Deq();

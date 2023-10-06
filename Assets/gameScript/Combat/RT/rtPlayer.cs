@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : Entity
+public class rtPlayer : RTEntity
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStat : MonoBehaviour, IKillable
 {
-    public int
+    public float
         maxHP,
         currentHP,
         attack,
@@ -16,10 +16,11 @@ public class EnemyStat : MonoBehaviour, IKillable
         level = Random.Range(PlayerStat.level, PlayerStat.level + 5);
 
         maxHP = (int)(Random.Range(5, 11) * Mathf.Pow(1.05f, level-1));
+        //maxHP = 100;
 
         currentHP = maxHP;
 
-        attack = (int)(Random.Range(3, 8) * Mathf.Pow(1.05f, level-1));
+        attack = (int)(Random.Range(1, 5) * Mathf.Pow(1.05f, level-1));
 
         defence = (int)(Random.Range(1, 6) * Mathf.Pow(1.05f, level-1));
 
@@ -35,7 +36,7 @@ public class EnemyStat : MonoBehaviour, IKillable
             Destroy(gameObject);
         }
     }
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         currentHP -= amount;
         Die();

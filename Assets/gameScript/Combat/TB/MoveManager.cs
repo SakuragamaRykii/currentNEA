@@ -39,7 +39,7 @@ public class MoveManager : MonoBehaviour
     {
         while (!finished)
         {
-            yield return null;
+            yield return new WaitForSeconds(1) ;
 
             if (!Peek().moved) Peek().ManageTurn();
             if (turns.isEmpty() && !bench.isEmpty())
@@ -83,8 +83,7 @@ public class MoveManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(enemiesOnATM);
-        Debug.Log(turns);
+
     }
 
     public static Turn Peek() { return turns.first.data; }
@@ -105,7 +104,7 @@ public class MoveManager : MonoBehaviour
     private int Partition(DynList<Turn> target, int left, int right)
     {
 
-        int pivot = target.DataAt(right-1).counter; //counter of value at index right
+        float pivot = target.DataAt(right-1).counter; //counter of value at index right
         int result = left - 1;
         for(int i = left; i < right; i++)
         {
@@ -133,7 +132,7 @@ public class MoveManager : MonoBehaviour
     {
         int xPos = -8;
         //Random.Range(1, 4);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < Random.Range(1, 4); i++)
         {
             enemiesOnATM++;
             Instantiate(enemy, new Vector3(xPos, 2, -5), transform.rotation);

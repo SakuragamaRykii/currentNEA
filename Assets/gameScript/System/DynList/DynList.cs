@@ -95,7 +95,8 @@ public class DynList<T> : IEnumerable where T : class
 
     public void remove(T queryData)
     {
-       // if (queryData == null) return;
+        if (queryData == null) return;
+        if (!Contains(queryData)) return;
         if (first.data == queryData)
         {
            

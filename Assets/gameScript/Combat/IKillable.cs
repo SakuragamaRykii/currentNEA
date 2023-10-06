@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IKillable
 {
-    public abstract void TakeDamage(int amount);
+    public abstract void TakeDamage(float amount);
     public abstract bool IsDead();
     public abstract void Die();
 }

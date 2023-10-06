@@ -7,6 +7,7 @@ public class FieldManager : MonoBehaviour
     public static QuadTree qt;
     public GameObject field;
     public static FieldManager only;
+    public static bool hasReset = true;
     //[SerializeField] private GameObject player, enemyTemp, wallTemp; //, utilTemp
     public int minEnemies = 3, maxEnemies = 7,
         minInte = 3, maxInte = 10,
@@ -16,6 +17,7 @@ public class FieldManager : MonoBehaviour
     void Awake()
     {
         if (only == null) only = this; else Destroy(gameObject);
+        if (!hasReset) return;
 
         Instantiate(field);
 
@@ -47,10 +49,7 @@ public class FieldManager : MonoBehaviour
        // Debug.Log(qt.objsInGrid);
     }
 
-    public static void Reset()
-    {
 
-    }
 
 
 }
