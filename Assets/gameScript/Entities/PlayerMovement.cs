@@ -34,52 +34,15 @@ public class PlayerMovement : Entity
     }
 
 
-    void ManageColEvent(GameObject type){
+    void ManageColEvent(GameObject[] type){
         //        Debug.Log(type);
-        if (type == null) return;
-
-        switch (type.tag)
+        if (type != null)
         {
-            case "Enemy":
-                SceneManager.LoadScene("TBAndSelectionScene");
-                //Debug.Log("scary guy");
-                break;
-            case "Wall":
-                Entity wall = type.GetComponent<Entity>();
-                float left = type.transform.position.x - wall.hitbox.width / 2;
-                float right = type.transform.position.x + wall.hitbox.width / 2;
-                float down = type.transform.position.y - wall.hitbox.height / 2;
-                float up = type.transform.position.y + wall.hitbox.height / 2;
-                if (rb.position.x <= left && rb.velocity.x > 0) //from left to right
-                {    Debug.Log("left to right");
-                rb.velocity = new Vector2(0, rb.velocity.y);
-                    Debug.Log(rb.velocity);
-                }
-                if (rb.position.x >= right && rb.velocity.x < 0) //right to left
-                {
-                    Debug.Log("right to left");
-                    rb.velocity = new Vector2(0, rb.velocity.y);
-                    Debug.Log(rb.velocity);
+            if (hasTag(type, "Enemy")) SceneManager.LoadScene("TBAndSelectionScene");
 
-                }
-                if (rb.position.y <= down && rb.velocity.y > 0) //down to up
-                {   Debug.Log("down to up");
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                    Debug.Log(rb.velocity);
-                }
-                if (rb.position.y >= up && rb.velocity.y < 0) //up to down
-                { Debug.Log("up to down");
-                    rb.velocity = new Vector2(rb.velocity.x, 0);
-                    Debug.Log(rb.velocity);
-
-                }
-                break;
-
-                
-
-
+            if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
         }
-      
+
     }
 
     private void Move()

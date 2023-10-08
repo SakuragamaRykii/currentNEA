@@ -1,56 +1,49 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : RTEntity
+public class rtPlayer : Entity
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
+    public  GameObject weapon;
     void Start()
     {
         if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
 
         setupHitbox();
-
+       
     }
 
 
     void Update()
     {
         Move();
-
+        
         ManageColEvent(CheckCollision());
-
+        Attack();
 
     }
 
-    void ManageColEvent(GameObject type)
+    void Attack()//GameObject to
     {
-        if (type == null) return;
-        //        Debug.Log(type);
-        switch (type.tag)
+        if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            case "Enemy":
-                //SceneManager.LoadScene("CombatScene");
-                Debug.Log("scary guy");
-                break;
-            case "Wall":
-
-
-
-                break;
-
+           Instantiate(weapon, transform.position, transform.rotation);
 
         }
-
     }
-
-    public override GameObject CheckCollision()
+    void ManageColEvent(GameObject[] type)
     {
-        return null;
+        if (type == null) return;
+
+        if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
 
     }
+
+
     private void Move()
     {
         float hor = Input.GetAxis("Horizontal") * 15;

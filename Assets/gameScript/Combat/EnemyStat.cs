@@ -39,6 +39,7 @@ public class EnemyStat : MonoBehaviour, IKillable
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
+        Debug.Log("Current hp : " + currentHP);
         Die();
     }
     public bool IsDead() { return currentHP <= 0; }

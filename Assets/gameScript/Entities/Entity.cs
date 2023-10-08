@@ -23,7 +23,13 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
 
     //public GameObject other;
-    public virtual GameObject CheckCollision() {
+    public virtual GameObject[] CheckCollision() {
+        if (!FieldManager.qt.grid.Contains(gameObject.transform.position))
+        {
+            transform.position = Vector2.zero;
+            return null;
+        }
+        DynList<GameObject> result = new DynList<GameObject>();
         x = transform.position.x - transform.localScale.x / 2;
         y = transform.position.y - transform.localScale.y / 2;
         hitbox.position = new Vector2(x, y);
@@ -32,16 +38,23 @@ public class Entity : MonoBehaviour //all entities should inherit this
         foreach (GameObject other in others)
         {
             
-             if(other != gameObject && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
+             if(other != gameObject && other.gameObject != null && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
              {
-               //  Debug.Log("HIT");
-                return other;
+                result.add(other);
              }
-         }
-       // Debug.Log("none");
-        return null;
+        }
+        return result.toArr();
 
         //if (hitbox.Intersects(other.GetComponent<Entity>().hitbox)) Debug.Log("HIT");
+    }
+
+    public bool hasTag(GameObject[] target ,string tag)
+    {
+        foreach(GameObject g in target)
+        {
+            if (g.tag.Equals(tag)) return true;
+        }
+        return false;
     }
 
     void Start()

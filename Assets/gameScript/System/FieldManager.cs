@@ -25,7 +25,7 @@ public class FieldManager : MonoBehaviour
         y = field.transform.position.y - field.transform.localScale.y / 2;
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
 
-
+        hasReset = false;
         
         
         //Instantiate(Resources.Load("prefabs/Player") );

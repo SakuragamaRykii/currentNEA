@@ -13,11 +13,7 @@ public class Wall : Entity
     // Update is called once per frame
     void Update()
     {
-        GameObject hit = CheckCollision();
-        if (hit != null && hit.tag.Equals("Player"))
-        {
-            Block(hit.GetComponent<Rigidbody2D>());
-        }
+
     }
 
 

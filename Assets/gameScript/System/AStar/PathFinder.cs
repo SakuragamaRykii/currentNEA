@@ -45,7 +45,7 @@ public class PathFinder : MonoBehaviour
 
     //[SerializeField] private GameObject point;
     //[SerializeField] private GameObject op;
-    //[SerializeField] private GameObject path;
+  //  [SerializeField] private GameObject path;
     public void FindPath()
     {
         Point lowest = startPoint;
@@ -108,7 +108,7 @@ public class PathFinder : MonoBehaviour
             prevs = prevs.previous;
             result.add(prevs);
            // Debug.Log(prevs);
-         //   Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
+           // Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
         }
         
         return result.toArr();

@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtEnemy : RTEntity
+public class rtEnemy : Entity
 {
     public GameObject targetObj;
     PathFinder pf;
     public Rigidbody2D rb;
+    public EnemyStat es;
     private void Start()
     {
+        es = GetComponent<EnemyStat>();
         setupHitbox();
         pf = GetComponent<PathFinder>();
         rb = GetComponent<Rigidbody2D>();
@@ -18,8 +20,8 @@ public class rtEnemy : RTEntity
     int index = 0;
     private void Update()
     {
-        GameObject cc = CheckCollision();
-        if(cc != null && cc.tag.Equals("Player"))
+        GameObject[] cc = CheckCollision();
+        if(cc != null && hasTag(cc, "Player") && !attacked)
         {
             StartCoroutine(Attack());
         }
@@ -35,7 +37,7 @@ public class rtEnemy : RTEntity
     {
         attacked = true;
         yield return new WaitForSeconds(1);
-        Debug.Log("ATAC");
+        Instantiate(weapon, transform.position, transform.rotation);
         attacked = false;
     }
 
@@ -48,6 +50,7 @@ public class rtEnemy : RTEntity
 
         else index++;
         if (index >= pf.finalPath.Length) index = 0;
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, p.centre);
     }
 
 }
