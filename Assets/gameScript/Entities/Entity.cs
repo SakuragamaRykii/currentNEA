@@ -26,7 +26,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
     public virtual GameObject[] CheckCollision() {
         if (!FieldManager.qt.grid.Contains(gameObject.transform.position))
         {
-            transform.position = Vector2.zero;
+            transform.position = new Vector3(0, 0, -5);
             return null;
         }
         DynList<GameObject> result = new DynList<GameObject>();

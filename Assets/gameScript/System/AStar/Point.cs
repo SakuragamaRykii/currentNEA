@@ -47,7 +47,7 @@ public class Point
         {
             if (area.Overlaps(e.hitbox))
             {
-                Debug.Log(e.gameObject);
+               // Debug.Log(e.gameObject);
                 return (e.gameObject);
             }
 

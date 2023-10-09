@@ -39,7 +39,7 @@ public class rtPlayer : Entity
     {
         if (type == null) return;
 
-        if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
+        //if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
 
     }
 
