@@ -685,6 +685,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rtEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7693539434659951734, guid: 4db70e48442dcaf4c9341e8032f5e3b1, type: 3}
+      propertyPath: m_Name
+      value: area
+      objectReference: {fileID: 0}
     - target: {fileID: 9106539764550914759, guid: 4db70e48442dcaf4c9341e8032f5e3b1, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -730,7 +734,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7693539434659951734, guid: 4db70e48442dcaf4c9341e8032f5e3b1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4db70e48442dcaf4c9341e8032f5e3b1, type: 3}

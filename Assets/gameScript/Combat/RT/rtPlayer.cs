@@ -24,7 +24,8 @@ public class rtPlayer : Entity
         
         ManageColEvent(CheckCollision());
         Attack();
-
+        Debug.Log(PlayerStat.currentHP);
+        //GetComponent<PlayerStat>().TakeDamage(2);
     }
 
     void Attack()//GameObject to

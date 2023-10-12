@@ -13,7 +13,7 @@ public class Weapon : Entity
         shootTime = 0.15f;
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - (Vector2)transform.position);
-        damage = PlayerStat.attack;
+        damage = PlayerStat.attack/2;
         setupHitbox();
     }
 

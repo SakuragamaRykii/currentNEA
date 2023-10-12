@@ -50,6 +50,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
 
     public bool hasTag(GameObject[] target ,string tag)
     {
+        if (target == null) return false;
         foreach(GameObject g in target)
         {
             if (g.tag.Equals(tag)) return true;
