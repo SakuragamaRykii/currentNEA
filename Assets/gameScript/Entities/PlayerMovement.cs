@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : Entity
@@ -10,6 +10,7 @@ public class PlayerMovement : Entity
 
     public static PlayerMovement instance; //make this a singleton
     private Rigidbody2D rb;
+    [SerializeField] private GameObject invMenu;
     void Start()
     {
         if (instance == null)
@@ -18,7 +19,7 @@ public class PlayerMovement : Entity
             Destroy(gameObject);
 
         rb = GetComponent<Rigidbody2D>();
-
+        invMenu.SetActive(false);
         setupHitbox();
 
     }
@@ -29,11 +30,19 @@ public class PlayerMovement : Entity
         
         ManageColEvent(CheckCollision());
         Move();
-
+        ToggleInventory();
 
     }
 
+    void ToggleInventory()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(invMenu.activeInHierarchy) invMenu.SetActive(false);
+            else invMenu.SetActive(true);
 
+        }
+    }
     void ManageColEvent(GameObject[] type){
         //        Debug.Log(type);
         if (type != null)
