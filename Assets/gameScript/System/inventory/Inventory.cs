@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,7 @@ public class Inventory : MonoBehaviour
     public static DynList<Item>[] itemsIn;
     public static GameObject[] slots;
     public GameObject invObj;
+    public static GameObject[] amounts;
     
 
     private void Start()
@@ -20,11 +23,13 @@ public class Inventory : MonoBehaviour
             itemsIn[i] = new DynList<Item>();
         }
         slots = GameObject.FindGameObjectsWithTag("Slot");
-        foreach(GameObject g in slots)
+        amounts = GameObject.FindGameObjectsWithTag("amount");
+        foreach (GameObject g in slots)
         {
+            
             Button select = g.GetComponentInChildren<Button>();
             select.onClick.AddListener( () => refer(select) );
-         
+            
 
         }
         
@@ -65,26 +70,39 @@ public class Inventory : MonoBehaviour
 
     public static void insert(Item i)
     {
-        int hIndex = HashFunc(i.name);
-        Add(i, hIndex);
-    }
-
-    private static void Add(Item i, int slot)
-    {
-        if (itemsIn[slot].size <= 0)
+        int slot = HashFunc(i.name);
+        GameObject selected = slots[slot];
+        Debug.Log(amounts.Length);
+        GameObject amount = amounts[slot];
+        if (itemsIn[slot].size > 0)
         {
-            if (!i.hasDurability) itemsIn[slot].DataAt(0).amount++;
-            else itemsIn[slot].add(i);
+            
+            if (!i.hasDurability)
+            {
+                itemsIn[slot].DataAt(0).amount++;
+                amount.GetComponent<TextMeshProUGUI>().text = itemsIn[slot].DataAt(0).amount.ToString();
+            }
+            else 
+            {
+                itemsIn[slot].add(i);
+                amount.GetComponent<TextMeshProUGUI>().text = itemsIn[slot].size.ToString();
+            }
+            selected.GetComponentInChildren<TextMeshProUGUI>().text = i.name;
+            
+            
         }
         else
         {
             itemsIn[slot].add(i);
-            slots[slot].GetComponentInChildren<TextMeshProUGUI>().text = i.name;
+            selected.GetComponentInChildren<TextMeshProUGUI>().text = i.name;
             Debug.Log(i.name);
+            amount.GetComponent<TextMeshProUGUI>().text = "1";
         }
 
 
     }
+
+
     public static void Deq(int slot)
     {
         itemsIn[slot].remove(itemsIn[slot].DataAt(0));

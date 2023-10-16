@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class WeaponPickup : Entity, IRandomDrop
+{
+    private string[] weaponPool;
+
+    public string thisDrop;
+    public string pick(string[] pool)
+    {
+        int index = Random.Range(0, pool.Length);
+        return pool[index];
+    }
+    private void Start()
+    {
+        weaponPool = new string[] { "Sword", "Hammer", "Drill" }; 
+        setupHitbox();
+        thisDrop = pick(weaponPool);
+        Debug.Log(thisDrop);
+    }
+
+    private void Update()
+    {
+        GameObject[] cc = CheckCollision();
+        if(hasTag(cc, "Player"))
+        {
+            Inventory.insert(new WeaponItem(thisDrop, Random.Range(60, 101)));
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
+}
