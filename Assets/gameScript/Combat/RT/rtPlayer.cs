@@ -7,12 +7,12 @@ public class rtPlayer : Entity
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
-    public  GameObject weapon;
+    public GameObject weapon;
     void Start()
     {
         if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
-
+        weapon = Inventory.currentlyEquipped.weapon;
         setupHitbox();
        
     }
@@ -25,7 +25,6 @@ public class rtPlayer : Entity
         ManageColEvent(CheckCollision());
         Attack();
         Debug.Log(PlayerStat.currentHP);
-        //GetComponent<PlayerStat>().TakeDamage(2);
     }
 
     void Attack()//GameObject to

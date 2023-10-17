@@ -56,7 +56,7 @@ public class PlayerStat : MonoBehaviour, IKillable
     }
     public static void reset()
     {
-        FieldManager.hasReset = true;
+       // FieldManager.hasReset = true;
         level = 1;
         attack = 5;
         defence = 2;

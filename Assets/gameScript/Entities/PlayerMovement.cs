@@ -19,9 +19,8 @@ public class PlayerMovement : Entity
             Destroy(gameObject);
 
         rb = GetComponent<Rigidbody2D>();
-        invMenu.SetActive(false);
         setupHitbox();
-
+        //invMenu.SetActive(false);
     }
 
 

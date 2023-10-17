@@ -6,18 +6,15 @@ public class Item
 {
     public string name;
     public bool hasDurability;
-    public bool used;
+    public bool isConsumable;
     public int amount;
 
     public Item(string name)
     {
         this.name = name;
-        used = false;   
+        amount = 1;
 
     }
-    public virtual void Use()
-    {
-        used = true;
-    }
+
 
 }

@@ -27,6 +27,7 @@ public class CombatSceneSelection : MonoBehaviour
 
         rtButton.clicked += () => {
             Debug.Log("RT");
+            SceneManager.LoadScene("RTScene");
             gameObject.SetActive(false);
         };
 

@@ -7,7 +7,7 @@ public class FieldManager : MonoBehaviour
     public static QuadTree qt;
     public GameObject field;
     public static FieldManager only;
-    public static bool hasReset = true;
+   // public static bool hasReset = true;
     //[SerializeField] private GameObject player, enemyTemp, wallTemp; //, utilTemp
     public int minEnemies = 3, maxEnemies = 7,
         minInte = 3, maxInte = 10,
@@ -17,7 +17,7 @@ public class FieldManager : MonoBehaviour
     void Awake()
     {
         if (only == null) only = this; else Destroy(gameObject);
-        if (!hasReset) return;
+       // if (!hasReset) return;
 
         Instantiate(field);
 
@@ -25,7 +25,7 @@ public class FieldManager : MonoBehaviour
         y = field.transform.position.y - field.transform.localScale.y / 2;
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
 
-        hasReset = false;
+       // hasReset = false;
         
         
         //Instantiate(Resources.Load("prefabs/Player") );
