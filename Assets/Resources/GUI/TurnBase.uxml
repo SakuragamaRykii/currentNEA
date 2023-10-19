@@ -17,8 +17,9 @@
         </ui:VisualElement>
         <ui:VisualElement name="Description" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); left: 20%; position: absolute; top: 60%; max-width: 80%; width: 80%; height: 40%; flex-direction: row-reverse; justify-content: space-between;">
             <ui:VisualElement name="ActionLog" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 100%; max-height: 100%; width: 40%; max-width: 40%;">
-                <ui:Label tabindex="-1" text="k" display-tooltip-when-elided="true" name="log-text" style="font-size: 27px; color: rgb(255, 0, 0);" />
+                <ui:Label tabindex="-1" text="k" display-tooltip-when-elided="true" name="log-text" style="font-size: 60px; color: rgb(255, 0, 0); width: 80%;" />
             </ui:VisualElement>
+            <ui:VisualElement name="ItemDesc" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
         </ui:VisualElement>
         <ui:VisualElement name="EnemyList" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; left: 70%; width: 30%; height: 60%; justify-content: flex-start; align-items: flex-start; align-self: auto;">
             <ui:Button text="Enemy 1" display-tooltip-when-elided="true" name="Target1" class="Actions" style="height: 20%; background-color: rgb(195, 20, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />

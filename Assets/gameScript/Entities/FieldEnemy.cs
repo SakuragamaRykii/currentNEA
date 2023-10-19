@@ -8,7 +8,6 @@ public class FieldEnemy : Entity
     PathFinder pf;
     public Rigidbody2D rb;
     public GameObject within;
-    float ms = 1; //movement speed
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +20,7 @@ public class FieldEnemy : Entity
 
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-
-        
-    }
+    //move is called by the area script
 
     public void Move()
     { //THE START POINT OF THE PATH IS IN AS THE LAST ELEMENT OF FINALPATH

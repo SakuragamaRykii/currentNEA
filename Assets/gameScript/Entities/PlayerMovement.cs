@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : Entity
+public class PlayerMovement : Entity, IOverPrevention
 {
 
     public static PlayerMovement instance; //make this a singleton
@@ -18,6 +18,9 @@ public class PlayerMovement : Entity
         else
             Destroy(gameObject);
 
+
+        PlayerStat.SetUp();
+
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
         //invMenu.SetActive(false);
@@ -26,11 +29,16 @@ public class PlayerMovement : Entity
 
     void Update()
     {
-        
+        PreventHPOver();
         ManageColEvent(CheckCollision());
         Move();
         ToggleInventory();
 
+    }
+
+    public void PreventHPOver()
+    {
+        if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;
     }
 
     void ToggleInventory()

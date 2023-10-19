@@ -3,49 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerStat : MonoBehaviour, IKillable
+public static class PlayerStat 
 {
-    
+    public static Vector2 currentFieldPos = new Vector2(0, 0);
     public static float
         level = 1,
         attack = 5,
         defence = 2,
         speed = 10,
-        currentHP,
+        currentHP = 20,
         maxHP = 20;
 
-    private void Awake()
+    public static void SetUp()
     {
         if (level > 1)
         {
-            attack *= (int)Mathf.Pow(1.05f, level);
-            defence *= (int)Mathf.Pow(1.05f, level);
-            speed *= (int)Mathf.Pow(1.05f, level);
-            maxHP *= (int)Mathf.Pow(1.05f, level);
+            attack *= Mathf.Pow(1.05f, level);
+            defence *= Mathf.Pow(1.05f, level);
+            speed *= Mathf.Pow(1.05f, level);
+            maxHP *= Mathf.Pow(1.05f, level);
 
         }
-        currentHP = maxHP;
+        
 
     }
 
-    public void LevelUp()
+    public static void LevelUp()
     {
         level++;
-        attack = (int)(attack * 1.05f);
-        defence = (int)(attack * 1.05f);
-        speed = (int)(attack * 1.05f);
-        maxHP = (int)(attack * 1.05f);
+        attack *= 1.05f;
+        defence *= 1.05f;
+        speed *= 1.05f;
+        maxHP *= 1.05f;
 
         currentHP = maxHP;
     }
-    public bool IsDead() { return currentHP <= 0; }
-    public void TakeDamage(float amount)
+    public static bool IsDead() { return currentHP <= 0; }
+    public static void TakeDamage(float amount)
     {
         currentHP -= amount;
         Die();
     }
 
-    public void Die()
+    public static void Die()
     {
         if (IsDead())
         {

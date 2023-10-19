@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class tbEnemyAI : Turn
 {
     EnemyStat es;
-    PlayerStat ps;
     public int number;
    UnityEngine.UI.Slider hpBar;
     private void Start()
@@ -17,7 +16,6 @@ public class tbEnemyAI : Turn
         moved = false;
         baseCounter = es.speed; //Random.Range(11, 20);
         counter = baseCounter;
-        ps = GameObject.FindObjectOfType<PlayerStat>(); //note that there should only be one player obj
         MoveManager.Enq(this);
         number = MoveManager.enemiesOnATM;
     }
@@ -44,7 +42,7 @@ public class tbEnemyAI : Turn
         moved = true;
         
         Debug.Log("enemy has moved");
-        ps.TakeDamage(es.attack);
+        PlayerStat.TakeDamage(es.attack);
        // Debug.Log("enemy dealt " + es.attack + "damage");
         MoveManager.root.Q<UnityEngine.UIElements.TextElement>("log-text").text = ("Enemy" + " dealt " + es.attack + "damage");
         MoveManager.Deq();

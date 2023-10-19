@@ -65,7 +65,9 @@ public static class Inventory
     {
         int hIndex = HashFunc(slot);
         Debug.Log("used");
-        peek(hIndex).amount--;
+        peek(hIndex).Use();
+  
+
     }
     public static void Use(int slot)
     {

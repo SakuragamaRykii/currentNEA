@@ -15,6 +15,21 @@ public class Item
         amount = 1;
 
     }
+    public void Use()
+    {
+        switch (name)
+        {
+            case "Banana":
+                PlayerStat.currentHP += (PlayerStat.maxHP * 0.4f);
+                Debug.Log(PlayerStat.currentHP);
+                amount--;
+                break;
+            case "Spig Beed":
+                PlayerStat.speed++;
+                amount--;
+                break;
+        }
+    }
 
 
 }

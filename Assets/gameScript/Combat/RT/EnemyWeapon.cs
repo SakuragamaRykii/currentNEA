@@ -43,7 +43,7 @@ public class EnemyWeapon : Entity
             if (g.tag.Equals("Player"))
             {
                 Debug.Log("HELLO");
-                g.GetComponent<PlayerStat>().TakeDamage(damage);
+                PlayerStat.TakeDamage(damage);
                 shootTime = 0;
 
 

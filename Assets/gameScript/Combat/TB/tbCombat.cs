@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
 
-public class tbCombat : Turn
+public class tbCombat : Turn, IOverPrevention
 {
     DynList<Move> movesOwned;
     VisualElement root;
@@ -51,11 +51,23 @@ public class tbCombat : Turn
     }
     int targetIndex;
 
-
+    public void PreventHPOver(){if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;}
 
     private void FixedUpdate()
     {
+        PreventHPOver();
         yourHealth.text = ("Level " + PlayerStat.level + "Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+
+        switch (Inventory.currentlyEquipped.name)
+        {
+            case "Hammer":
+                counter = baseCounter * 0.7f;
+                break;
+            case "Drill":
+                counter = baseCounter * 0.4f;
+                break;
+
+        }
     }
     public override void ManageTurn()
     {
@@ -114,13 +126,16 @@ public class tbCombat : Turn
 
 
     }
+
+    [SerializeField] private GameObject tbInv;
     void handleItem()
     {
         Debug.Log("item");
         if (moved && arrow3.enabledSelf)
         {
             Debug.Log("ITEM");
-            MoveManager.Deq();
+            tbInv.SetActive(true);
+            //move is dequeued in the tbInvGUI
             moved = false;
         }
         else

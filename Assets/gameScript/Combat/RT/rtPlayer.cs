@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : Entity
+public class rtPlayer : Entity, IOverPrevention
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
@@ -16,12 +16,16 @@ public class rtPlayer : Entity
         setupHitbox();
        
     }
+    public void PreventHPOver()
+    {
+        if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;
 
+    }
 
     void Update()
     {
         Move();
-        
+        PreventHPOver();
         ManageColEvent(CheckCollision());
         Attack();
         Debug.Log(PlayerStat.currentHP);
