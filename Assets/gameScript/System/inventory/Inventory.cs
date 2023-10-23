@@ -73,6 +73,9 @@ public static class Inventory
     {
        
     }
-
+    public static void Fist()
+    {
+        if (currentlyEquipped == null) currentlyEquipped = new WeaponItem("Fist", 100000);
+    }
 
 }

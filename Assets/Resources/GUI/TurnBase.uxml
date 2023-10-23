@@ -17,9 +17,15 @@
         </ui:VisualElement>
         <ui:VisualElement name="Description" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); left: 20%; position: absolute; top: 60%; max-width: 80%; width: 80%; height: 40%; flex-direction: row-reverse; justify-content: space-between;">
             <ui:VisualElement name="ActionLog" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 100%; max-height: 100%; width: 40%; max-width: 40%;">
-                <ui:Label tabindex="-1" text="k" display-tooltip-when-elided="true" name="log-text" style="font-size: 60px; color: rgb(255, 0, 0); width: 80%;" />
+                <ui:Label tabindex="-1" text="Start Fight " display-tooltip-when-elided="true" name="log-text" enable-rich-text="true" style="font-size: 40px; color: rgb(255, 0, 0); width: 80%; flex-wrap: wrap; flex-direction: column; white-space: normal;" />
             </ui:VisualElement>
-            <ui:VisualElement name="ItemDesc" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
+            <ui:VisualElement name="Inv" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); justify-content: center; align-items: center;">
+                <ui:VisualElement name="SelectBar" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); width: 60%; height: 30%; align-self: auto; flex-direction: row;">
+                    <ui:Button display-tooltip-when-elided="true" name="LeftArrow" style="background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=5be39ebf4542a4be984a01729125acb2&amp;type=3#arrow-left@2x&apos;); background-color: rgba(188, 188, 188, 0); width: 20%; height: 100%;" />
+                    <ui:Button text="No Item" display-tooltip-when-elided="true" name="Current" style="width: 60%; height: 100%;" />
+                    <ui:Button text="&#10;" display-tooltip-when-elided="true" name="RightArrow" style="background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=-1087164816274819069&amp;guid=5be39ebf4542a4be984a01729125acb2&amp;type=3#arrow-right@2x&apos;); background-color: rgba(188, 188, 188, 0); width: 20%; height: 100%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="EnemyList" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; left: 70%; width: 30%; height: 60%; justify-content: flex-start; align-items: flex-start; align-self: auto;">
             <ui:Button text="Enemy 1" display-tooltip-when-elided="true" name="Target1" class="Actions" style="height: 20%; background-color: rgb(195, 20, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />

@@ -12,17 +12,20 @@ public class WeaponItem : Item
     {
         hasDurability = true;
         this.durability = durability;
-        weapon = (GameObject)Resources.Load("prefabs/RT/" + name);
+        weapon = (GameObject)Resources.Load("prefabs/RT/Weapons" + name);
         switch (name)
         {
             case "Sword":
-                damagemult = 0.5f;
-                break;
-            case "Hammer":
                 damagemult = 1;
                 break;
+            case "Hammer":
+                damagemult = 1.5f;
+                break;
             case "Drill":
-                damagemult = 2.2f;
+                damagemult = 3f;
+                break;
+            case "Fist":
+                damagemult = 0.5f;
                 break;
         }
     }

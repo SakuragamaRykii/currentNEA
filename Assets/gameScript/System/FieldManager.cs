@@ -24,7 +24,7 @@ public class FieldManager : MonoBehaviour
         x = field.transform.position.x - field.transform.localScale.x / 2;
         y = field.transform.position.y - field.transform.localScale.y / 2;
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
-
+        
        // hasReset = false;
         
         

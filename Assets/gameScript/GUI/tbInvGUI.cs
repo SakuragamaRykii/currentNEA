@@ -35,7 +35,7 @@ public class tbInvGUI : MonoBehaviour
         {
             GameObject amount = amounts[i], slot = slots[i];
             Item inSlot;
-            Debug.Log(Inventory.itemsIn[i]);
+//            Debug.Log(Inventory.itemsIn[i]);
 
             try { inSlot = Inventory.peek(i); }
             catch (NullReferenceException e)

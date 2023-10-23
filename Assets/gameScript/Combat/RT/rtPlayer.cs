@@ -24,6 +24,7 @@ public class rtPlayer : Entity, IOverPrevention
 
     void Update()
     {
+        Inventory.Fist();
         Move();
         PreventHPOver();
         ManageColEvent(CheckCollision());

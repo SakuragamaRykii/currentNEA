@@ -189,6 +189,8 @@ MonoBehaviour:
     y: 0
     width: 0
     height: 0
+  shootTime: 0.15
+  damage: 0
 --- !u!50 &6941970905461015462
 Rigidbody2D:
   serializedVersion: 4

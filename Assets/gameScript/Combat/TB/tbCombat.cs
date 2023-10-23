@@ -9,10 +9,12 @@ public class tbCombat : Turn, IOverPrevention
 {
     DynList<Move> movesOwned;
     VisualElement root;
+    VisualElement tbInv;
     Button attack, defend, item;
     Button target1, target2, target3;
     VisualElement arrow1, arrow2, arrow3;
     TextElement yourHealth, log;
+    Button invLeft, invRight, invCurrent;
     private void Awake()
     {
         //the player turn gets enqueued by the MoveManager code.
@@ -21,6 +23,9 @@ public class tbCombat : Turn, IOverPrevention
         counter = baseCounter;
 
         root = GetComponent<UIDocument>().rootVisualElement;
+        tbInv = root.Q<VisualElement>("SelectBar");
+        tbInv.style.display = DisplayStyle.None;
+        tbInv.SetEnabled(false);
         // button assigments ---------------------------------------------------------------------------------------------------------------------------------------------
         attack = root.Q<Button>("Attack");
         defend = root.Q<Button>("Defend");
@@ -30,6 +35,16 @@ public class tbCombat : Turn, IOverPrevention
         target2 = root.Q<Button>("Target2");
         target3 = root.Q<Button>("Target3");
 
+        invLeft = root.Q<Button>("LeftArrow");
+        invRight = root.Q<Button>("RightArrow");
+        invCurrent = root.Q<Button>("Current");
+        Item first;
+        try
+        {
+            first = Inventory.peek(0);
+            invCurrent.text = first.name;
+        }catch(NullReferenceException e) { invCurrent.text = "Empty"; }
+        
         // arrow assigments ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         arrow1 = root.Q<VisualElement>("Arrow1"); arrow1.SetEnabled(false); //assign arrow object and disable them.
         arrow2 = root.Q<VisualElement>("Arrow2"); arrow2.SetEnabled(false); //arrows are only allowed to be enabled when the user 
@@ -48,6 +63,11 @@ public class tbCombat : Turn, IOverPrevention
         attack.clicked += () => handleAttack();
         defend.clicked += () => handleDefend();
         item.clicked += () => handleItem();
+
+        invRight.clicked += () => SelectRight();
+        invLeft.clicked += () => SelectLeft();
+        invCurrent.clicked += () => UseCurrent();
+
     }
     int targetIndex;
 
@@ -57,16 +77,22 @@ public class tbCombat : Turn, IOverPrevention
     {
         PreventHPOver();
         yourHealth.text = ("Level " + PlayerStat.level + "Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+        Inventory.Fist();
+         switch (Inventory.currentlyEquipped.name)
+         {
+            
+             case "Hammer":
+                 counter = baseCounter * 0.7f;
+                 break;
+             case "Drill":
+                 counter = baseCounter * 0.4f;
+                 break;
+         }
 
-        switch (Inventory.currentlyEquipped.name)
+        if (!arrow3.enabledInHierarchy)
         {
-            case "Hammer":
-                counter = baseCounter * 0.7f;
-                break;
-            case "Drill":
-                counter = baseCounter * 0.4f;
-                break;
-
+            tbInv.SetEnabled(false);
+            tbInv.style.display = DisplayStyle.None;
         }
     }
     public override void ManageTurn()
@@ -127,16 +153,16 @@ public class tbCombat : Turn, IOverPrevention
 
     }
 
-    [SerializeField] private GameObject tbInv;
     void handleItem()
     {
         Debug.Log("item");
         if (moved && arrow3.enabledSelf)
         {
             Debug.Log("ITEM");
-            tbInv.SetActive(true);
+            tbInv.SetEnabled(true);
+            tbInv.style.display = DisplayStyle.Flex;
             //move is dequeued in the tbInvGUI
-            moved = false;
+
         }
         else
         {
@@ -149,6 +175,68 @@ public class tbCombat : Turn, IOverPrevention
 
     }
 
-    
+    public int InvIndex = 0;
+    public void SelectRight()
+    {
+        if (InvIndex < Inventory.itemsIn.Length-1) InvIndex++;
+        Item current;
+        try { current = Inventory.peek(InvIndex); }
+        catch(NullReferenceException e)
+        {
+            invCurrent.text = "Empty";
+            return;
+        }
+        invCurrent.text = current.name;
 
-}
+       
+    }
+    public void SelectLeft()
+    {
+        if (InvIndex > 0) InvIndex--;
+        Item current;
+        try { current = Inventory.peek(InvIndex); }
+        catch (NullReferenceException e)
+        {
+            invCurrent.text = "Empty";
+            return;
+        }
+        invCurrent.text = current.name;
+
+    }
+    public void UseCurrent()
+    {
+        Label log = root.Q<Label>("log-text");
+        Item current;
+        try
+        {
+            current = Inventory.peek(InvIndex);
+
+        }catch(NullReferenceException e)
+        {
+            log.text = "Selected slot does not contain an item";
+            return;
+        }
+
+        if (moved) { MoveManager.Deq(); moved = false; } else return;
+
+        if (current.hasDurability)
+        {
+            Inventory.currentlyEquipped = (WeaponItem)current;
+            log.text = "You equipped " + current.name;
+        }
+        else
+        {
+            Inventory.Use(current.name);
+            log.text = "You used " + current.name;
+        }
+        tbInv.SetEnabled(false);
+        tbInv.style.display = DisplayStyle.None;
+
+
+
+    }
+
+
+
+
+    }

@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Weapon : Entity
 {
-    float shootTime;
+    public float shootTime;
     Vector2 mousePos;
     public float damage;
 
     void Start()
     {
-        shootTime = 0.15f;
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - (Vector2)transform.position);
-        damage = PlayerStat.attack/2;
+        damage = PlayerStat.attack * Inventory.currentlyEquipped.damagemult;
         setupHitbox();
     }
 

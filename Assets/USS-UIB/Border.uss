@@ -31,3 +31,12 @@
     left: auto;
     top: 10%;
 }
+
+.unity-label {
+    flex-wrap: wrap;
+}
+
+.unity-text-element {
+    flex-wrap: wrap;
+    text-overflow: clip;
+}

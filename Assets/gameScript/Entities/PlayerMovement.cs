@@ -20,7 +20,13 @@ public class PlayerMovement : Entity, IOverPrevention
 
 
         PlayerStat.SetUp();
+        if (Inventory.currentlyEquipped == null)
+        {
+            WeaponItem defaultSword = new WeaponItem("Sword", 100);
+            Inventory.insert(defaultSword);
+            Inventory.currentlyEquipped = defaultSword;
 
+        }
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
         //invMenu.SetActive(false);
