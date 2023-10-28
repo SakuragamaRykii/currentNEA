@@ -13,7 +13,6 @@ public class rtEnemy : Entity
     {
         atkArea = new Rect(transform.position.x - 7, transform.position.y - 7, 7, 7);
         es = GetComponent<EnemyStat>();
-        Debug.Log(es.attack);
         setupHitbox();
         pf = GetComponent<PathFinder>();
         rb = GetComponent<Rigidbody2D>();
@@ -24,17 +23,23 @@ public class rtEnemy : Entity
     int index = 0;
     private void Update()
     {
+        if (es.IsDead())
+        {
+            RTManager.amount--;
+            es.Die();
+        }
         CheckCollision();
         if(isPlayerIn() && !attacked)
         {
             StartCoroutine(Attack());
         }
         else Move();
+
     }
 
     private bool isPlayerIn()
     {
-        atkArea.position = new Vector2(transform.position.x - 5, transform.position.y - 5);
+        atkArea.position = new Vector2(transform.position.x - 7, transform.position.y - 7);
         return atkArea.Contains(GameObject.FindGameObjectWithTag("Player").transform.position);
     }
 
@@ -59,7 +64,7 @@ public class rtEnemy : Entity
             transform.rotation = Quaternion.LookRotation(Vector3.forward, p.centre);
         }
         else index++;
-        if (index >= pf.finalPath.Length) index = 0;
+        if (index >= pf.finalPath.Length-1) index = 0;
     }
 
 }

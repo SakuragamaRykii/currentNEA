@@ -11,12 +11,8 @@ public static class Inventory
     public static DynList<Item>[] itemsIn = new DynList<Item>[15];
     public static int index;
     public static WeaponItem currentlyEquipped;
-
-
-
-
     public static Item peek(int index) { return itemsIn[index].first.data; }
-    
+
     public static int HashFunc(string toHash)
     {
         int mid = toHash.Length / 2;
@@ -31,10 +27,10 @@ public static class Inventory
         int slot = HashFunc(i.name);
         if (itemsIn[slot] == null) return;
 
-            if (itemsIn[slot].size > 0)
+        if (itemsIn[slot].size > 0)
         {
-            
-            if (i.hasDurability)  itemsIn[slot].add(i);
+
+            if (i.hasDurability) itemsIn[slot].add(i);
             else itemsIn[slot].DataAt(0).amount++;
 
         }
@@ -48,6 +44,9 @@ public static class Inventory
         {
             itemsIn[i] = new DynList<Item>();
         }
+        WeaponItem beginnerSword = new WeaponItem("Sword", 100);
+        insert(beginnerSword);
+        currentlyEquipped = beginnerSword;
     }
 
 
@@ -60,22 +59,33 @@ public static class Inventory
         int hIndex = HashFunc(slot);
         itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
     }
+    public static void Deq(Item slot)
+    {
+        int hIndex = HashFunc(slot.name);
+        itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
+    }
 
     public static void Use(string slot)
     {
         int hIndex = HashFunc(slot);
         Debug.Log("used");
         peek(hIndex).Use();
-  
-
+        
+        
     }
     public static void Use(int slot)
     {
-       
+
     }
     public static void Fist()
     {
-        if (currentlyEquipped == null) currentlyEquipped = new WeaponItem("Fist", 100000);
+        if (currentlyEquipped == null)
+        {
+            currentlyEquipped = new WeaponItem("Fist", 100000);
+            Debug.Log("Fist");
+        }
+
     }
+
 
 }

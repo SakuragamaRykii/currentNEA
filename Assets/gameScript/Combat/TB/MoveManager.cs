@@ -19,7 +19,7 @@ public class MoveManager : MonoBehaviour
 
     private void Awake() 
     {
-        root = GameObject.FindObjectOfType<UIDocument>().rootVisualElement;//MAY TAKE SELECTION GUI
+        root = GameObject.FindObjectOfType<UIDocument>().rootVisualElement;
         root.Q<Button>("Target1").SetEnabled(false);
         root.Q<Button>("Target2").SetEnabled(false);
         root.Q<Button>("Target3").SetEnabled(false);
@@ -53,10 +53,11 @@ public class MoveManager : MonoBehaviour
 
                 foreach (Turn t in turns)
                 {
+                    Debug.Log(t.counter);
                     t.moved = false;
                 }
 
-
+                tbCombat.defending = false;
             }
             if (enemiesOnATM <= 0) finished = true;
             

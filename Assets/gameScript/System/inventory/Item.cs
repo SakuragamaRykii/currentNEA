@@ -7,28 +7,36 @@ public class Item
     public string name;
     public bool hasDurability;
     public bool isConsumable;
+    public string description;
     public int amount;
 
     public Item(string name)
     {
         this.name = name;
         amount = 1;
+        switch (name)
+        {
+            case "Banana":
+                description = "Yummy banana. Restores you HP.";
+                break;
+            case "Spig Beed":
+                description = "Permenant increase to speed.";
+                break;
+        }
 
     }
-    public void Use()
+    public virtual void Use()
     {
         switch (name)
         {
             case "Banana":
-                PlayerStat.currentHP += (PlayerStat.maxHP * 0.4f);
-                Debug.Log(PlayerStat.currentHP);
-                amount--;
+                PlayerStat.currentHP += PlayerStat.maxHP * 0.4f;
                 break;
             case "Spig Beed":
                 PlayerStat.speed++;
-                amount--;
                 break;
         }
+        amount--;
     }
 
 

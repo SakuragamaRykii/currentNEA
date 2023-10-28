@@ -15,8 +15,13 @@ public class tbCombat : Turn, IOverPrevention
     VisualElement arrow1, arrow2, arrow3;
     TextElement yourHealth, log;
     Button invLeft, invRight, invCurrent;
+    public static bool defending;
+    private float damage;
+
     private void Awake()
     {
+        defending = false;
+        damage = PlayerStat.attack * Inventory.currentlyEquipped.damagemult;
         //the player turn gets enqueued by the MoveManager code.
         moved = false;
         baseCounter = PlayerStat.speed;
@@ -76,17 +81,20 @@ public class tbCombat : Turn, IOverPrevention
     private void FixedUpdate()
     {
         PreventHPOver();
-        yourHealth.text = ("Level " + PlayerStat.level + "Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+        yourHealth.text = ("Level " + PlayerStat.level + "Health: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP);
         Inventory.Fist();
-         switch (Inventory.currentlyEquipped.name)
+        damage = PlayerStat.attack * Inventory.currentlyEquipped.damagemult;
+        switch (Inventory.currentlyEquipped.name)
          {
-            
              case "Hammer":
                  counter = baseCounter * 0.7f;
                  break;
              case "Drill":
                  counter = baseCounter * 0.4f;
                  break;
+            default:
+                counter = baseCounter; 
+                break;
          }
 
         if (!arrow3.enabledInHierarchy)
@@ -113,16 +121,16 @@ public class tbCombat : Turn, IOverPrevention
             
             try
             {
-                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(damage);
             }catch(IndexOutOfRangeException e)
             {
                 targetIndex = targets.Length-1;
-                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(damage);
             }
 
-            log.text = ((int)PlayerStat.attack + " Damage");
+            log.text = ((int)damage + " Damage");
 
-            Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
+            Debug.Log("you have dealt " + damage + " damage to the enemies");
             MoveManager.Deq();
             moved = false;
         }
@@ -139,7 +147,7 @@ public class tbCombat : Turn, IOverPrevention
         if (moved && arrow2.enabledSelf)
         {
             Debug.Log("DEFEND");
-            PlayerStat.currentHP += PlayerStat.defence;
+            
             MoveManager.Deq();
             moved = false;
         }

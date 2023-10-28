@@ -1,6 +1,8 @@
 using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class rtPlayer : Entity, IOverPrevention
@@ -8,13 +10,16 @@ public class rtPlayer : Entity, IOverPrevention
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
     public GameObject weapon;
+    public float weaponCd;
+
     void Start()
     {
         if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
-        weapon = Inventory.currentlyEquipped.weapon;
         setupHitbox();
-       
+        Inventory.Fist();
+        weapon = Inventory.currentlyEquipped.weapon;
+        weaponCd = Inventory.currentlyEquipped.cd;
     }
     public void PreventHPOver()
     {
@@ -25,20 +30,24 @@ public class rtPlayer : Entity, IOverPrevention
     void Update()
     {
         Inventory.Fist();
+        weapon = Inventory.currentlyEquipped.weapon;
         Move();
         PreventHPOver();
         ManageColEvent(CheckCollision());
+        if (Inventory.currentlyEquipped.durability <= 0) Inventory.Deq(Inventory.currentlyEquipped);
         Attack();
-        Debug.Log(PlayerStat.currentHP);
+        Debug.Log("currentcd " + weaponCd);
     }
 
     void Attack()//GameObject to
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && weaponCd <= 0)
         {
-           Instantiate(weapon, transform.position, transform.rotation);
-
+            Instantiate(weapon, new Vector3(transform.position.x, transform.position.y, -2), transform.rotation);
+            weaponCd = Inventory.currentlyEquipped.cd;
+            Inventory.currentlyEquipped.durability--;
         }
+        else weaponCd-=Time.deltaTime;
     }
     void ManageColEvent(GameObject[] type)
     {
