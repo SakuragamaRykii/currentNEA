@@ -12,6 +12,7 @@ TagManager:
   - Area
   - Slot
   - amount
+  - XPUP
   layers:
   - Default
   - TransparentFX

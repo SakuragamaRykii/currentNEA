@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/TBAndSelectionScene.unity
     guid: 1147724557dd145a59d8bc8e80aa8582
   - enabled: 1
-    path: Assets/gameScript/Another/qtTester.unity
-    guid: 2dc6cff116587524dab0935e8684b8e6
-  - enabled: 1
     path: Assets/Resources/Scenes/RTScene.unity
     guid: f682e9338c0f7794b9789d85ba0c184c
   m_configObjects: {}

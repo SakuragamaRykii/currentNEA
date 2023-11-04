@@ -8,6 +8,7 @@ public class Item
     public bool hasDurability;
     public bool isConsumable;
     public int amount;
+    public string description;
 
     public Item(string name)
     {

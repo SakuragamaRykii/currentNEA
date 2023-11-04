@@ -30,6 +30,12 @@ public class rtEnemy : Entity
             StartCoroutine(Attack());
         }
         else Move();
+
+        if (es.IsDead())
+        {
+            RTManager.amount--;
+            es.Die();
+        }
     }
 
     private bool isPlayerIn()

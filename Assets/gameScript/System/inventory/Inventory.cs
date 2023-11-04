@@ -54,11 +54,21 @@ public static class Inventory
     public static void Deq(int slot)
     {
         itemsIn[slot].remove(itemsIn[slot].DataAt(0));
+        if (peek(slot) == currentlyEquipped) currentlyEquipped = null;
+
     }
     public static void Deq(string slot)
     {
         int hIndex = HashFunc(slot);
         itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
+        if (peek(hIndex) == currentlyEquipped) currentlyEquipped = null;
+
+    }
+    public static void Deq(Item slot)
+    {
+        int hIndex = HashFunc(slot.name);
+        itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
+        if (peek(hIndex) == currentlyEquipped) currentlyEquipped = null;
     }
 
     public static void Use(string slot)

@@ -8,11 +8,12 @@ public class rtPlayer : Entity, IOverPrevention
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
     public GameObject weapon;
+    public float currentCd;
     void Start()
     {
         if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
-        weapon = Inventory.currentlyEquipped.weapon;
+       // weapon = Inventory.currentlyEquipped.weapon;
         setupHitbox();
        
     }
@@ -25,20 +26,23 @@ public class rtPlayer : Entity, IOverPrevention
     void Update()
     {
         Inventory.Fist();
+        weapon = Inventory.currentlyEquipped.weapon;
+        Debug.Log(Inventory.currentlyEquipped.name);
         Move();
         PreventHPOver();
         ManageColEvent(CheckCollision());
         Attack();
-        Debug.Log(PlayerStat.currentHP);
+       // Debug.Log("currentcd " + weaponCd);
     }
 
     void Attack()//GameObject to
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && currentCd <= 0)
         {
-           Instantiate(weapon, transform.position, transform.rotation);
-
+            Instantiate(weapon, transform.position, transform.rotation);
+            currentCd = Inventory.currentlyEquipped.cd;
         }
+        else currentCd -= Time.deltaTime;
     }
     void ManageColEvent(GameObject[] type)
     {

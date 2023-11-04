@@ -25,8 +25,10 @@ public class tbEnemyAI : Turn
         if (es.IsDead())
         {
             MoveManager.root.Q<UnityEngine.UIElements.Button>("Target" + number).SetEnabled(false);
+            es.Die();
+
         }
-//        Debug.Log((float)(es.currentHP / es.maxHP));
+        //        Debug.Log((float)(es.currentHP / es.maxHP));
         hpBar.value = (float)(es.currentHP / es.maxHP);
     }
     public override void ManageTurn()
@@ -35,7 +37,6 @@ public class tbEnemyAI : Turn
         {
             MoveManager.turns.remove(this);
             MoveManager.bench.remove(this);
-
             MoveManager.enemiesOnATM--;
             return;
         }

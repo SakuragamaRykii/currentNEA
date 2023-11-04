@@ -11,15 +11,13 @@ public class PlayerMovement : Entity, IOverPrevention
     public static PlayerMovement instance; //make this a singleton
     private Rigidbody2D rb;
     [SerializeField] private GameObject invMenu;
+    public static bool boosting;
+
     void Start()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
+        boosting = false;
+        if(!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
 
-
-        PlayerStat.SetUp();
         if (Inventory.currentlyEquipped == null)
         {
             WeaponItem defaultSword = new WeaponItem("Sword", 100);
@@ -56,13 +54,21 @@ public class PlayerMovement : Entity, IOverPrevention
 
         }
     }
+
     void ManageColEvent(GameObject[] type){
         //        Debug.Log(type);
         if (type != null)
         {
-            if (hasTag(type, "Enemy")) SceneManager.LoadScene("TBAndSelectionScene");
+            if (hasTag(type, "Enemy"))
+            {
+                SceneManager.LoadScene("TBAndSelectionScene");
+                Debug.Log("GONE");
+                boosting = false;
+            }
 
             if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
+
+            if (hasTag(type, "XPUP")) PlayerStat.currentEXP += PlayerStat.expToNextLevel / 4;
         }
 
     }

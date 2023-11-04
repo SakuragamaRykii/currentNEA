@@ -7,7 +7,7 @@ public class WeaponPickup : Entity, IRandomDrop
     private string[] weaponPool;
 
     public string thisDrop;
-    public string pick(string[] pool)
+    public string Pick(string[] pool)
     {
         int index = Random.Range(0, pool.Length);
         return pool[index];
@@ -16,7 +16,7 @@ public class WeaponPickup : Entity, IRandomDrop
     {
         weaponPool = new string[] { "Sword", "Hammer", "Drill" }; 
         setupHitbox();
-        thisDrop = pick(weaponPool);
+        thisDrop = Pick(weaponPool);
         Debug.Log(thisDrop);
     }
 

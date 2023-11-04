@@ -1,35 +1,32 @@
+
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 public class RTManager : MonoBehaviour
 {
-    public static QuadTree qt;
-    public GameObject rtField;
-    public static RTManager only;
-
+    public GameObject enemy;
+    public static int amount;
     private float x, y;
     // Start is called before the first frame update
     void Awake()
     {
-        if (only == null) only = this; else Destroy(gameObject);
+        amount = Random.Range(1, 6);
+        for (int i = 0; i < amount; i++)
+        {
+            float x = Random.Range(-18.4f, 18.5f);
+            float y = Random.Range(-18.4f, 18.5f);
+            Instantiate(enemy, new Vector3(x, y,  - 5), Quaternion.identity);
+        }
 
-        Instantiate(rtField);
-
-        x = rtField.transform.position.x - rtField.transform.localScale.x / 2;
-        y = rtField.transform.position.y - rtField.transform.localScale.y / 2;
-        qt = new QuadTree(new Rect(x, y, rtField.transform.localScale.x, rtField.transform.localScale.y));
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        qt = new QuadTree(new Rect(x, y, rtField.transform.localScale.x, rtField.transform.localScale.y));
-
-        foreach (Entity e in GameObject.FindObjectsOfType<Entity>())
-        {
-            qt.Insert(e.gameObject);
-        }
+        if (amount <= 0) SceneManager.LoadScene("FieldScene");
 
     }
 }

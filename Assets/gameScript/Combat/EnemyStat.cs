@@ -30,17 +30,15 @@ public class EnemyStat : MonoBehaviour, IKillable
 
     public void Die()
     {
-        if (IsDead())
-        {
-            gameObject.SetActive(false);
-            Destroy(gameObject);
-        }
+        
+        gameObject.SetActive(false);
+        Destroy(gameObject);
+
     }
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
         Debug.Log("Current hp : " + currentHP);
-        Die();
     }
     public bool IsDead() { return currentHP <= 0; }
  
