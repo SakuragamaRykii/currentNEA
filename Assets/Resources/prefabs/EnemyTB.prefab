@@ -321,7 +321,6 @@ MonoBehaviour:
   defence: 0
   speed: 0
   level: 0
-  xpWorth: 0
 --- !u!222 &3562496443369752237
 CanvasRenderer:
   m_ObjectHideFlags: 0

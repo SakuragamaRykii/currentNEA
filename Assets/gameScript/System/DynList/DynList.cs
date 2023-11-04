@@ -114,7 +114,7 @@ public class DynList<T> : IEnumerable where T : class
         ListNode<T> prev = current.previous;
         for (int i = 1; i < size-1; i++)
         {
-            if(current.data == queryData)
+            if(current.data ==  queryData)
             {
                 current = current.next;
                 prev.next = current;
@@ -127,7 +127,6 @@ public class DynList<T> : IEnumerable where T : class
             prev = prev.next;
         }
     }
-
 
     public bool Contains(T subject)
     {

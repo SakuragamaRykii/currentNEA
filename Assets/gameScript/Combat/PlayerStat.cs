@@ -1,53 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class PlayerStat //, IKillable
+public static class PlayerStat 
 {
     public static Vector2 currentFieldPos = new Vector2(0, 0);
-    public static int level = 1;
-    public static int score = 0;
-    public static float  
+    public static float
+        level = 1,
         attack = 5,
         defence = 2,
-        speed = 5,
+        speed = 10,
         currentHP = 20,
         maxHP = 20;
 
-    public static float 
-        currentEXP = 0, 
-        expToNextLevel = 25;
-
-
-    public static Thread levelThread = new Thread(LevelUp);
-
- 
-    
-
-    public static void LevelUp()
+    public static void SetUp()
     {
-        while (true)
+        if (level > 1)
         {
-           // Debug.Log("running");
-            if (currentEXP >= expToNextLevel)
-            {
-                level++;
-                attack *= 1.05f;
-                defence *= 1.05f;
-                speed *= 1.05f;
-                maxHP *= 1.05f;
+            attack *= Mathf.Pow(1.05f, level);
+            defence *= Mathf.Pow(1.05f, level);
+            speed *= Mathf.Pow(1.05f, level);
+            maxHP *= Mathf.Pow(1.05f, level);
 
-                currentHP = maxHP;
-
-                expToNextLevel += 25;
-                currentEXP = 0;
-                score += 50;
-            }
         }
         
 
+    }
+
+    public static void LevelUp()
+    {
+        level++;
+        attack *= 1.05f;
+        defence *= 1.05f;
+        speed *= 1.05f;
+        maxHP *= 1.05f;
+
+        currentHP = maxHP;
     }
     public static bool IsDead() { return currentHP <= 0; }
     public static void TakeDamage(float amount)
@@ -74,11 +63,5 @@ public static class PlayerStat //, IKillable
         speed = 10;
         maxHP = 20;
         currentHP = maxHP;
-        score = 0;
-        currentEXP = 0;
-        expToNextLevel = 25;
-
-        FieldManager.hasReset = true;
-
     }
 }

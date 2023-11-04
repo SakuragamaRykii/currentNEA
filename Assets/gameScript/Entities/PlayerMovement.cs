@@ -8,14 +8,18 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : Entity, IOverPrevention
 {
 
+    public static PlayerMovement instance; //make this a singleton
     private Rigidbody2D rb;
     [SerializeField] private GameObject invMenu;
-    
     void Start()
     {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
 
-        if(!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
 
+        PlayerStat.SetUp();
         if (Inventory.currentlyEquipped == null)
         {
             WeaponItem defaultSword = new WeaponItem("Sword", 100);

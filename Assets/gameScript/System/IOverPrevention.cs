@@ -5,5 +5,4 @@ using UnityEngine;
 public interface IOverPrevention//interface to prevent the player's current HP exceeding its max.
 {
     public void PreventHPOver();
-
 }

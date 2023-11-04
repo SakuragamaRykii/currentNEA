@@ -26,8 +26,6 @@ public class InvGUI : MonoBehaviour
     public void FixedUpdate()
     {
         DisplayGUI();
-        if(selected != null)
-        Debug.Log(selected.name);
     }
 
     private void DisplayGUI()
@@ -70,7 +68,7 @@ public class InvGUI : MonoBehaviour
     public void refer(Button b, int index)
     {
         string selectedIName = b.GetComponentInChildren<TextMeshProUGUI>().text;
-        if (selectedIName.Contains("Empty Slot")) { selected = null; return; }
+        if (selectedIName.Contains("Empty Slot")) return;
         int hIndex = Inventory.HashFunc(selectedIName);
         Item current = Inventory.peek(hIndex);
 
@@ -85,7 +83,6 @@ public class InvGUI : MonoBehaviour
 
             else Inventory.Use(current.name);
         }
-        else selected = current;
     }
 
 
