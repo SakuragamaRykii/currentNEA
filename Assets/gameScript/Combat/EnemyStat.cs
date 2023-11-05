@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyStat : MonoBehaviour, IKillable
 {
+    public int level;
     public float
         maxHP,
         currentHP,
         attack,
         defence,
-        speed,
-        level;
+        speed;
     private void Awake()
     {
         level = Random.Range(PlayerStat.level, PlayerStat.level + 5);
@@ -30,7 +30,7 @@ public class EnemyStat : MonoBehaviour, IKillable
 
     public void Die()
     {
-        
+        PlayerStat.score += 10 * 2 * level;
         gameObject.SetActive(false);
         Destroy(gameObject);
 

@@ -16,6 +16,7 @@ public static class PlayerStat
         currentHP = 20,
         maxHP = 20;
     public static int currentEXP = 0, expToNextLevel = 25;
+
     public static Thread levelThread = new Thread(LevelUp);
 
     public static void LevelUp()

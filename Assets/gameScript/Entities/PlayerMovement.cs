@@ -16,6 +16,7 @@ public class PlayerMovement : Entity, IOverPrevention
     void Start()
     {
         boosting = false;
+
         if(!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
 
         if (Inventory.currentlyEquipped == null)
