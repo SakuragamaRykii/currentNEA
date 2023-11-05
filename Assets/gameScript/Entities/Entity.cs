@@ -30,9 +30,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
             return null;
         }
         DynList<GameObject> result = new DynList<GameObject>();
-        x = transform.position.x - transform.localScale.x / 2;
-        y = transform.position.y - transform.localScale.y / 2;
-        hitbox.position = new Vector2(x, y);
+        hitbox.position = (Vector2)transform.position - hitbox.size / 2;
         GameObject[] others = FieldManager.qt.Query(gameObject);
       //  Debug.Log(DynList<GameObject>.ToDList(others));
         foreach (GameObject other in others)

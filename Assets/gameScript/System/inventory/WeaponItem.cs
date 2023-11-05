@@ -17,7 +17,7 @@ public class WeaponItem : Item
         switch (name)
         {
             case "Sword":
-                description = "shiny sword";
+                description = "Oooh shiny sword";
                 damagemult = 1;
                 cd = 0.3f;
                 break;
@@ -32,7 +32,7 @@ public class WeaponItem : Item
                 cd = 1.2f;
                 break;
             case "Fist":
-                description = "punch them";
+                description = "The power of the punch must not be underestimated.";
                 damagemult = 0.5f;
                 cd = 0.2f;
                 break;

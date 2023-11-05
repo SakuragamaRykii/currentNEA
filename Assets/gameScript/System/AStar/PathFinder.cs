@@ -17,27 +17,18 @@ public class PathFinder : MonoBehaviour
     public Point[] finalPath;
     public int index;
 
-    private void Start()
-    {
-        StartCoroutine(RepeatFind());
-    }
 
 
-    private IEnumerator RepeatFind()
+    public void Find()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.2f);
-            
-            open = new DynList<Point>();
-            closed = new DynList<Point>();
-            startPoint = new Point(transform.position, targetObj);
-            targetPoint = new Point(targetObj.transform.position);
-            centrePoint = startPoint;
-            open.add(startPoint);
-            FindPath();
-            index = finalPath.Length-1;
-        }
+        open = new DynList<Point>();
+        closed = new DynList<Point>();
+        startPoint = new Point(transform.position, targetObj);
+        targetPoint = new Point(targetObj.transform.position);
+        centrePoint = startPoint;
+        open.add(startPoint);
+        FindPath();
+        index = finalPath.Length - 1;
 
     }
 

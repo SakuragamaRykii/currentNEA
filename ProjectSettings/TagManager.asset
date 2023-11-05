@@ -13,6 +13,7 @@ TagManager:
   - Slot
   - amount
   - XPUP
+  - Inventory
   layers:
   - Default
   - TransparentFX

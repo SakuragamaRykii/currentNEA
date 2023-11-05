@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : Entity, IOverPrevention
 {
 
-    public static PlayerMovement instance; //make this a singleton
+    
     private Rigidbody2D rb;
-    [SerializeField] private GameObject invMenu;
+    public static GameObject invMenu;
     public static bool boosting;
 
     void Start()
@@ -28,7 +28,6 @@ public class PlayerMovement : Entity, IOverPrevention
         }
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
-        //invMenu.SetActive(false);
     }
 
 

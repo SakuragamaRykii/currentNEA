@@ -8,21 +8,26 @@ public class cameraMove : MonoBehaviour
     [SerializeField] private GameObject player;
 
     // Start is called before the first frame update
-    void Start()
+    public void SetUp()
     {
-        if (!player) player = GameObject.FindGameObjectWithTag("Player");
-            area = new Block(player.transform.position, 19.2f, 12);
+        player = GameObject.FindGameObjectWithTag("Player");
+        area = new Block(player.transform.position, 19.2f, 12);
         area.position = (Vector2)player.transform.position;
         transform.position = (Vector2)player.transform.position;
+        StartCoroutine(checkLocation());
     }
 
     // Update is called once per frame
-    void Update()
+    private IEnumerator checkLocation()
     {
-        if (!area.Contains(player))
+        while (true)
         {
-            area.position = (Vector2)player.transform.position;
-            transform.position = (Vector2)player.transform.position;
+            yield return new WaitForFixedUpdate();
+            if (!area.Contains(player))
+            {
+                area.position = (Vector2)player.transform.position;
+                transform.position = (Vector2)player.transform.position;
+            }
         }
     }
 }

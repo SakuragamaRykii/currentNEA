@@ -20,6 +20,7 @@ public class InvGUI : MonoBehaviour
             Button select = slots[i].GetComponentInChildren<Button>();
             select.onClick.AddListener(() => refer(select, i));
         }
+        PlayerMovement.invMenu = gameObject;
         gameObject.SetActive(false);
     }
 
@@ -68,12 +69,12 @@ public class InvGUI : MonoBehaviour
     public void refer(Button b, int index)
     {
         string selectedIName = b.GetComponentInChildren<TextMeshProUGUI>().text;
-        if (selectedIName.Contains("Empty Slot")) return;
+        if (selectedIName.Contains("Empty Slot")) { selected = null; return; }
         int hIndex = Inventory.HashFunc(selectedIName);
         Item current = Inventory.peek(hIndex);
 
-        if (selected == null) selected = current;
-        else if (selected.name.Equals(selectedIName))
+        selected = current;
+        if (selected.name.Equals(selectedIName))
         {
             if (current.hasDurability)
             {
@@ -83,6 +84,7 @@ public class InvGUI : MonoBehaviour
 
             else Inventory.Use(current.name);
         }
+        
     }
 
 

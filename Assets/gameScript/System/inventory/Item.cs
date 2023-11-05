@@ -14,7 +14,18 @@ public class Item
     {
         this.name = name;
         amount = 1;
-
+        if (isConsumable)
+        {
+            switch (name)
+            {
+                case "Banana":
+                    description = "Looks like a banana, though it feels like jelly when you eat it. *Restores hp when consumed*.";
+                    break;
+                case "Spig Beed":
+                    description = "What other bead is spelt like this? *Permenantly increases speed by 1*.";
+                    break;
+            }
+        }
     }
     public void Use()
     {

@@ -52,7 +52,7 @@ public class tbCombat : Turn, IOverPrevention
 
         // Your Health display--------------------------------------------------------------------------------------------------------------------------------------------
         yourHealth = root.Q<TextElement>("health-value");
-        yourHealth.text = ("Level " + PlayerStat.level + ", Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+        yourHealth.text = ("Level " + PlayerStat.level + ", Health: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP);
         //--------------------------------------------------------------------------------------------------------------------------------------------
         log = root.Q<UnityEngine.UIElements.TextElement>("log-text");
 
@@ -76,7 +76,7 @@ public class tbCombat : Turn, IOverPrevention
     private void FixedUpdate()
     {
         PreventHPOver();
-        yourHealth.text = ("Level " + PlayerStat.level + "Health: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP);
+        yourHealth.text = ("Level " + PlayerStat.level + "Health: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP);
         Inventory.Fist();
          switch (Inventory.currentlyEquipped.name)
          {
@@ -122,7 +122,6 @@ public class tbCombat : Turn, IOverPrevention
 
             log.text = ((int)PlayerStat.attack + " Damage");
 
-            Debug.Log("you have dealt " + PlayerStat.attack + " damage to the enemies");
             MoveManager.Deq();
             moved = false;
         }

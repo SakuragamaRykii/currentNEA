@@ -24,7 +24,8 @@ public class FieldEnemy : Entity
 
     public void Move()
     { //THE START POINT OF THE PATH IS IN AS THE LAST ELEMENT OF FINALPATH
-        hitbox.position = new Vector2(rb.position.x - hitbox.width / 2, rb.position.y - hitbox.height / 2);
+        
+        hitbox.position = rb.position - hitbox.size/2;
         if (pf.finalPath == null) return;
         if (pf.index < 0) return;
             Point moveTo = pf.finalPath[pf.index];

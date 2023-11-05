@@ -13,13 +13,13 @@ public class hpBar : MonoBehaviour
         hp = GetComponent<Scrollbar>();
         value = GetComponentInChildren<TextMeshProUGUI>();
         hp.size = PlayerStat.currentHP / PlayerStat.maxHP;
-        value.text = "Current HP: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP;
+        value.text = "Current HP: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP;
     }
 
     // Update is called once per frame
     void Update()
     {
         hp.size = PlayerStat.currentHP / PlayerStat.maxHP;
-        value.text = "Current HP: " + PlayerStat.currentHP + "/" + PlayerStat.maxHP;
+        value.text = "Current HP: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP;
     }
 }

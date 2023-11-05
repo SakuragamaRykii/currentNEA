@@ -7,9 +7,6 @@ public class FieldManager : MonoBehaviour
     public static QuadTree qt;
     public GameObject field;
     public static FieldManager only;
-    [SerializeField] private GameObject player, enemyTemp, wallTemp;
-    [SerializeField] private GameObject utilTemp;
-
 
     private float x, y;
 

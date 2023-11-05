@@ -21,11 +21,19 @@ public class rtEnemy : Entity
         attacked = false;
 
     }
+
     int index = 0;
+    float counter = 0;
     private void Update()
     {
         CheckCollision();
-        if(isPlayerIn() && !attacked)
+        counter -= Time.deltaTime;
+        if (counter <= 0)
+        {
+            pf.Find();
+            counter = 0.3f;
+        }
+        if (isPlayerIn() && !attacked)
         {
             StartCoroutine(Attack());
         }

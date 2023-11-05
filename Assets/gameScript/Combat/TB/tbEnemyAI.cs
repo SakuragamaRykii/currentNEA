@@ -45,7 +45,7 @@ public class tbEnemyAI : Turn
         Debug.Log("enemy has moved");
         PlayerStat.TakeDamage(es.attack);
        // Debug.Log("enemy dealt " + es.attack + "damage");
-        MoveManager.root.Q<UnityEngine.UIElements.TextElement>("log-text").text = ("Enemy" + " dealt " + es.attack + "damage");
+        MoveManager.root.Q<UnityEngine.UIElements.TextElement>("log-text").text = ("Enemy" + " dealt " + (int)es.attack + "damage");
         MoveManager.Deq();
     }
 }
