@@ -25,16 +25,15 @@ public static class PlayerStat
             if (currentEXP >= expToNextLevel)
             {
                 level++;
-                attack *= 1.05f;
-                defence *= 1.05f;
-                speed *= 1.05f;
-                maxHP *= 1.05f;
-
-                currentHP = maxHP;
-
                 currentEXP = 0;
-                expToNextLevel += 25;
+                currentHP = maxHP;
             }
+            attack = 5 * Mathf.Pow(1.05f, level);
+            defence = 2 * Mathf.Pow(1.05f, level);
+            speed = 10 * Mathf.Pow(1.05f, level);
+            maxHP = 20 * Mathf.Pow(1.05f, level);
+            expToNextLevel = 25 * level;
+
         }
 
     }

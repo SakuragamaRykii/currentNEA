@@ -573,6 +573,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8252160600943758489, guid: 7213ccca90336447dad90501d1784378, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1534641029}
+    - target: {fileID: -8252160600943758489, guid: 7213ccca90336447dad90501d1784378, type: 3}
       propertyPath: weapon
       value: 
       objectReference: {fileID: 0}

@@ -9,8 +9,10 @@ public class rtPlayer : Entity, IOverPrevention
     private Rigidbody2D rb;
     public GameObject weapon;
     public float currentCd;
+    public GameObject cam;
     void Start()
     {
+        cam.GetComponent<cameraMove>().SetUp();
         if (instance == null) instance = this; else Destroy(gameObject);
         rb = GetComponent<Rigidbody2D>();
        // weapon = Inventory.currentlyEquipped.weapon;

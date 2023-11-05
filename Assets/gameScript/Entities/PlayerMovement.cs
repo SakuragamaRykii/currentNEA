@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : Entity, IOverPrevention
+public class PlayerMovement : Entity, IOverPrevention, IDataPersistence
 {
-
-    
     private Rigidbody2D rb;
     public static GameObject invMenu;
     public static bool boosting;
@@ -16,7 +14,6 @@ public class PlayerMovement : Entity, IOverPrevention
     void Start()
     {
         boosting = false;
-
         if(!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
 
         if (Inventory.currentlyEquipped == null)
@@ -29,6 +26,18 @@ public class PlayerMovement : Entity, IOverPrevention
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
     }
+    public void LoadData(GameData data)
+    {
+        PlayerStat.level = data.level;
+        PlayerStat.currentEXP = data.currentEXP;
+    }
+    public void SaveData(ref GameData data)
+    {
+        data.level = PlayerStat.level;
+        data.currentEXP = PlayerStat.currentEXP;
+
+    }
+
 
 
     void Update()
@@ -61,6 +70,7 @@ public class PlayerMovement : Entity, IOverPrevention
         {
             if (hasTag(type, "Enemy"))
             {
+
                 SceneManager.LoadScene("TBAndSelectionScene");
                 Debug.Log("GONE");
                 boosting = false;

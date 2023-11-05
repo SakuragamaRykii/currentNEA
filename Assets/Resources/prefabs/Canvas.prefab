@@ -925,6 +925,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1728572238839975753}
     m_Modifications:
+    - target: {fileID: 45600201389451929, guid: e686ce1c9ac3dcb429ddb573d3034e9f, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1948490255457225317, guid: e686ce1c9ac3dcb429ddb573d3034e9f, type: 3}
       propertyPath: m_Name
       value: ScoreDisp
@@ -1069,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 524582071360177605, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 39.840065
+      value: 39.839996
       objectReference: {fileID: 0}
     - target: {fileID: 620131579901169048, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1217,7 +1221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3653131206574892307, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100.00004
+      value: 100.00041
       objectReference: {fileID: 0}
     - target: {fileID: 3775370821690744252, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1305,7 +1309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5622255185099661277, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_Value
-      value: -0.00000028807563
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6552120998308024073, guid: d6cafd283b7664aaaa64060391027d39, type: 3}
       propertyPath: m_Pivot.x

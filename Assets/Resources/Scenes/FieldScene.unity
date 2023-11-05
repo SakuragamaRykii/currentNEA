@@ -238,6 +238,19 @@ MonoBehaviour:
   - {fileID: 7685305152741910258, guid: 6c689252f4faaac4bacd8da74154c90b, type: 3}
   - {fileID: 4275492415786896979, guid: 82b292887d2603641a2521d7e7cb2c07, type: 3}
   playerCam: {fileID: 878890408}
+--- !u!114 &1186365429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186365424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630c13573a25c104fb97856b106664de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: data.game
 --- !u!1001 &1575177576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -480,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098170450288928996, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 39.840218
+      value: 39.840626
       objectReference: {fileID: 0}
     - target: {fileID: 6192366200008043907, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchorMax.y
@@ -524,7 +537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7013294636915312690, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100.00009
+      value: 100.00025
       objectReference: {fileID: 0}
     - target: {fileID: 7056614498963891270, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchorMax.y
@@ -738,6 +751,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3426168896832712530, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1186365428}
+    - targetCorrespondingSourceObject: {fileID: 3426168896832712530, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1186365429}
   m_SourcePrefab: {fileID: 100100000, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
 --- !u!1001 &7461170061154080880
 PrefabInstance:

@@ -5,7 +5,6 @@ using UnityEngine;
 public class area : Entity
 {
     [SerializeField] private GameObject enemy;
-    Entity enemEn;
     private GameObject player;
     private float count;
 
