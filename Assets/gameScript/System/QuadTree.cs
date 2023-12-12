@@ -4,7 +4,7 @@ using UnityEngine;
 
 
             
-public class QuadTree //: MonoBehaviour
+public class QuadTree 
 {
     public Rect grid;
     private int capacity;
@@ -26,9 +26,7 @@ public class QuadTree //: MonoBehaviour
     {
         if (!grid.Contains(obj.transform.position)) return;
 
-        if (!objsInGrid.Contains(obj)) objsInGrid.add(obj);
-
-       // Debug.Log(obj.name + ":" + grid + ":" + obj.transform.position);
+        if (!objsInGrid.Contains(obj)) objsInGrid.Add(obj);
 
         if (objsInGrid.size > capacity)
         {
@@ -71,16 +69,5 @@ public class QuadTree //: MonoBehaviour
 
     }
 
-    public void find(GameObject g)
-    {
-        if (!grid.Contains(g.transform.position)) return;
-        if (splitted)
-        {
-            tl.find(g);
-            tr.find(g);
-            br.find(g);
-            bl.find(g);
-        }
-        Debug.Log(g);
-    }
+
 }

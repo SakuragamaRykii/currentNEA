@@ -14,6 +14,7 @@ public class area : Entity
         enemy = Instantiate(enemy, new Vector3(transform.position.x, transform.position.y, -2), Quaternion.identity);
         player = GameObject.FindGameObjectWithTag("Player");
         count = 0;
+        enemy.GetComponent<FieldEnemy>().within = gameObject;
     }
 
 
@@ -32,5 +33,7 @@ public class area : Entity
             enemy.transform.position = transform.position;
         }
     }
+    
+
 
 }

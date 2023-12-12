@@ -19,10 +19,10 @@ public class RandomBuff : Entity, IRandomDrop
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         GameObject[] cc = CheckCollision();
-        if (hasTag(cc, "Player"))
+        if (HasTag(cc, "Player"))
         {
             switch (thisDrop)
             {
@@ -38,7 +38,6 @@ public class RandomBuff : Entity, IRandomDrop
 
             }
             gameObject.SetActive(false);
-            Destroy(gameObject);
         }
     }
 }

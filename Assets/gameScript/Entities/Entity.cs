@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Entity : MonoBehaviour //all entities should inherit this 
+public class Entity : MonoBehaviour, IDataPersistence //all entities in subject to the collision detection should inherit this 
 {
-    //public bool collided { get; private set; }
-
 
     public Rect hitbox; //all hitboxes will be rectangular
     protected float x, y;
@@ -15,12 +15,17 @@ public class Entity : MonoBehaviour //all entities should inherit this
         x = transform.position.x - transform.localScale.x / 2;
         y = transform.position.y - transform.localScale.y / 2;
         hitbox = new Rect(x, y, transform.localScale.x, transform.localScale.y);
-       // FieldManager.qt.Insert(gameObject);
-
-      //  StartCoroutine(ManageIns());
 
     }
+    public virtual void LoadData(GameData data)
+    {
 
+
+    }
+    public virtual void SaveData(ref GameData data)
+    {
+
+    }
 
     //public GameObject other;
     public virtual GameObject[] CheckCollision() {
@@ -38,7 +43,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
             
              if(other != gameObject && other.gameObject != null && other.GetComponent<Entity>() != null && other.GetComponent<Entity>().hitbox.Overlaps(hitbox))
              {
-                result.add(other);
+                result.Add(other);
              }
         }
         return result.toArr();
@@ -46,7 +51,7 @@ public class Entity : MonoBehaviour //all entities should inherit this
         //if (hitbox.Intersects(other.GetComponent<Entity>().hitbox)) Debug.Log("HIT");
     }
 
-    public bool hasTag(GameObject[] target ,string tag)
+    public bool HasTag(GameObject[] target ,string tag)
     {
         if (target == null) return false;
         foreach(GameObject g in target)
@@ -59,7 +64,6 @@ public class Entity : MonoBehaviour //all entities should inherit this
     void Start()
     {
         setupHitbox();
-        
 
     }
     void Update()

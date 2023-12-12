@@ -59,8 +59,10 @@ public class MoveManager : MonoBehaviour
 
             }
             if (enemiesOnATM <= 0) finished = true;
-            
+
         }
+        //EnemyStat.ended = true;
+
         Debug.Log("fight finished");
         SceneManager.LoadScene("FieldScene");
         
@@ -71,19 +73,14 @@ public class MoveManager : MonoBehaviour
 
     public static void Enq(Turn element)
     {
-        turns.add(element);
+        turns.Add(element);
     }
 
     public static void Deq()
     {
-        bench.add(turns.first.data);
-        turns.remove(turns.first.data);
+        bench.Add(turns.first.data);
+        turns.Remove(turns.first.data);
         
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     public static Turn Peek() { return turns.first.data; }

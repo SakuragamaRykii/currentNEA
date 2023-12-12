@@ -16,9 +16,8 @@ public class Weapon : Entity
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
-        Debug.Log(transform.localEulerAngles.z);
 
         Move();
     }
@@ -49,7 +48,6 @@ public class Weapon : Entity
                 if (g.tag.Equals("Enemy"))
                 {
                     g.GetComponent<rtEnemy>().es.TakeDamage(damage);
-                    Debug.Log(g.GetComponent<rtEnemy>().es.currentHP);
                     shootTime = 0;
 
                 }

@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : Entity, IOverPrevention
+public class rtPlayer : Entity, IPlayerControl
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
     public GameObject weapon;
     public float currentCd;
     public GameObject cam;
+    
     void Start()
     {
         cam.GetComponent<cameraMove>().SetUp();
@@ -25,11 +26,22 @@ public class rtPlayer : Entity, IOverPrevention
 
     }
 
-    void Update()
+    public override void LoadData(GameData data)
+    {
+        PlayerStat.level = data.playerLevel;
+        PlayerStat.currentEXP = data.playerCurrentXP;
+    }
+    public override void SaveData(ref GameData data)
+    {
+        data.playerLevel = PlayerStat.level;
+        data.playerCurrentXP = PlayerStat.currentEXP;
+
+    }
+
+    void FixedUpdate()
     {
         Inventory.Fist();
         weapon = Inventory.currentlyEquipped.weapon;
-        Debug.Log(Inventory.currentlyEquipped.name);
         Move();
         PreventHPOver();
         ManageColEvent(CheckCollision());

@@ -37,12 +37,15 @@ public class FileDataHandler
                 Debug.LogError("Error when trying to load: " + fullPath + "\n" + e);
             }
         }
+        Debug.Log(fullPath);
+        PlayerStat.fileToDelete = fullPath;
         return loadedData;
     }
 
     public void Save(GameData data)
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
+
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
@@ -61,7 +64,21 @@ public class FileDataHandler
         {
             Debug.LogError("Error when trying to save in: " + fullPath + "\n" + e );
         }
+        PlayerStat.fileToDelete = fullPath;
 
+
+    }
+
+    public void Clear()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        try
+        {
+            File.Delete(fullPath);
+        }catch(Exception e)
+        {
+            Debug.LogError("Error when deleting: " + fullPath + "\n" + e);
+        }
     }
 
 }
