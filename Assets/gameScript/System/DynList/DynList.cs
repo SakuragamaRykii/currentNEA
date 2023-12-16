@@ -8,11 +8,10 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.UIElements;
 
-[System.Serializable]
 public class DynList<T> : IEnumerable where T : class
 {
-    public ListNode<T> first { get;  private set; }
-    public ListNode<T> last { get;  private set; }
+    public ListNode<T> first { get;  set; }
+    public ListNode<T> last { get;  set; }
 
     public int size {get; private set;}
 
@@ -25,7 +24,7 @@ public class DynList<T> : IEnumerable where T : class
     }
 
 
-    public void Add(T data) {
+    public void add(T data) {
         if (data == null) return;
         ListNode<T> newNode = new ListNode<T>(data);
 
@@ -35,6 +34,7 @@ public class DynList<T> : IEnumerable where T : class
             first = newNode;
             last = first;
             size++;
+            //Debug.Log(data + " in " + this + "size = " + size);
             return;
         }
 
@@ -43,6 +43,7 @@ public class DynList<T> : IEnumerable where T : class
         newNode.previous = last;
         last = newNode;
         size++;
+        //Debug.Log(data + " in " + this + "size = " + size);
 
     }
 
@@ -92,7 +93,7 @@ public class DynList<T> : IEnumerable where T : class
 
     }*/
 
-    public void Remove(T queryData)
+    public void remove(T queryData)
     {
         if (queryData == null) return;
         if (!Contains(queryData)) return;
@@ -132,9 +133,10 @@ public class DynList<T> : IEnumerable where T : class
         if (subject == null) return false;
         foreach(T t in this)
         {
-            if (t == subject) return true;
-
+            if (t == subject) { //Debug.Log("true");
+                                return true; }
         }
+        //Debug.Log("false");
         return false;
     }
 
@@ -148,7 +150,7 @@ public class DynList<T> : IEnumerable where T : class
         ListNode<T> result = first;
         if (qIndex >= size) {
             Debug.Log("invalid index");
-            return null;
+            return default(T);
         }
         for(int i = 0; i < size; i++)
         {
@@ -160,7 +162,7 @@ public class DynList<T> : IEnumerable where T : class
             }
             result = result.next;
         }
-        return null;
+        return default(T);
     }
     public ListNode<T> nodeAt(int qIndex) //dataAt, but the return type is the node itself.
     {
@@ -175,7 +177,8 @@ public class DynList<T> : IEnumerable where T : class
         }
         for (int i = 0; i < size; i++)
         {
-
+            //Debug.Log(i);
+            //Debug.Log(result.data);
             if (i == qIndex)
             {
                 return result;
@@ -200,7 +203,7 @@ public class DynList<T> : IEnumerable where T : class
     public static DynList<T> ToDList(T[] arr)
     {
         DynList<T> result = new DynList<T>();
-        foreach (T t in arr) result.Add(t);
+        foreach (T t in arr) result.add(t);
         return result;
 
     }
@@ -226,10 +229,10 @@ public class DynList<T> : IEnumerable where T : class
         private int pos = -1;
         private ListNode<T> curr;
 
-        public MyEnumerator(DynList<T> l)
+        public MyEnumerator(DynList<T> myList)
         {
-            list = l;
-            curr = l.first;
+            list = myList;
+            curr = myList.first;
         }
 
         public bool MoveNext()

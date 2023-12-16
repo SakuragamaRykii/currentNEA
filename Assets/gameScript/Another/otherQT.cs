@@ -26,11 +26,11 @@ public class otherQT// : MonoBehaviour
     {
         if (!grid.Contains(obj.transform.position)) 
         {
-            if (inGrid.Contains(obj)) inGrid.Remove(obj); //for objects that can move out of the grid 
+            if (inGrid.Contains(obj)) inGrid.remove(obj); //for objects that can move out of the grid 
             return;
         }
 
-        if(!inGrid.Contains(obj)) inGrid.Add(obj);
+        if(!inGrid.Contains(obj)) inGrid.add(obj);
 
         //Debug.Log(obj.name + ":" + grid + ":" + obj.transform.position);
         Debug.Log(inGrid);

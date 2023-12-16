@@ -9,7 +9,7 @@ public class RTManager : MonoBehaviour
 {
     public GameObject enemy;
     public static int amount;
-
+    private float x, y;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,11 +26,7 @@ public class RTManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (amount <= 0)
-        {
-           // EnemyStat.ended = true;
-            SceneManager.LoadScene("FieldScene");
-        }
+        if (amount <= 0) SceneManager.LoadScene("FieldScene");
 
     }
 }

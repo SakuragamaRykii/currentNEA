@@ -218,6 +218,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191d131a97d54ea4e886a17a27718f64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldLevel: 0
+  oldLevel: 0
+  minEnemies: 3
+  maxEnemies: 7
+  minInte: 3
+  maxInte: 10
+  minWall: 3
+  maxWall: 12
+  total: []
+  enemies: []
   wallObj: {fileID: 2021910888959541158, guid: b33eb259f441846d1b26171c6b0b65b8, type: 3}
   enemyObj: {fileID: 1245383777608524196, guid: 550b132c9d352724c925ca0a04e6b3c3, type: 3}
   playerObj: {fileID: 5429443111407503050, guid: 41a271c5be2db8a45b2ec57e610645ee, type: 3}
@@ -227,7 +237,6 @@ MonoBehaviour:
   - {fileID: 4404095397918500466, guid: b1b1990985efe4812bc0753f48220407, type: 3}
   - {fileID: 7685305152741910258, guid: 6c689252f4faaac4bacd8da74154c90b, type: 3}
   - {fileID: 4275492415786896979, guid: 82b292887d2603641a2521d7e7cb2c07, type: 3}
-  playerPos: {x: 0, y: 0, z: 0}
   playerCam: {fileID: 878890408}
 --- !u!114 &1186365429
 MonoBehaviour:
@@ -241,7 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 630c13573a25c104fb97856b106664de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: SaveData.game
+  fileName: data.game
 --- !u!1001 &1575177576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -484,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6098170450288928996, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 39.84023
+      value: 39.840626
       objectReference: {fileID: 0}
     - target: {fileID: 6192366200008043907, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchorMax.y
@@ -528,7 +537,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7013294636915312690, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 100.00009
+      value: 100.00025
       objectReference: {fileID: 0}
     - target: {fileID: 7056614498963891270, guid: 2431c88a1085cef4d91f8b3290f887be, type: 3}
       propertyPath: m_AnchorMax.y
@@ -718,10 +727,6 @@ PrefabInstance:
     - target: {fileID: 3426168896832712530, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3426168896832712530, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
-      propertyPath: m_TagString
-      value: GameController
       objectReference: {fileID: 0}
     - target: {fileID: 8069146468301366220, guid: 3490ea8ec0a684f54ad7097a46eab4bd, type: 3}
       propertyPath: m_Color.b

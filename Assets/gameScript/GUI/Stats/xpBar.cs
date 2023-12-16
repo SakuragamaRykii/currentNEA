@@ -12,7 +12,7 @@ public class xpBar : MonoBehaviour
     void Start()
     {
         xp = GetComponent<Scrollbar>();
-        xp.size = 1;
+        xp.size = PlayerStat.currentEXP / PlayerStat.expToNextLevel;
         value = GetComponentInChildren<TextMeshProUGUI>();
 
     }
@@ -20,8 +20,8 @@ public class xpBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        xp.size = PlayerStat.currentEXP/PlayerStat.expToNextLevel;
-        value.text = "XP to Next: " + (int)PlayerStat.currentEXP + "/" + (int)PlayerStat.expToNextLevel;
+        xp.size = PlayerStat.currentEXP / PlayerStat.expToNextLevel;
+        value.text = "XP to Next: " + PlayerStat.currentEXP + "/" + PlayerStat.expToNextLevel;
 
     }
 }

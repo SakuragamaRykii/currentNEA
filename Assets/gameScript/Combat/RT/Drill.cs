@@ -23,7 +23,7 @@ public class Drill : Weapon
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Move();
     }

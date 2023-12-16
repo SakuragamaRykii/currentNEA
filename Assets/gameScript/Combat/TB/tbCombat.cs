@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
 
-public class tbCombat : Turn, IPlayerControl, IDataPersistence
+public class tbCombat : Turn, IOverPrevention
 {
     DynList<Move> movesOwned;
     VisualElement root;
@@ -73,18 +73,6 @@ public class tbCombat : Turn, IPlayerControl, IDataPersistence
 
     public void PreventHPOver(){if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;}
 
-    public void LoadData(GameData data)
-    {
-        PlayerStat.level = data.playerLevel;
-        PlayerStat.currentEXP = data.playerCurrentXP;
-    }
-    public void SaveData(ref GameData data)
-    {
-        data.playerLevel = PlayerStat.level;
-        data.playerCurrentXP = PlayerStat.currentEXP;
-
-    }
-
     private void FixedUpdate()
     {
         PreventHPOver();
@@ -146,9 +134,10 @@ public class tbCombat : Turn, IPlayerControl, IDataPersistence
     }
     void handleDefend()
     {
+        Debug.Log("defend");
         if (moved && arrow2.enabledSelf)
         {
-            log.text = "Defending";
+            Debug.Log("DEFEND");
             PlayerStat.currentHP += PlayerStat.defence;
             MoveManager.Deq();
             moved = false;

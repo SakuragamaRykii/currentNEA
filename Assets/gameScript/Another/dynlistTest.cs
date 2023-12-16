@@ -18,10 +18,10 @@ public class dynlistTest : MonoBehaviour
     {
         if(list.size < 5)
         {
-            list.Add(dummy1);
+            list.add(dummy1);
         }
-        if(list.size == 5) list.Add(dummy2);
-        if(list.size>5) list.Remove(dummy1);
+        if(list.size == 5) list.add(dummy2);
+        if(list.size>5) list.remove(dummy1);
         Debug.Log(list);
 
     }

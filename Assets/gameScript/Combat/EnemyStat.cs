@@ -5,8 +5,6 @@ using UnityEngine;
 public class EnemyStat : MonoBehaviour, IKillable
 {
     public int level;
-    //public static bool ended = false;
-
     public float
         maxHP,
         currentHP,
@@ -16,7 +14,6 @@ public class EnemyStat : MonoBehaviour, IKillable
     public int xpWorth;
     private void Awake()
     {
-       // ended = false;
         level = Random.Range(PlayerStat.level, PlayerStat.level + 5);
         maxHP = (Random.Range(5, 11) * Mathf.Pow(1.05f, level-1));
         //maxHP = 100;
@@ -29,7 +26,7 @@ public class EnemyStat : MonoBehaviour, IKillable
 
         speed = (Random.Range(1, 6) * Mathf.Pow(1.05f, level-1));
 
-        xpWorth = 5 * level;
+        xpWorth = 15 * level;
     }
 
     public void Die()
@@ -43,6 +40,7 @@ public class EnemyStat : MonoBehaviour, IKillable
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
+        Debug.Log("Current hp : " + currentHP);
     }
     public bool IsDead() { return currentHP <= 0; }
  

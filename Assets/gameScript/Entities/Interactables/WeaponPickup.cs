@@ -20,13 +20,14 @@ public class WeaponPickup : Entity, IRandomDrop
         Debug.Log(thisDrop);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         GameObject[] cc = CheckCollision();
-        if(HasTag(cc, "Player"))
+        if(hasTag(cc, "Player"))
         {
             Inventory.insert(new WeaponItem(thisDrop, Random.Range(60, 101)));
             gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

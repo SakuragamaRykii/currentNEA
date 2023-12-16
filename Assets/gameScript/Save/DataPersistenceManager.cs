@@ -73,16 +73,7 @@ public class DataPersistenceManager : MonoBehaviour
     {
         IEnumerable<IDataPersistence> objs = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>(); 
         DynList<IDataPersistence> result = new DynList<IDataPersistence>();
-        foreach (IDataPersistence obj in objs) result.Add(obj);
+        foreach (IDataPersistence obj in objs) result.add(obj);
         return result;
-    }
-    private void FixedUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            dh.Clear();
-            Debug.Log("deleted");
-            LoadGame();
-        }
     }
 }

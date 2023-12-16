@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Point
 {
-    public Rect area { get; private set; } //area used to query the objects within it
+    public Rect area { get; private set; }
     public Vector2 centre { get; private set; } //centre position of the point
     public float h { get; private set; } //current square to target
     public float g { get; private set; } //start to the current square

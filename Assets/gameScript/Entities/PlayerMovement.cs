@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : Entity, IPlayerControl
+public class PlayerMovement : Entity, IOverPrevention, IDataPersistence
 {
     private Rigidbody2D rb;
     public static GameObject invMenu;
@@ -14,7 +14,7 @@ public class PlayerMovement : Entity, IPlayerControl
     void Start()
     {
         boosting = false;
-        if (!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
+        if(!PlayerStat.levelThread.IsAlive) PlayerStat.levelThread.Start();
 
         if (Inventory.currentlyEquipped == null)
         {
@@ -26,26 +26,24 @@ public class PlayerMovement : Entity, IPlayerControl
         rb = GetComponent<Rigidbody2D>();
         setupHitbox();
     }
-
-    
-    public override void LoadData(GameData data)
+    public void LoadData(GameData data)
     {
-        PlayerStat.level = data.playerLevel;
-        PlayerStat.currentEXP = data.playerCurrentXP;
+        PlayerStat.level = data.level;
+        PlayerStat.currentEXP = data.currentEXP;
     }
-    public override void SaveData(ref GameData data)
+    public void SaveData(ref GameData data)
     {
-        data.playerLevel = PlayerStat.level;
-        data.playerCurrentXP = PlayerStat.currentEXP;
+        data.level = PlayerStat.level;
+        data.currentEXP = PlayerStat.currentEXP;
 
     }
 
 
 
-    void FixedUpdate()
+    void Update()
     {
         PreventHPOver();
-        CheckCollision();
+        ManageColEvent(CheckCollision());
         Move();
         ToggleInventory();
 
@@ -66,6 +64,24 @@ public class PlayerMovement : Entity, IPlayerControl
         }
     }
 
+    void ManageColEvent(GameObject[] type){
+        //        Debug.Log(type);
+        if (type != null)
+        {
+            if (hasTag(type, "Enemy"))
+            {
+
+                SceneManager.LoadScene("TBAndSelectionScene");
+                Debug.Log("GONE");
+                boosting = false;
+            }
+
+            if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
+
+            if (hasTag(type, "XPUP")) PlayerStat.currentEXP += PlayerStat.expToNextLevel / 4;
+        }
+
+    }
 
     private void Move()
     {
@@ -75,6 +91,6 @@ public class PlayerMovement : Entity, IPlayerControl
         rb.velocity = move;
         Quaternion to = Quaternion.LookRotation(Vector3.forward, move);
         if (hor != 0 || ver != 0)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 30);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 2);
     }
 }

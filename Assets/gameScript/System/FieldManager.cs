@@ -24,19 +24,19 @@ public class FieldManager : MonoBehaviour
 
         
     }
-    private void Update()
+    private void FixedUpdate()
     {
 
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));
-
+        //Debug.Log(qt.objsInGrid);
+       // Debug.Log(DynList<Entity>.ToDList(GameObject.FindObjectsOfType<Entity>()));
 
         foreach(Entity e in GameObject.FindObjectsOfType<Entity>())
         {
             qt.Insert(e.gameObject);
             //qt.find(e.gameObject);
         }
-
-
+       // Debug.Log(qt.objsInGrid);
     }
 
 

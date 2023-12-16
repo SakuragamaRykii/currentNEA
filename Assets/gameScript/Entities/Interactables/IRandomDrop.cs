@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IRandomDrop
 {
-    string Pick(string[] pool);
+    public string Pick(string[] pool);
 }

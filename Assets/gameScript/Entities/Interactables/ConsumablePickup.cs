@@ -11,13 +11,14 @@ public class ConsumablePickup : Entity, IRandomDrop
         setupHitbox();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         GameObject[] cc = CheckCollision();
-        if (HasTag(cc, "Player"))
+        if (hasTag(cc, "Player"))
         {
             Inventory.insert(new Item(Pick(consPool)));
             gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
