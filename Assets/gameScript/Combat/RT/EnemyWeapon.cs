@@ -19,7 +19,7 @@ public class EnemyWeapon : Entity
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         transform.position = Vector3.MoveTowards(transform.position, target, speed);
    
@@ -39,10 +39,8 @@ public class EnemyWeapon : Entity
         if (cc == null) return;
         foreach (GameObject g in cc)
         {
-            Debug.Log(g);
             if (g.tag.Equals("Player"))
             {
-                Debug.Log("HELLO");
                 PlayerStat.TakeDamage(damage);
                 shootTime = 0;
 

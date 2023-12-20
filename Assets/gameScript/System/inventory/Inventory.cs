@@ -16,14 +16,16 @@ public static class Inventory
 
 
     public static Item peek(int index) { return itemsIn[index].first.data; }
-    
+    public static Item peek(string h) { return itemsIn[HashFunc(h)].first.data; }
+
+
     public static int HashFunc(string toHash)
     {
         int mid = toHash.Length / 2;
 
-        Debug.Log((int)toHash[mid] % 15);
+        Debug.Log(toHash[mid] % 15);
 
-        return (int)toHash[mid] % 15;//casting to int converts to the hash value
+        return toHash[mid] % 15;//casting to int converts to the hash value
     }
 
     public static void insert(Item i)
@@ -34,11 +36,11 @@ public static class Inventory
             if (itemsIn[slot].size > 0)
         {
             
-            if (i.hasDurability)  itemsIn[slot].add(i);
+            if (i.hasDurability)  itemsIn[slot].Add(i);
             else itemsIn[slot].DataAt(0).amount++;
 
         }
-        else itemsIn[slot].add(i);
+        else itemsIn[slot].Add(i);
 
     }
 
@@ -53,22 +55,22 @@ public static class Inventory
 
     public static void Deq(int slot)
     {
-        itemsIn[slot].remove(itemsIn[slot].DataAt(0));
         if (peek(slot) == currentlyEquipped) currentlyEquipped = null;
+        itemsIn[slot].Remove(itemsIn[slot].DataAt(0));
 
     }
     public static void Deq(string slot)
     {
         int hIndex = HashFunc(slot);
-        itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
         if (peek(hIndex) == currentlyEquipped) currentlyEquipped = null;
+        itemsIn[hIndex].Remove(itemsIn[hIndex].DataAt(0));
 
     }
     public static void Deq(Item slot)
     {
         int hIndex = HashFunc(slot.name);
-        itemsIn[hIndex].remove(itemsIn[hIndex].DataAt(0));
         if (peek(hIndex) == currentlyEquipped) currentlyEquipped = null;
+        itemsIn[hIndex].Remove(itemsIn[hIndex].DataAt(0));
     }
 
     public static void Use(string slot)
@@ -79,13 +81,17 @@ public static class Inventory
   
 
     }
-    public static void Use(int slot)
-    {
-       
-    }
+
     public static void Fist()
     {
         if (currentlyEquipped == null) currentlyEquipped = new WeaponItem("Fist", 100000);
+        else if (currentlyEquipped.durability <= 0)
+        {
+            string temp = currentlyEquipped.name;
+            Deq(currentlyEquipped);
+            if (peek(temp) != null ) currentlyEquipped = (WeaponItem)peek(temp);
+            else currentlyEquipped = new WeaponItem("Fist", 100000);
+        }
     }
 
 }

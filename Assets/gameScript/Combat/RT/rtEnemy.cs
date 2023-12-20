@@ -13,7 +13,6 @@ public class rtEnemy : Entity
     {
         atkArea = new Rect(transform.position.x - 7, transform.position.y - 7, 7, 7);
         es = GetComponent<EnemyStat>();
-        Debug.Log(es.attack);
         setupHitbox();
         pf = GetComponent<PathFinder>();
         rb = GetComponent<Rigidbody2D>();
@@ -24,7 +23,7 @@ public class rtEnemy : Entity
 
     int index = 0;
     float counter = 0;
-    private void Update()
+    private void FixedUpdate()
     {
         CheckCollision();
         counter -= Time.deltaTime;
@@ -60,7 +59,6 @@ public class rtEnemy : Entity
         yield return new WaitForSeconds(1);
         EnemyWeapon ew =  Instantiate(weapon, transform.position, transform.rotation).GetComponent<EnemyWeapon>();
         ew.damage = es.attack;
-        Debug.Log(ew.damage);
         attacked = false;
     }
 

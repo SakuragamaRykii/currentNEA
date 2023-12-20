@@ -1,31 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class WorldLevelSpawner : MonoBehaviour
+public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 {
-    public int worldLevel, oldLevel;
-    public int minEnemies = 3, maxEnemies = 7,
-        minInte = 3, maxInte = 10,
-        minWall = 3, maxWall = 12;
-    public GameObject[] total;
-    Rect[] alreadyVisited;
-    public GameObject[] enemies;
-    public static bool hasReset = true;
+    public static int worldLevel = 1, oldLevel = 0;
 
     // below are to be serialized on editor
     public GameObject wallObj, enemyObj;
     public GameObject playerObj;
     public GameObject[] inteObjs;
 
-    private Rect nonoArea;//prevents enemies from spawning really close to the player
-    public static Vector3 playerPos;
+    //public static string enemyMarked;
+
+    public Vector3 playerPos;
     public GameObject playerCam;
-    private bool CheckAlready(Vector2 pos)
+    private bool CheckAlready(Vector2 pos, Rect[] list)
     {
-        foreach(Rect r in alreadyVisited)
+        foreach(Rect r in list)
         {
             Rect checkArea = new Rect(pos - Vector2.one/2, Vector2.one);
             if (r.Overlaps(checkArea)) return true;
@@ -33,84 +28,147 @@ public class WorldLevelSpawner : MonoBehaviour
         
         return false;
     }
-    void Start()
+    public void LoadData(GameData data)
     {
-        if (hasReset)
+
+        worldLevel = data.worldLevel;
+        oldLevel = data.oldLevel;
+        if(worldLevel > oldLevel)
         {
-            playerPos = Vector3.zero - Vector3.forward;
-
-            worldLevel = 1;
-            minEnemies = 2; maxEnemies = 5;
-            minInte = 2; maxInte = 6;
-            minWall = 12; maxWall = 15;
-            hasReset = false;
+            Debug.Log("udk");
+            NewRandomField();
+            oldLevel = worldLevel;
+            return;
         }
-        
-
-        nonoArea = new Rect((Vector2)playerPos - Vector2.one*5, Vector2.one*10); 
-
+        //spawn player 
+        playerPos = data.fieldPlayerPosition;
         Instantiate(playerObj, playerPos, Quaternion.identity);
         playerCam.GetComponent<cameraMove>().SetUp();
 
-        Spawn();
+        //spawn enemies
+        int amountDown = 0;
+        foreach (KeyValuePair<Vector2, bool> pair in data.enemyFieldData)
+        {
+            if (pair.Value) Spawn(pair.Key, enemyObj);
+            else amountDown++;
+        }
+        if(amountDown >= data.enemyFieldData.Count)
+        {
+            worldLevel++;
+            Debug.Log("new level");
+            NewRandomField();
+            return;
+        }
+        //spawn walls
+        foreach (KeyValuePair<Vector2, bool> pair in data.wallFieldData)
+        {
+            if(pair.Value) Spawn(pair.Key, wallObj);
+        }
+
+        // spawn interactables
+        if(data.specificInteractables != null)
+        {
+            for(int i = 0; i < data.specificInteractables.Count; i++)
+            {
+                  if(data.interactablesFieldData.ElementAt(i).Value)
+                  {
+                      if (data.specificInteractables.ElementAt(i).Contains("xpDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[0]);
+                      if (data.specificInteractables.ElementAt(i).Contains("WeaponDummy ")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[1]);
+                      if (data.specificInteractables.ElementAt(i).Contains("ConsumableDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[2]);
+                      if (data.specificInteractables.ElementAt(i).Contains("BuffDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[3]);
+                      if (data.specificInteractables.ElementAt(i).Contains("BadDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[4]);
+
+                  }
+                //if (data.interactablesFieldData.ElementAt(i).Value) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[0]);
+            }
+        }
+
+    }
+    public void SaveData(ref GameData data)
+    {
+        if (data != null) data = new GameData();
+        IEnumerable enemies = FindObjectsByType<area>(FindObjectsInactive.Include, FindObjectsSortMode.None); 
+        foreach (area a in enemies) data.enemyFieldData.Add(a.transform.position, a.gameObject.activeSelf);
+
+        IEnumerable interactables = FindObjectsByType<Entity>(FindObjectsInactive.Include, FindObjectsSortMode.None).OfType<IRandomDrop>();
+        foreach (Entity a in interactables)
+        {
+            data.interactablesFieldData.Add(a.transform.position, a.gameObject.activeSelf);
+            data.specificInteractables.Add(a.gameObject.name);
+        }
+        IEnumerable walls = FindObjectsByType<Wall>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (Wall a in walls) data.wallFieldData.Add(a.transform.position, a.gameObject.activeSelf);
+
+        data.fieldPlayerPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        data.worldLevel = worldLevel;
+        data.oldLevel = oldLevel;
     }
 
-    public void Spawn()
+    public void NewRandomField()
     {
+        playerPos = new Vector3(0, 0, -5);
+        Instantiate(playerObj, playerPos, Quaternion.identity);
+        playerCam.GetComponent<cameraMove>().SetUp();
+        //initialize minimum and maximum relative to world level;
+        int minEnemies = 2 + worldLevel,
+            maxEnemies = 5 + worldLevel,
+            minInte = 2 + worldLevel,
+            maxInte = 6 + worldLevel,
+            minWall = 12 + worldLevel,
+            maxWall = 15 + worldLevel;
+        //later randomly get the amount to spawn for this level
         int ens = Random.Range(minEnemies, maxEnemies + worldLevel),
-            inters = Random.Range(minEnemies, maxEnemies + worldLevel),
-            walls = Random.Range(minEnemies, maxEnemies + worldLevel);
+        inters = Random.Range(minInte, maxInte + worldLevel),
+        walls = Random.Range(minWall, maxWall + worldLevel);
+        //
+        Rect[] alreadyVisited = new Rect[ens + inters + walls];
 
-        int totalAmount = ens + inters + walls;
-        total = new GameObject[totalAmount];
-        alreadyVisited = new Rect[totalAmount];
-        enemies = new GameObject[ens];
+        Rect preventEnemy = new Rect(Vector2.zero - Vector2.one * 5, Vector2.one * 10); //10*10 square to prevent enemies from spawning near and immediately chase the player.
+        Rect preventOther = new Rect(Vector2.zero - Vector2.one * 1.5f, Vector2.one * 3); // prevents other objects to overlap the player.
 
+        //values to prevent the entities from spwaning outside the field
         float min = -18, max = 18.1f;
-        for (int i = 0; i < ens; i++) //spawn enemies ------------------------------------------------------------------------------------------------------
+
+        //spawn enemies
+        for(int i = 0; i < ens; i++)
         {
-            Vector2 pos = new Vector2(Random.Range(min, max), Random.Range(min, max));
-            while (CheckAlready(pos) || nonoArea.Contains(pos))
-            {
-                pos.x = Random.Range(min, max);
-                pos.y = Random.Range(min, max);
-            }
+            Vector2 randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            while(CheckAlready(randomPos, alreadyVisited)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+
+            Spawn(randomPos, enemyObj);
+            alreadyVisited[i] = new Rect(randomPos - Vector2.one / 2, Vector2.one);
             
-            Instantiate(enemyObj, (Vector3)pos - Vector3.forward, Quaternion.identity);
-            alreadyVisited[i] = new Rect(pos - Vector2.one/2, Vector2.one);
         }
-        Rect notOnPlayer = new Rect((Vector2)playerPos - Vector2.one * 1.5f, Vector2.one * 3); //to prevent other objects from going on the player or very near it.
-        for (int j = ens; j < ens+inters; j++) //spawn interactables ------------------------------------------------------------------------------------
+        //spawn interactables
+        for(int j = ens; j < ens + inters; j++)
         {
-            GameObject rand = inteObjs[Random.Range(0, inteObjs.Length)]; //picks a random interactable
-            Vector2 pos = new Vector2(Random.Range(min, max), Random.Range(min, max));
-            while (CheckAlready(pos) || notOnPlayer.Contains(pos))
-            {
-                pos.x = Random.Range(min, max);
-                pos.y = Random.Range(min, max);
-            }
+            Vector2 randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            while (CheckAlready(randomPos, alreadyVisited)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            GameObject randomObj = inteObjs[Random.Range(0, inteObjs.Length)];
+            Spawn(randomPos, randomObj);
+            alreadyVisited[j] = new Rect(randomPos - Vector2.one / 2, Vector2.one);
 
-            Instantiate(rand, (Vector3)pos - Vector3.forward, Quaternion.identity);
-            alreadyVisited[j] = new Rect(pos - Vector2.one / 2, Vector2.one);
         }
-        for(int k = ens + inters; k < totalAmount; k++) // spawn walls ------------------------------------------------------------------------------
+        //spawn walls
+        for (int k = ens + inters; k < ens + inters + walls; k++)
         {
-            Vector2 pos = new Vector2(Random.Range(min, max), Random.Range(min, max)); 
-            while (CheckAlready(pos) || notOnPlayer.Contains(pos))
-            {
-                pos.x = Random.Range(min, max);
-                pos.y = Random.Range(min, max);
-            }
+            Vector2 randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            while (CheckAlready(randomPos, alreadyVisited)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
 
-            Instantiate(wallObj, (Vector3)pos - Vector3.forward, Quaternion.identity);
-            alreadyVisited[k] = new Rect(pos - Vector2.one / 2, Vector2.one);
+            Spawn(randomPos, wallObj);
+            alreadyVisited[k] = new Rect(randomPos - Vector2.one / 2, Vector2.one);
+
         }
+
+
+
 
 
     }
-    // Update is called once per frame
-    void FixedUpdate()
+
+    public void Spawn(Vector2 position, GameObject entity)
     {
-        
+        Instantiate(entity, (Vector3)position - Vector3.forward, Quaternion.identity);
     }
+
 }

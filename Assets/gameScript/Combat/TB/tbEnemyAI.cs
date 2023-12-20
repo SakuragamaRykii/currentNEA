@@ -35,8 +35,8 @@ public class tbEnemyAI : Turn
     {
         if (es.IsDead())
         {
-            MoveManager.turns.remove(this);
-            MoveManager.bench.remove(this);
+            MoveManager.turns.Remove(this);
+            MoveManager.bench.Remove(this);
             MoveManager.enemiesOnATM--;
             return;
         }

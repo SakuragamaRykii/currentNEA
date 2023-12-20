@@ -10,10 +10,8 @@ public class PathFinder : MonoBehaviour
 {
 
     [SerializeField] public GameObject targetObj;
-    private Point startPoint, targetPoint;
-    // Update is called once per frame
+    private Point startPoint;
     DynList<Point> open, closed;  //closed and open list       
-    private Point centrePoint;
     public Point[] finalPath;
     public int index;
 
@@ -21,23 +19,19 @@ public class PathFinder : MonoBehaviour
 
     public void Find()
     {
+        if (targetObj == null) targetObj = GameObject.FindGameObjectWithTag("Player");
         open = new DynList<Point>();
         closed = new DynList<Point>();
         startPoint = new Point(transform.position, targetObj);
-        targetPoint = new Point(targetObj.transform.position);
-        centrePoint = startPoint;
-        open.add(startPoint);
+
+        open.Add(startPoint);
         FindPath();
         index = finalPath.Length - 1;
 
     }
 
     
-
-    //[SerializeField] private GameObject point;
-    //[SerializeField] private GameObject op;
-  //  [SerializeField] private GameObject path;
-    public void FindPath()
+    private void FindPath()
     {
         Point lowest = startPoint;
         while (!targetObj.GetComponent<Entity>().hitbox.Overlaps(lowest.area))
@@ -54,8 +48,7 @@ public class PathFinder : MonoBehaviour
             }
 
             lowest.InitSurr();
-            open.remove(lowest);
-            //if (point != null) { Instantiate(point, new Vector3(lowest.centre.x, lowest.centre.y, -10), Quaternion.identity); }
+            open.Remove(lowest);
             foreach (Point p in lowest.surrPoints)
             {
                 //Debug.Log("already: " + p + ": " + p.f);
@@ -63,18 +56,15 @@ public class PathFinder : MonoBehaviour
                 GameObject sc = p.scan();
                 if (sc == null)
                 {
-                    //Instantiate(op, new Vector3(p.centre.x, p.centre.y, -10), Quaternion.identity);
-                    open.add(p);
+                    open.Add(p);
                 }
-                else if (sc.tag.Equals(targetObj.tag)) { open.add(p); break; }
+                else if (sc.tag.Equals(targetObj.tag)) { open.Add(p); break; }
                 else if (sc.tag.Equals("Wall")) continue;
-                else open.add(p);
+                else open.Add(p);
             }
 
-            closed.add(lowest);
-           // Debug.Log("closed = " + closed);
-           // Debug.Log(open);
-          //  Debug.Log(open.size);
+            closed.Add(lowest);
+
             
          }
         finalPath = FinalizePath(lowest);
@@ -91,13 +81,13 @@ public class PathFinder : MonoBehaviour
     private Point[] FinalizePath(Point from)
     {
         DynList<Point> result = new DynList<Point>();
-        result.add(from);
+        result.Add(from);
       // Instantiate(path, new Vector3(from.centre.x, from.centre.y, -1), Quaternion.identity);
         Point prevs = from;
         while(prevs.previous != null)
         {
             prevs = prevs.previous;
-            result.add(prevs);
+            result.Add(prevs);
            // Debug.Log(prevs);
            // Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
         }

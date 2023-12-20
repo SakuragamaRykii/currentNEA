@@ -16,7 +16,7 @@ public class DLtester : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            if(list.size < 5) list.add(new GameObject());
+            if(list.size < 5) list.Add(new GameObject());
             else
             {
                 foreach (GameObject go in list)
