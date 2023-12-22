@@ -60,6 +60,7 @@ public static class PlayerStat
         level = 1;
         currentEXP = 0;
         expToNextLevel = 25;
+        currentHP = maxHP;
         File.Delete(fileToDelete);
     }
 }

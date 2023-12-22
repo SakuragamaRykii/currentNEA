@@ -11,7 +11,7 @@ public class ConsumablePickup : Entity, IRandomDrop
         setupHitbox();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         GameObject[] cc = CheckCollision();
         if (HasTag(cc, "Player"))

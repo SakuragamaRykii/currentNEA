@@ -15,7 +15,7 @@ public class Debuff : Entity, IRandomDrop
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if(HasTag(CheckCollision(), "Player"))
         {

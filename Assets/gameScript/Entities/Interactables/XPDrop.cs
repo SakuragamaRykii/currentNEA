@@ -12,7 +12,7 @@ public class XPDrop : Entity, IRandomDrop
     {
         setupHitbox();
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if(HasTag(CheckCollision(), "Player"))
         {

@@ -20,7 +20,7 @@ public class WeaponPickup : Entity, IRandomDrop
         Debug.Log(thisDrop);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         GameObject[] cc = CheckCollision();
         if(HasTag(cc, "Player"))

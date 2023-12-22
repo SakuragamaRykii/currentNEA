@@ -35,7 +35,7 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
         oldLevel = data.oldLevel;
         if(worldLevel > oldLevel)
         {
-            Debug.Log("udk");
+            Debug.Log("levelling up world level");
             NewRandomField();
             oldLevel = worldLevel;
             return;

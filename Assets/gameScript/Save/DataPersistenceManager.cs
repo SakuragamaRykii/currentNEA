@@ -66,7 +66,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveGame();
+        dh.Clear();
     }
 
     private DynList<IDataPersistence> FindAllDPOs()

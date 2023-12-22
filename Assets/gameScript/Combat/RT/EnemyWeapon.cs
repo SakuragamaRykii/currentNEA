@@ -13,7 +13,7 @@ public class EnemyWeapon : Entity
     void Start() {
         setupHitbox();
         target = GameObject.FindGameObjectWithTag("Player").transform.position;
-        speed = 0.15f;
+        speed = 1f;
         shootTime = 0.3f;
         weaponCooldown = 0f ;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, target - (Vector2)transform.position);
