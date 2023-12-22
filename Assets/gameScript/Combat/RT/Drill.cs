@@ -27,20 +27,25 @@ public class Drill : Weapon
     {
         Move();
     }
-    protected override void Move()
+    private void Update()
     {
         shootTime -= Time.deltaTime;
-        if ((currentRot < 45 && currentRot >= 0) || (currentRot > 315 && currentRot <= 360)) rb.velocity = new Vector2(0, 10);
-        else if (currentRot <= 315 && currentRot > 225) rb.velocity = new Vector2(10, 0);
-        else if (currentRot < 135 && currentRot >= 45) rb.velocity = new Vector2(-10, 0);
-        else rb.velocity = new Vector2(0, -10);
-        
         if (shootTime <= 0)
         {
             gameObject.SetActive(false);
             Destroy(gameObject);
 
         }
+    }
+    protected override void Move()
+    {
+        
+        if ((currentRot < 45 && currentRot >= 0) || (currentRot > 315 && currentRot <= 360)) rb.velocity = new Vector2(0, 10);
+        else if (currentRot <= 315 && currentRot > 225) rb.velocity = new Vector2(10, 0);
+        else if (currentRot < 135 && currentRot >= 45) rb.velocity = new Vector2(-10, 0);
+        else rb.velocity = new Vector2(0, -10);
+        
+
     }
 
     

@@ -35,7 +35,7 @@ public static class PlayerStat
             speed = 10 * Mathf.Pow(1.05f, level);
             maxHP = 20 * Mathf.Pow(1.05f, level);
             expToNextLevel = 25 * level;
-
+            if (currentHP >= maxHP) currentHP = maxHP;
         }
 
     }

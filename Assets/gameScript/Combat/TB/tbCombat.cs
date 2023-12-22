@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
 
-public class tbCombat : Turn, IPlayerControl, IDataPersistence
+public class tbCombat : Turn, IDataPersistence
 {
     DynList<Move> movesOwned;
     VisualElement root;

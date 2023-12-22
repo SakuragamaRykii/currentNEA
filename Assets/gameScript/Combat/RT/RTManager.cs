@@ -8,9 +8,8 @@ using UnityEngine.SceneManagement;
 public class RTManager : MonoBehaviour
 {
     public GameObject enemy;
-    public static int amount;
+    public static int amount; //amount of enemies on the scene
 
-    // Start is called before the first frame update
     void Awake()
     {
         amount = Random.Range(1, 6);

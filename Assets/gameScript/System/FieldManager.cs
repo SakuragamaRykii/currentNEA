@@ -24,7 +24,8 @@ public class FieldManager : MonoBehaviour
 
         
     }
-    private void Update()
+
+    private void FixedUpdate()
     {
 
         qt = new QuadTree(new Rect(x, y, field.transform.localScale.x, field.transform.localScale.y));

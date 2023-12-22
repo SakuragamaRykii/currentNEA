@@ -16,12 +16,11 @@ public class EnemyWeapon : Entity
         speed = 0.15f;
         shootTime = 0.3f;
         weaponCooldown = 0f ;
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, target);
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, target - (Vector2)transform.position);
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target, speed);
    
         shootTime -= Time.deltaTime;
         Attack();
@@ -32,6 +31,11 @@ public class EnemyWeapon : Entity
         }
 
     }
+    private void FixedUpdate()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target, speed);
+    }
+
 
     private void Attack()
     {

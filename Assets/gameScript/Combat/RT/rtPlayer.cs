@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : Entity, IPlayerControl
+public class rtPlayer : Entity
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
@@ -20,11 +20,7 @@ public class rtPlayer : Entity, IPlayerControl
         setupHitbox();
        
     }
-    public void PreventHPOver()
-    {
-        if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;
 
-    }
 
     public override void LoadData(GameData data)
     {
@@ -40,13 +36,15 @@ public class rtPlayer : Entity, IPlayerControl
 
     void FixedUpdate()
     {
+        Move();
+    }
+    
+    private void Update()
+    {
         Inventory.Fist();
         weapon = Inventory.currentlyEquipped.weapon;
-        Move();
-        PreventHPOver();
-        ManageColEvent(CheckCollision());
         Attack();
-       // Debug.Log("currentcd " + weaponCd);
+        ManageColEvent(CheckCollision());
     }
 
     void Attack()//GameObject to
@@ -60,9 +58,8 @@ public class rtPlayer : Entity, IPlayerControl
     }
     void ManageColEvent(GameObject[] type)
     {
-        if (type == null) return;
-
-        //if (hasTag(type, "Wall")) rb.velocity = -rb.velocity;
+        DynList<GameObject> list = DynList<GameObject>.ToDList(type);
+        Debug.Log(list);
 
     }
 
@@ -75,6 +72,6 @@ public class rtPlayer : Entity, IPlayerControl
         rb.velocity = move;
         Quaternion to = Quaternion.LookRotation(Vector3.forward, move);
         if (hor != 0 || ver != 0)
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 2);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 30);
     }
 }

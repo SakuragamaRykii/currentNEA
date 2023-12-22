@@ -7,7 +7,7 @@ public class ConsumablePickup : Entity, IRandomDrop
     string[] consPool;
     void Start()
     {
-        consPool = new string[] {"Banana", "Spig Beed", "Temp Attack Boost"};
+        consPool = new string[] { "Banana" , "Spig Beed", "Temp Attack Boost"};
         setupHitbox();
     }
 

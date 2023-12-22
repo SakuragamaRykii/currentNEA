@@ -23,15 +23,19 @@ public class rtEnemy : Entity
 
     int index = 0;
     float counter = 0;
-    private void FixedUpdate()
+    private void Update()
     {
-        CheckCollision();
+        Debug.Log(DynList<GameObject>.ToDList(CheckCollision()));
         counter -= Time.deltaTime;
         if (counter <= 0)
         {
             pf.Find();
             counter = 0.3f;
         }
+    }
+    private void FixedUpdate()
+    {
+
         if (isPlayerIn() && !attacked)
         {
             StartCoroutine(Attack());
@@ -66,9 +70,10 @@ public class rtEnemy : Entity
     {
         if (pf.finalPath == null) return;
         Point p = pf.finalPath[index];
-        if (!p.area.Contains(rb.position)) { 
+        if (!p.centre.Equals(rb.position)) {
+            Quaternion to = Quaternion.LookRotation(Vector3.forward,  p.centre - (Vector2)transform.position );
             rb.velocity = new Vector2(p.centre.x - rb.position.x, p.centre.y - transform.position.y);
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, p.centre);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, to, 30);
         }
         else index++;
         if (index >= pf.finalPath.Length) index = 0;

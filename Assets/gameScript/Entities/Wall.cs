@@ -24,51 +24,30 @@ public class Wall : Entity
 
     private void Block(Rigidbody2D rb)
     {
-         Debug.Log("helo");
-        //rb.position = ((Vector2)transform.position - Vector2.one * 2);
+        Debug.Log("helo");
+        //float x = rb.position.x;
         if(rb.velocity.x < 0)
         {
             if (rb.position.x >= transform.position.x + hitbox.width / 2) rb.velocity = new Vector2(0, rb.velocity.y);
-            else if (rb.position.x >= transform.position.x) rb.position = new Vector2(transform.position.x + hitbox.width, rb.position.y);
+           // else if (rb.position.x >= transform.position.x) rb.position = new Vector2(transform.position.x + hitbox.width, rb.position.y);
 
         }
         else if(rb.velocity.x > 0) 
         {
             if (rb.position.x <= transform.position.x - hitbox.width / 2) rb.velocity = new Vector2(0, rb.velocity.y);
-            else if (rb.position.x <= transform.position.x) rb.position = new Vector2(transform.position.x - hitbox.width, rb.position.y);
+           // else if (rb.position.x <= transform.position.x) rb.position = new Vector2(transform.position.x - hitbox.width, rb.position.y);
         }
-        else if(rb.velocity.y < 0)
+
+        if(rb.velocity.y < 0)
         {
             if (rb.position.y >= transform.position.y + hitbox.height / 2) rb.velocity = new Vector2(rb.velocity.x, 0);
-            else if(rb.position.y >= transform.position.y) rb.position = new Vector2(transform.position.x, rb.position.y + hitbox.height);
+           // else if(rb.position.y >= transform.position.y) rb.position = new Vector2(transform.position.x, rb.position.y + hitbox.height);
         }
         else if(rb.velocity.y > 0) 
         {
             if (rb.position.y <= transform.position.y - hitbox.height / 2) rb.velocity = new Vector2(rb.velocity.x, 0);
-            else if (rb.position.y <= transform.position.y) rb.position = new Vector2(transform.position.x, rb.position.y - hitbox.height);
+          //  else if (rb.position.y <= transform.position.y) rb.position = new Vector2(transform.position.x, rb.position.y - hitbox.height);
         }
-        else
-        {
-            rb.velocity = Vector2.zero;
-        }
-      /*  if((rb.position.x >= transform.position.x + hitbox.width / 2 && rb.velocity.x < 0) ||
-            (rb.position.x <= transform.position.x - hitbox.width / 2 && rb.velocity.x > 0))
-        {
-
-        }
-        if ((rb.position.y >= transform.position.y + hitbox.height / 2 && rb.velocity.y > 0) ||
-            (rb.position.y <= transform.position.y - hitbox.height / 2 && rb.velocity.y < 0))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }*/
-
-
-        /*
-         *  
-         *  
-         *  
-         * 
-         */
 
 
     }

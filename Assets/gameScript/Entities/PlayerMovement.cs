@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : Entity, IPlayerControl
+public class PlayerMovement : Entity//, IPlayerControl
 {
     private Rigidbody2D rb;
     public static GameObject invMenu;
@@ -40,21 +40,21 @@ public class PlayerMovement : Entity, IPlayerControl
 
     }
 
+    private void Update()
+    {
+        CheckCollision();
+        ToggleInventory();
 
+
+    }
 
     void FixedUpdate()
     {
-        PreventHPOver();
-        CheckCollision();
         Move();
-        ToggleInventory();
 
     }
 
-    public void PreventHPOver()
-    {
-        if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;
-    }
+
 
     void ToggleInventory()
     {
@@ -62,7 +62,6 @@ public class PlayerMovement : Entity, IPlayerControl
         {
             if(invMenu.activeInHierarchy) invMenu.SetActive(false);
             else invMenu.SetActive(true);
-
         }
     }
 

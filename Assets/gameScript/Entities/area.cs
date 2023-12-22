@@ -18,7 +18,7 @@ public class area : Entity
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (hitbox.Contains(player.transform.position))
         {

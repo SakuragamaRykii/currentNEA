@@ -7,12 +7,14 @@ public class Weapon : Entity
     public float shootTime;
     protected Vector2 mousePos;
     public float damage;
+
     void Start()
     {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - (Vector2)transform.position);
         damage = PlayerStat.attack * Inventory.currentlyEquipped.damagemult;
         setupHitbox();
+        
     }
 
 
@@ -21,12 +23,11 @@ public class Weapon : Entity
 
         Move();
     }
-
-    protected virtual void Move()
+    private void Update()
     {
         shootTime -= Time.deltaTime;
+
         Damage();
-        transform.localPosition = Vector2.MoveTowards(transform.position, mousePos, 0.1f);
 
         if (shootTime <= 0)
         {
@@ -35,17 +36,24 @@ public class Weapon : Entity
         }
     }
 
+    protected virtual void Move()
+    {
+        transform.localPosition = Vector2.MoveTowards(transform.position, mousePos, 0.5f);
+    }
+
 
     protected virtual void Damage()
     {
         GameObject[] cc = CheckCollision();
         if (cc != null)
         {
-            // Debug.Log(cc.ToString());
+             Debug.Log("hit");
 
             foreach (GameObject g in cc)
             {
-                if (g.tag.Equals("Enemy"))
+                Debug.Log(g);
+               // if (g.tag.Equals("Enemy"))
+               if(g.GetComponent<rtEnemy>() != null)
                 {
                     g.GetComponent<rtEnemy>().es.TakeDamage(damage);
                     shootTime = 0;
