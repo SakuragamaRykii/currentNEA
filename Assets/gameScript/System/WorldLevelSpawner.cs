@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 {
     public static int worldLevel = 1, oldLevel = 0;
 
+    public bool enableRandomSpawn;
     // below are to be serialized on editor
     public GameObject wallObj, enemyObj;
     public GameObject playerObj;
@@ -18,15 +20,34 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 
     public Vector3 playerPos;
     public GameObject playerCam;
-    private bool CheckAlready(Vector2 pos, Rect[] list)
+
+    private void Start()
     {
-        foreach(Rect r in list)
+        if(enableRandomSpawn) StartCoroutine(RandomEnemySpawn());
+    }
+
+    private IEnumerator RandomEnemySpawn()
+    {
+        int min = 0, max = 101;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        while (true)
         {
-            Rect checkArea = new Rect(pos - Vector2.one/2, Vector2.one);
-            if (r.Overlaps(checkArea)) return true;
+            yield return new WaitForSeconds(1);
+            if(player != null && player.GetComponent<Rigidbody2D>().velocity.magnitude != 0) 
+            {
+                int rng = Random.Range(min, max);
+                Debug.Log(max);
+                if (rng < 5)
+                { //therefore the initial chance of encounter is 5%
+                    GetComponent<DataPersistenceManager>().SaveGame();
+                    SceneManager.LoadScene("TBAndSelectionScene");
+
+                }
+                else max -= 2; //increases chance of encounter each time
+            }
+
+            
         }
-        
-        return false;
     }
     public void LoadData(GameData data)
     {
@@ -40,10 +61,7 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
             oldLevel = worldLevel;
             return;
         }
-        //spawn player 
-        playerPos = data.fieldPlayerPosition;
-        Instantiate(playerObj, playerPos, Quaternion.identity);
-        playerCam.GetComponent<cameraMove>().SetUp();
+
 
         //spawn enemies
         int amountDown = 0;
@@ -59,6 +77,12 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
             NewRandomField();
             return;
         }
+
+        //spawn player 
+        playerPos = data.fieldPlayerPosition;
+        Instantiate(playerObj, playerPos, Quaternion.identity);
+        playerCam.GetComponent<cameraMove>().SetUp();
+
         //spawn walls
         foreach (KeyValuePair<Vector2, bool> pair in data.wallFieldData)
         {
@@ -133,7 +157,7 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
         for(int i = 0; i < ens; i++)
         {
             Vector2 randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
-            while(CheckAlready(randomPos, alreadyVisited)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            while(CheckAlready(randomPos, alreadyVisited) || preventEnemy.Contains(randomPos)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
 
             Spawn(randomPos, enemyObj);
             alreadyVisited[i] = new Rect(randomPos - Vector2.one / 2, Vector2.one);
@@ -143,7 +167,7 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
         for(int j = ens; j < ens + inters; j++)
         {
             Vector2 randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
-            while (CheckAlready(randomPos, alreadyVisited)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
+            while (CheckAlready(randomPos, alreadyVisited) || preventOther.Contains(randomPos)) randomPos = new Vector2(Random.Range(min, max), Random.Range(min, max));
             GameObject randomObj = inteObjs[Random.Range(0, inteObjs.Length)];
             Spawn(randomPos, randomObj);
             alreadyVisited[j] = new Rect(randomPos - Vector2.one / 2, Vector2.one);
@@ -164,6 +188,17 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 
 
 
+    }
+
+    private bool CheckAlready(Vector2 pos, Rect[] list)
+    {
+        foreach (Rect r in list)
+        {
+            Rect checkArea = new Rect(pos - Vector2.one / 2, Vector2.one); //rect area to check
+            if (r.Overlaps(checkArea)) return true;
+        }
+
+        return false;
     }
 
     public void Spawn(Vector2 position, GameObject entity)

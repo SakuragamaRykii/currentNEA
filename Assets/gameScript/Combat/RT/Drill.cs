@@ -29,6 +29,7 @@ public class Drill : Weapon
     }
     private void Update()
     {
+
         shootTime -= Time.deltaTime;
         if (shootTime <= 0)
         {
@@ -36,6 +37,7 @@ public class Drill : Weapon
             Destroy(gameObject);
 
         }
+        Damage();
     }
     protected override void Move()
     {

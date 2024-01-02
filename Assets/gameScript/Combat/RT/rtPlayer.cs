@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rtPlayer : Entity
+public class rtPlayer : Entity, IDataPersistence
 {
     public static rtPlayer instance; //make this a singleton
     private Rigidbody2D rb;
@@ -22,12 +22,12 @@ public class rtPlayer : Entity
     }
 
 
-    public override void LoadData(GameData data)
+    public void LoadData(GameData data)
     {
         PlayerStat.level = data.playerLevel;
         PlayerStat.currentEXP = data.playerCurrentXP;
     }
-    public override void SaveData(ref GameData data)
+    public void SaveData(ref GameData data)
     {
         data.playerLevel = PlayerStat.level;
         data.playerCurrentXP = PlayerStat.currentEXP;

@@ -17,17 +17,17 @@ public class WeaponItem : Item
         switch (name)
         {
             case "Sword":
-                description = "Oooh shiny sword";
+                description = "Oooh shiny sword" + "\n Durability: " + durability;
                 damagemult = 1;
                 cd = 0.3f;
                 break;
             case "Hammer":
-                description = "A little heavier than a sword but deals more damage";
+                description = "A little heavier than a sword but deals more damage" + "\n Durability: " + durability;
                 damagemult = 1.5f;
                 cd = 0.5f;
                 break;
             case "Drill":
-                description = "Only shoots in 4 directions but deals a lot of damage. Very heavy.";
+                description = "Only shoots in 4 directions but deals a lot of damage. Very heavy." + "\n Durability: " + durability;
                 damagemult = 3f;
                 cd = 1.2f;
                 break;

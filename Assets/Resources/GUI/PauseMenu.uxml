@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); justify-content: center; align-items: center; align-self: auto;">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; justify-content: center;">
+            <ui:Button text="Resume " display-tooltip-when-elided="true" name="Resume" style="height: 209px; width: 482px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgb(144, 106, 106); color: rgb(255, 255, 255); font-size: 50px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); justify-content: center;">
+            <ui:Button text="Quit" display-tooltip-when-elided="true" name="Quit" style="height: 209px; width: 482px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); background-color: rgb(54, 82, 132); font-size: 50px; color: rgb(214, 214, 214);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

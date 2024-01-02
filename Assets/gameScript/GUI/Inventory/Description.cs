@@ -16,11 +16,13 @@ public class Description : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(inv.selected == null) desc.text = "Nothing in this slot.";
+        Item selected = inv.selected;
+        if(selected == null) desc.text = "Nothing in this slot.";
         else
         {
-            if(!inv.selected.isConsumable && Inventory.currentlyEquipped == inv.selected) desc.text = inv.selected.description + " (Currently Equipped)";
-            else desc.text = inv.selected.description;
+            if(selected.isConsumable && Inventory.currentlyEquipped == selected) desc.text = selected.description + " (Currently Equipped)";
+
+            else desc.text = selected.description;
         }
     }
 }
