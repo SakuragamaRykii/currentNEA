@@ -43,16 +43,19 @@ public class Point
 
     public GameObject scan()//GameObject target = null
     {
+      //  DynList<GameObject> list = new DynList<GameObject>();
         foreach (Entity e in GameObject.FindObjectsOfType<Entity>())
         {
             if (area.Overlaps(e.hitbox))
             {
-               // Debug.Log(e.gameObject);
+                //list.Add(e.gameObject);
                 return (e.gameObject);
             }
 
         }
-        return null;
+        //if(list.size == 0 )return list;
+        //else 
+            return null;
     }
 
     public void InitSurr()

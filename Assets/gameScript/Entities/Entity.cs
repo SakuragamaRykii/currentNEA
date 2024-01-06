@@ -51,16 +51,7 @@ public class Entity : MonoBehaviour
 
     }
 
-    public bool HasTag(GameObject[] target ,string tag)
-    {
-        if(target.Length == 0) return false;
-        if (target == null) return false;
-        foreach(GameObject g in target)
-        {
-            if (g.tag.Equals(tag)) return true;
-        }
-        return false;
-    }
+
 
     void Start()
     {

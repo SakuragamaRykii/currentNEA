@@ -21,8 +21,8 @@ public class RandomBuff : Entity, IRandomDrop
     // Update is called once per frame
     void Update()
     {
-        GameObject[] cc = CheckCollision();
-        if (HasTag(cc, "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+        if (cc.HasTag("Player"))
         {
             switch (thisDrop)
             {

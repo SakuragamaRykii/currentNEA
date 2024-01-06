@@ -38,7 +38,8 @@ public class FieldEnemy : Entity
 
     private void Update()
     {
-        if(HasTag(CheckCollision(), "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+        if (cc.HasTag("Player"))
         {
             DataPersistenceManager dpm = GameObject.FindGameObjectWithTag("GameController").GetComponent<DataPersistenceManager>();
             within.SetActive(false);

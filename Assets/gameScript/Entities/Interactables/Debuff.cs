@@ -17,7 +17,8 @@ public class Debuff : Entity, IRandomDrop
     // Update is called once per frame
     void Update()
     {
-        if(HasTag(CheckCollision(), "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+        if (cc.HasTag("Player"))
         {
             PlayerStat.TakeDamage(Random.Range(PlayerStat.maxHP / 10, PlayerStat.maxHP / 3));
             gameObject.SetActive(false);

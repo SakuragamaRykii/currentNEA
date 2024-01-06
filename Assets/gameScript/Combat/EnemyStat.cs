@@ -27,7 +27,7 @@ public class EnemyStat : MonoBehaviour, IKillable
 
         defence = (Random.Range(1, 6) * Mathf.Pow(1.05f, level-1));
 
-        speed = (Random.Range(1, 6) * Mathf.Pow(1.05f, level-1));
+        speed = (Random.Range(10, 16) * Mathf.Pow(1.05f, level-1));
 
         xpWorth = 5 * level;
     }

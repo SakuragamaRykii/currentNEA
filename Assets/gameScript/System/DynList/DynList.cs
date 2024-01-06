@@ -24,6 +24,15 @@ public class DynList<T> : IEnumerable where T : class
         size = 0;
     }
 
+    public bool HasTag( string tag)
+    {
+
+        foreach (GameObject g in this)
+        {
+            if (g.tag.Equals(tag)) return true;
+        }
+        return false;
+    }
 
     public void Add(T data) {
         if (data == null) return;

@@ -53,13 +53,14 @@ public class PathFinder : MonoBehaviour
             {
                 //Debug.Log("already: " + p + ": " + p.f);
                 if (AlreadyHas(p, closed) || AlreadyHas(p, open)) {  continue; }
+                //DynList<GameObject> sc = p.scan();
                 GameObject sc = p.scan();
                 if (sc == null)
                 {
                     open.Add(p);
                 }
-                else if (sc.tag.Equals(targetObj.tag)) { open.Add(p); break; }
-                else if (sc.tag.Equals("Wall")) continue;
+                else if (sc.tag.Contains(targetObj.tag)) { open.Add(p); break; }
+                else if (sc.tag.Contains("Wall")) continue;
                 else open.Add(p);
             }
 
@@ -70,6 +71,7 @@ public class PathFinder : MonoBehaviour
         finalPath = FinalizePath(lowest);
     }
 
+    public GameObject marker;
     private bool AlreadyHas(Point p, DynList<Point> list)
     {
         foreach(Point other in list)
@@ -82,14 +84,13 @@ public class PathFinder : MonoBehaviour
     {
         DynList<Point> result = new DynList<Point>();
         result.Add(from);
-      // Instantiate(path, new Vector3(from.centre.x, from.centre.y, -1), Quaternion.identity);
+       // if(marker != null) Instantiate(marker, new Vector3(from.centre.x, from.centre.y, -1), Quaternion.identity);
         Point prevs = from;
         while(prevs.previous != null)
         {
             prevs = prevs.previous;
             result.Add(prevs);
-           // Debug.Log(prevs);
-           // Instantiate(path, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
+          //  if (marker != null) Instantiate(marker, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
         }
         
         return result.toArr();

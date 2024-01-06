@@ -56,9 +56,9 @@ public class tbCombat : Turn, IDataPersistence
         //--------------------------------------------------------------------------------------------------------------------------------------------
         log = root.Q<UnityEngine.UIElements.TextElement>("log-text");
 
-        target1.clicked += () => targetIndex = 0;
-        target2.clicked += () => targetIndex = 1;
-        target3.clicked += () => targetIndex = 2;
+        target1.clicked += () => T1();
+        target2.clicked += () => T2();
+        target3.clicked += () => T3();
 
         attack.clicked += () => handleAttack();
         defend.clicked += () => handleDefend();
@@ -68,10 +68,36 @@ public class tbCombat : Turn, IDataPersistence
         invLeft.clicked += () => SelectLeft();
         invCurrent.clicked += () => UseCurrent();
 
+        T1();
     }
     int targetIndex;
 
-    public void PreventHPOver(){if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;}
+    void T1()
+    {
+        
+        targetIndex = 0;
+        target1.text = ("Enemy 1 " + "(CURRENT TARGET)");
+        target2.text = ("Enemy 2");
+        target3.text = ("Enemy 3");
+    }
+    void T2() 
+    {
+        targetIndex = 1;
+        target1.text = ("Enemy 1");
+        target2.text = ("Enemy 2 " + "(CURRENT TARGET)");
+        target3.text = ("Enemy 3");
+    }
+    void T3()
+    {
+        targetIndex = 2;
+        target1.text = ("Enemy 1");
+        target2.text = ("Enemy 2");
+        target3.text = ("Enemy 3 " + "(CURRENT TARGET)");
+    }
+
+    // public void PreventHPOver(){if (PlayerStat.currentHP > PlayerStat.maxHP) PlayerStat.currentHP = PlayerStat.maxHP;}
+
+
 
     public void LoadData(GameData data)
     {
@@ -87,19 +113,19 @@ public class tbCombat : Turn, IDataPersistence
 
     private void FixedUpdate()
     {
-        PreventHPOver();
+
         yourHealth.text = ("Level " + PlayerStat.level + "Health: " + (int)PlayerStat.currentHP + "/" + (int)PlayerStat.maxHP);
         Inventory.Fist();
-         switch (Inventory.currentlyEquipped.name)
-         {
-            
-             case "Hammer":
-                 counter = baseCounter * 0.7f;
-                 break;
-             case "Drill":
-                 counter = baseCounter * 0.4f;
-                 break;
-         }
+        switch (Inventory.currentlyEquipped.name)
+        {
+
+            case "Hammer":
+                counter = baseCounter * 0.7f;
+                break;
+            case "Drill":
+                counter = baseCounter * 0.4f;
+                break;
+        }
 
         if (!arrow3.enabledInHierarchy)
         {
@@ -120,20 +146,25 @@ public class tbCombat : Turn, IDataPersistence
 
         if (moved && arrow1.enabledSelf)
         {
-            //Debug.Log("ATTACK");
-            GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            GameObject target;
             
             try
             {
-                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
-            }catch(IndexOutOfRangeException e)
+                target = enemies[targetIndex];
+                target.GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+                if (target.GetComponent<EnemyStat>().currentHP <= 0) root.Q<Button>("Target"+(targetIndex+1)).SetEnabled(false);
+            }catch(Exception e)
             {
-                targetIndex = targets.Length-1;
-                targets[targetIndex].GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+              //  Debug.LogException(e);
+                target = enemies[enemies.Length - 1];
+                target.GetComponent<EnemyStat>().TakeDamage(PlayerStat.attack);
+                if (target.GetComponent<EnemyStat>().currentHP <= 0) root.Q<Button>("Target" + (targetIndex + 1)).SetEnabled(false);
             }
 
             log.text = ((int)PlayerStat.attack + " Damage");
-
+            counter += PlayerStat.attack / PlayerStat.level;
+            Debug.Log("Player counter : " +  counter);
             MoveManager.Deq();
             moved = false;
         }
@@ -151,6 +182,9 @@ public class tbCombat : Turn, IDataPersistence
             log.text = "Defending";
             PlayerStat.currentHP += PlayerStat.defence;
             MoveManager.Deq();
+            counter += PlayerStat.defence / PlayerStat.level;
+            Debug.Log("Player counter : " + counter);
+
             moved = false;
         }
         else
@@ -158,9 +192,7 @@ public class tbCombat : Turn, IDataPersistence
             arrow1.SetEnabled(false);
             arrow2.SetEnabled(true);
             arrow3.SetEnabled(false);
-        }
-
-
+        } 
     }
 
     void handleItem()
@@ -171,7 +203,9 @@ public class tbCombat : Turn, IDataPersistence
             Debug.Log("ITEM");
             tbInv.SetEnabled(true);
             tbInv.style.display = DisplayStyle.Flex;
-            //move is dequeued in the tbInvGUI
+            Debug.Log("Player counter : " + counter);
+
+
 
         }
         else
@@ -180,9 +214,6 @@ public class tbCombat : Turn, IDataPersistence
             arrow2.SetEnabled(false);
             arrow3.SetEnabled(true);
         }
-
-
-
     }
 
     public int InvIndex = 0;

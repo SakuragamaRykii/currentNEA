@@ -9,7 +9,6 @@ using UnityEngine.XR;
 public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 {
     public static int worldLevel = 1, oldLevel = 0;
-
     public bool enableRandomSpawn;
     // below are to be serialized on editor
     public GameObject wallObj, enemyObj;
@@ -97,7 +96,7 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
                   if(data.interactablesFieldData.ElementAt(i).Value)
                   {
                       if (data.specificInteractables.ElementAt(i).Contains("xpDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[0]);
-                      if (data.specificInteractables.ElementAt(i).Contains("WeaponDummy ")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[1]);
+                      if (data.specificInteractables.ElementAt(i).Contains("WeaponDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[1]);
                       if (data.specificInteractables.ElementAt(i).Contains("ConsumableDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[2]);
                       if (data.specificInteractables.ElementAt(i).Contains("BuffDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[3]);
                       if (data.specificInteractables.ElementAt(i).Contains("BadDummy")) Spawn(data.interactablesFieldData.ElementAt(i).Key, inteObjs[4]);
@@ -117,7 +116,14 @@ public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
         IEnumerable interactables = FindObjectsByType<Entity>(FindObjectsInactive.Include, FindObjectsSortMode.None).OfType<IRandomDrop>();
         foreach (Entity a in interactables)
         {
-            data.interactablesFieldData.Add(a.transform.position, a.gameObject.activeSelf);
+            try
+            {
+                data.interactablesFieldData.Add(a.transform.position, a.gameObject.activeSelf);
+            }
+            catch (System.ArgumentException e)
+            {
+                continue;
+            }
             data.specificInteractables.Add(a.gameObject.name);
         }
         IEnumerable walls = FindObjectsByType<Wall>(FindObjectsInactive.Include, FindObjectsSortMode.None);

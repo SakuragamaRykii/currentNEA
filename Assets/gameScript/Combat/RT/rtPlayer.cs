@@ -59,7 +59,7 @@ public class rtPlayer : Entity, IDataPersistence
     void ManageColEvent(GameObject[] type)
     {
         DynList<GameObject> list = DynList<GameObject>.ToDList(type);
-        Debug.Log(list);
+       // Debug.Log(list);
 
     }
 

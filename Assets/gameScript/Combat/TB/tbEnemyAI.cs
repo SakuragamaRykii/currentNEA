@@ -24,7 +24,7 @@ public class tbEnemyAI : Turn
 //        Debug.Log(es.currentHP);
         if (es.IsDead())
         {
-            MoveManager.root.Q<UnityEngine.UIElements.Button>("Target" + number).SetEnabled(false);
+           // MoveManager.root.Q<UnityEngine.UIElements.Button>("Target" + number).SetEnabled(false);
             es.Die();
 
         }
@@ -44,7 +44,8 @@ public class tbEnemyAI : Turn
         
         Debug.Log("enemy has moved");
         PlayerStat.TakeDamage(es.attack);
-       // Debug.Log("enemy dealt " + es.attack + "damage");
+        counter += es.attack / es.level;
+        Debug.Log(gameObject.name + " Counter: " + counter);
         MoveManager.root.Q<UnityEngine.UIElements.TextElement>("log-text").text = ("Enemy" + " dealt " + (int)es.attack + "damage");
         MoveManager.Deq();
     }

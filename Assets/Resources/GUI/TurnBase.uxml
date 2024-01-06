@@ -28,9 +28,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="EnemyList" class="Border-col" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); position: absolute; left: 70%; width: 30%; height: 60%; justify-content: flex-start; align-items: flex-start; align-self: auto;">
-            <ui:Button text="Enemy 1" display-tooltip-when-elided="true" name="Target1" class="Actions" style="height: 20%; background-color: rgb(195, 20, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
-            <ui:Button text="Enemy 2&#10;" display-tooltip-when-elided="true" name="Target2" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
-            <ui:Button text="Enemy 3" display-tooltip-when-elided="true" name="Target3" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />
+            <ui:Button text="Enemy 1" display-tooltip-when-elided="true" name="Target1" class="Actions" style="height: 20%; background-color: rgb(195, 20, 0); border-left-color: rgb(20, 0, 255); border-right-color: rgb(20, 0, 255); border-top-color: rgb(20, 0, 255); border-bottom-color: rgb(20, 0, 255); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:Button text="Enemy 2&#10;" display-tooltip-when-elided="true" name="Target2" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255);" />
+            <ui:Button text="Enemy 3" display-tooltip-when-elided="true" name="Target3" class="Actions" style="height: 20%; background-color: rgb(195, 0, 0); border-left-color: rgb(0, 0, 255); border-right-color: rgb(0, 0, 255); border-top-color: rgb(0, 0, 255); border-bottom-color: rgb(0, 0, 255);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

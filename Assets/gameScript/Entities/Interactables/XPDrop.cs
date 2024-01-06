@@ -14,7 +14,8 @@ public class XPDrop : Entity, IRandomDrop
     }
     private void Update()
     {
-        if(HasTag(CheckCollision(), "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+        if (cc.HasTag("Player"))
         {
             PlayerStat.currentEXP += PlayerStat.expToNextLevel / 4;
             gameObject.SetActive(false);

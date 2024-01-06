@@ -76,13 +76,11 @@ public class DataPersistenceManager : MonoBehaviour
         foreach (IDataPersistence obj in objs) result.Add(obj);
         return result;
     }
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            dh.Clear();
-            Debug.Log("deleted");
-            LoadGame();
+            //SaveGame();
         }
     }
 }

@@ -22,8 +22,9 @@ public class WeaponPickup : Entity, IRandomDrop
 
     private void Update()
     {
-        GameObject[] cc = CheckCollision();
-        if(HasTag(cc, "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+            
+        if (cc.HasTag("Player"))
         {
             Inventory.insert(new WeaponItem(thisDrop, Random.Range(60, 101)));
             gameObject.SetActive(false);

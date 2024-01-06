@@ -11,8 +11,11 @@ public class FileDataHandler
     {
         dataDirPath = ddp;
         dataFileName = dfn;
+      //  string fullPath = Path.Combine(dataDirPath, dataFileName);
+       // Debug.Log(fullPath);
+
     }
-    
+
     public GameData Load()
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);

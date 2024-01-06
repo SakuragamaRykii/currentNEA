@@ -315,12 +315,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be8c1a6b4c0434ef9aed7cbc832afd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 0
   maxHP: 0
   currentHP: 0
   attack: 0
   defence: 0
   speed: 0
-  level: 0
+  xpWorth: 0
 --- !u!222 &3562496443369752237
 CanvasRenderer:
   m_ObjectHideFlags: 0

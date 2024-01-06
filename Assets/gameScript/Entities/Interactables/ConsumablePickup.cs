@@ -13,8 +13,8 @@ public class ConsumablePickup : Entity, IRandomDrop
 
     void Update()
     {
-        GameObject[] cc = CheckCollision();
-        if (HasTag(cc, "Player"))
+        DynList<GameObject> cc = DynList<GameObject>.ToDList(CheckCollision());
+        if (cc.HasTag("Player"))
         {
             Inventory.insert(new Item(Pick(consPool)));
             gameObject.SetActive(false);

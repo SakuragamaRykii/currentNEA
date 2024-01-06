@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -31,6 +32,7 @@ public class MoveManager : MonoBehaviour
         Enq(GetComponentInParent<tbCombat>());
         spawnEnemies();
         StartCoroutine(ManageTurns());
+        Sort(turns, 0, turns.size);
 
     }
 
@@ -40,8 +42,16 @@ public class MoveManager : MonoBehaviour
         while (!finished)
         {
             yield return new WaitForSeconds(1) ;
+            if (GameObject.FindGameObjectsWithTag("Enemy").Length <=0 ) { finished = true; break; }
+            try
+            {
+                if (!Peek().moved) Peek().ManageTurn();
 
-            if (!Peek().moved) Peek().ManageTurn();
+            }catch(Exception e)
+            {
+                //turns.Remove(Peek());
+                Debug.Log("turn = " + (Peek() == null));
+            }
             if (turns.isEmpty() && !bench.isEmpty())
             {
                 Debug.Log("reallocating turns");
@@ -49,8 +59,7 @@ public class MoveManager : MonoBehaviour
                 Sort(bench, 0, bench.size);
                 turns.Concat(bench);
                 bench.Clear();
-
-
+                Debug.Log(turns);
                 foreach (Turn t in turns)
                 {
                     t.moved = false;
@@ -58,7 +67,6 @@ public class MoveManager : MonoBehaviour
 
 
             }
-            if (enemiesOnATM <= 0) finished = true;
 
         }
         //EnemyStat.ended = true;
@@ -129,9 +137,11 @@ public class MoveManager : MonoBehaviour
     {
         int xPos = -8;
         //Random.Range(1, 4);
-        for (int i = 0; i < Random.Range(1, 4); i++)
+        for (int i = 0; i < UnityEngine.Random.Range(1, 4); i++)
         {
             enemiesOnATM++;
+            enemy.name = "Enemy" + i;
+            Debug.Log("i = " + i);
             Instantiate(enemy, new Vector3(xPos, 2, -5), transform.rotation);
             xPos += 3;
             root.Q<Button>("Target" + enemiesOnATM).SetEnabled(true);

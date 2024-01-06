@@ -15,6 +15,7 @@ public class Wall : Entity
     void FixedUpdate()
     {
         GameObject[] cc = CheckCollision();
+       // if(cc != null) Debug.Log(cc.Length);
         foreach(GameObject g in cc)
         {
             if (g.GetComponent<Rigidbody2D>() != null) Block(g.GetComponent<Rigidbody2D>());

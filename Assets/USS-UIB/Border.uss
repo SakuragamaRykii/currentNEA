@@ -36,7 +36,43 @@
     flex-wrap: wrap;
 }
 
-.unity-text-element {
+.targets {
     flex-wrap: wrap;
     text-overflow: clip;
+}
+
+.Actions:hover {
+    width: 70%;
+    height: 25%;
+    background-color: rgb(103, 103, 103);
+    border-left-color: rgb(156, 0, 0);
+    border-right-color: rgb(156, 0, 0);
+    border-top-color: rgb(156, 0, 0);
+    border-bottom-color: rgb(156, 0, 0);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    left: auto;
+    top: 10%;
+}
+
+.Actions:active {
+    width: 70%;
+    height: 25%;
+    background-color: rgb(67, 40, 40);
+    border-left-color: rgb(156, 0, 0);
+    border-right-color: rgb(156, 0, 0);
+    border-top-color: rgb(156, 0, 0);
+    border-bottom-color: rgb(156, 0, 0);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    -unity-font-style: bold;
+    font-size: 20px;
+    left: auto;
+    top: 10%;
 }
