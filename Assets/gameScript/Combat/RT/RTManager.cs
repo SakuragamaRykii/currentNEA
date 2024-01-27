@@ -7,9 +7,8 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 public class RTManager : MonoBehaviour
 {
-    public GameObject enemy;
+    public GameObject enemy, wall, player;
     public static int amount, wallAmount; //amount of enemies on the scene
-    public GameObject wall;
     void Awake()
     {
         amount = Random.Range(1, 6);
@@ -18,11 +17,24 @@ public class RTManager : MonoBehaviour
         {
             float x = Random.Range(-18.4f, 18.5f);
             float y = Random.Range(-18.4f, 18.5f);
+            while (new Vector2(x, y) == (Vector2)player.transform.position)
+            {
+                x = Random.Range(-18.4f, 18.5f);
+                y = Random.Range(-18.4f, 18.5f);
+            }
             Instantiate(enemy, new Vector3(x, y,  - 5), Quaternion.identity);
         }
         for(int i = 0; i < wallAmount; i++)
         {
-
+            float x = Random.Range(-18.4f, 18.5f);
+            float y = Random.Range(-18.4f, 18.5f);
+            while(new Vector2(x, y) == (Vector2)player.transform.position)
+            {
+                 x = Random.Range(-18.4f, 18.5f);
+                 y = Random.Range(-18.4f, 18.5f);
+            }
+            Instantiate(wall, new Vector3(x, y, -5), Quaternion.identity);
+            
         }
 
     }
