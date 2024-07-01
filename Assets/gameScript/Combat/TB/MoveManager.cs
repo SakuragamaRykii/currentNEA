@@ -50,7 +50,7 @@ public class MoveManager : MonoBehaviour
             }catch(Exception e)
             {
                 //turns.Remove(Peek());
-                Debug.Log("turn = " + (Peek() == null));
+              //  Debug.Log("turn = " + (Peek() == null));
             }
             if (turns.isEmpty() && !bench.isEmpty())
             {

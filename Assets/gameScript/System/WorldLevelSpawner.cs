@@ -8,6 +8,7 @@ using UnityEngine.XR;
 
 public class WorldLevelSpawner : MonoBehaviour, IDataPersistence
 {
+
     public static int worldLevel = 1, oldLevel = 0;
     public bool enableRandomSpawn;
     // below are to be serialized on editor

@@ -36,8 +36,9 @@ public class PathFinder : MonoBehaviour
         Point lowest = startPoint;
         while (!targetObj.GetComponent<Entity>().hitbox.Overlaps(lowest.area))
         {
-            
-          //  Debug.Log(ite);
+
+            //  Debug.Log(ite);
+            closed.Add(lowest);
             lowest = null;
             foreach (Point p in open)
             {
@@ -64,7 +65,7 @@ public class PathFinder : MonoBehaviour
                 else open.Add(p);
             }
 
-            closed.Add(lowest);
+            
 
             
          }
@@ -90,7 +91,7 @@ public class PathFinder : MonoBehaviour
         {
             prevs = prevs.previous;
             result.Add(prevs);
-          //  if (marker != null) Instantiate(marker, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
+           // if (marker != null) Instantiate(marker, new Vector3(prevs.centre.x, prevs.centre.y, -1), Quaternion.identity);
         }
         
         return result.toArr();

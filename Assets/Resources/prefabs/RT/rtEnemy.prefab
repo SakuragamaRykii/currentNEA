@@ -146,7 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetObj: {fileID: 0}
   index: 0
-  marker: {fileID: 7794166866621172268}
+  marker: {fileID: 0}
 --- !u!50 &-6615628209619585827
 Rigidbody2D:
   serializedVersion: 4
